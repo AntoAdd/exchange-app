@@ -1,6 +1,6 @@
 package it.unicam.cs.pawm.exchangeappbackend.model.items;
 
-import it.unicam.cs.pawm.exchangeappbackend.model.users.User;
+import it.unicam.cs.pawm.exchangeappbackend.model.users.AppUser;
 
 import java.io.File;
 import java.util.List;
@@ -16,9 +16,9 @@ public class Item {
     private String name;
     private String description;
     private final List<File> itemImages;
-    private final User itemOwner;
+    private final AppUser itemOwner;
 
-    public Item(Long id, String name, String description, List<File> itemImages, User itemOwner) {
+    public Item(Long id, String name, String description, List<File> itemImages, AppUser itemOwner) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -42,7 +42,7 @@ public class Item {
         return itemImages;
     }
 
-    public User getItemOwner() {
+    public AppUser getItemOwner() {
         return itemOwner;
     }
 
