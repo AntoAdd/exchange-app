@@ -1,12 +1,12 @@
-package it.unicam.cs.pawm.exchangeappbackend.model.users;
+package it.unicam.cs.pawm.exchangeappbackend.model.security;
 
 import it.unicam.cs.pawm.exchangeappbackend.entities.Role;
 import org.springframework.security.core.GrantedAuthority;
 
-public class AppUserRole implements GrantedAuthority {
-    private Role role;
+public class SecurityRole implements GrantedAuthority {
+    private final Role role;
 
-    public AppUserRole(Role role) {
+    public SecurityRole(Role role) {
         this.role = role;
     }
 

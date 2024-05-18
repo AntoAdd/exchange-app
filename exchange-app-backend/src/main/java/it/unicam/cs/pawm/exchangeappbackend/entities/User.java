@@ -15,7 +15,7 @@ public class User {
     private String address;
     private String username;
     private String password;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
     @JoinTable(name = "users_roles",
         joinColumns = @JoinColumn(name = "user_id"),
         inverseJoinColumns = @JoinColumn(name = "role_id")
@@ -29,14 +29,12 @@ public class User {
                 String lastName,
                 String address,
                 String username,
-                String password,
-                Set<Role> roles) {
+                String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.username = username;
         this.password = password;
-        this.roles = roles;
     }
 
     public Long getId() {

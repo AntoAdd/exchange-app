@@ -1,6 +1,6 @@
 package it.unicam.cs.pawm.exchangeappbackend.services;
 
-import it.unicam.cs.pawm.exchangeappbackend.model.users.AppUser;
+import it.unicam.cs.pawm.exchangeappbackend.entities.User;
 import it.unicam.cs.pawm.exchangeappbackend.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +12,11 @@ public class UserRegistrationService {
         this.userRepository = userRepository;
     }
 
-    public void createUser(AppUser appUser){
-        userRepository.save(appUser.getUser());
+    public void createUser(User user){
+        userRepository.save(user);
     }
 
-    public boolean checkIfAlreadyRegistered(AppUser appUser){
-        return userRepository.existsByUsername(appUser.getUsername());
+    public boolean checkIfAlreadyRegistered(User user){
+        return userRepository.existsByUsername(user.getUsername());
     }
 }
