@@ -1,0 +1,51 @@
+package it.unicam.cs.pawm.exchangeappbackend.services;
+
+import it.unicam.cs.pawm.exchangeappbackend.entities.Item;
+import it.unicam.cs.pawm.exchangeappbackend.entities.User;
+import it.unicam.cs.pawm.exchangeappbackend.repositories.ItemRepository;
+import it.unicam.cs.pawm.exchangeappbackend.repositories.UserRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class ItemService {
+    private final ItemRepository itemRepository;
+    private final UserRepository userRepository;
+
+    public ItemService(ItemRepository itemRepository, UserRepository userRepository) {
+        this.itemRepository = itemRepository;
+        this.userRepository = userRepository;
+    }
+
+    /**
+     * Adds a new item for the authenticated user only if he has not yet added it.
+     *
+     * @param item the new item to add.
+     * @return true if the new item has been added, false otherwise.
+     */
+    public boolean addItem(Item item){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        List<Item> items = itemRepository.findByName(item.getName());
+        if (!items.isEmpty()) {
+            for (Item listItem : items) {
+                if (listItem.getOwner().getUsername().equals(username))
+                    return false;
+            }
+        }
+        this.addItemForUser(item, username);
+        return true;
+    }
+
+    private void addItemForUser(Item item, String username) {
+        var user = userRepository.findByUsername(username);
+        if (user.isPresent()){
+            User owner = user.get();
+            item.setOwner(owner);
+            itemRepository.save(item);
+        }
+    }
+}
