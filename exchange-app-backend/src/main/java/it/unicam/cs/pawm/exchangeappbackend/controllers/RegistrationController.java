@@ -5,13 +5,16 @@ import it.unicam.cs.pawm.exchangeappbackend.entities.Role;
 import it.unicam.cs.pawm.exchangeappbackend.mappers.UserMapper;
 import it.unicam.cs.pawm.exchangeappbackend.repositories.RoleRepository;
 import it.unicam.cs.pawm.exchangeappbackend.services.UserRegistrationService;
+import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.awt.*;
 import java.util.Set;
-
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class RegistrationController {
     private final UserRegistrationService userRegistrationService;
@@ -28,9 +31,9 @@ public class RegistrationController {
         this.userMapper = userMapper;
         this.roleRepository = roleRepository;
     }
-    @PostMapping("/register")
-    public void registerUser(@RequestParam(name = "first_name") String firstName,
-                             @RequestParam(name = "last_name") String lastName,
+    @PostMapping(value = "/register")
+    public void registerUser(@RequestParam(name = "firstName") String firstName,
+                             @RequestParam(name = "lastName") String lastName,
                              @RequestParam(name = "username") String username,
                              @RequestParam(name = "password") String password,
                              @RequestParam(name = "address") String address){

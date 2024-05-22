@@ -1,9 +1,10 @@
-import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Registration from './Registration';
 
 function App() {
   return (
     <div className="App">
-      <h1>Home</h1>
+      <Registration />
     </div>
   );
 }
