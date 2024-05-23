@@ -1,15 +1,13 @@
 package it.unicam.cs.pawm.exchangeappbackend.dto;
 
-import java.io.File;
-
 public class ImageDto {
-    private final File imageFile;
+    private final byte[] imageFile;
 
-    public ImageDto(File imageFile) {
+    public ImageDto(byte[] imageFile) {
         this.imageFile = imageFile;
     }
 
-    public File getImageFile() {
+    public byte[] getImageFile() {
         return imageFile;
     }
 }

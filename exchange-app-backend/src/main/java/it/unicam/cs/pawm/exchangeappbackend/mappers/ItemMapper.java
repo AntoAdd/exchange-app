@@ -7,6 +7,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class ItemMapper {
     public Item toItemEntity(ItemDto itemDto){
-        return new Item(itemDto.getName(), itemDto.getDescription());
+        return new Item(itemDto.getName(), itemDto.getDescription(), itemDto.getCategory());
     }
 }

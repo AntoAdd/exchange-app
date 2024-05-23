@@ -2,20 +2,23 @@ package it.unicam.cs.pawm.exchangeappbackend.entities;
 
 import jakarta.persistence.*;
 
-import java.io.File;
-
 @Entity
 @Table(name = "item_images")
 public class ItemImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private File image;
+    @Column(name = "image_file")
+    private byte[] image;
     @ManyToOne
     @JoinColumn(name = "item_id")
     private Item item;
 
     public ItemImage() {
+    }
+
+    public ItemImage(byte[] image) {
+        this.image = image;
     }
 
     public Long getId() {
@@ -26,11 +29,11 @@ public class ItemImage {
         this.id = id;
     }
 
-    public File getImage() {
+    public byte[] getImage() {
         return image;
     }
 
-    public void setImage(File image) {
+    public void setImage(byte[] image) {
         this.image = image;
     }
 

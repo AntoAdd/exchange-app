@@ -2,6 +2,8 @@ package it.unicam.cs.pawm.exchangeappbackend.entities;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "items")
 public class Item {
@@ -10,16 +12,21 @@ public class Item {
     private Long id;
     private String name;
     private String description;
+    private String category;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User owner;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "item", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<ItemImage> itemImages;
+
     public Item() {
     }
 
-    public Item(String name, String description) {
+    public Item(String name, String description, String category) {
         this.name = name;
         this.description = description;
+        this.category = category;
     }
 
     public Long getId() {
@@ -52,5 +59,18 @@ public class Item {
 
     public void setOwner(User owner) {
         this.owner = owner;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+    public void setCategory(String category) {
+        this.category = category;
+    }
+    public List<ItemImage> getItemImages() {
+        return itemImages;
+    }
+    public void setItemImages(List<ItemImage> itemImages) {
+        this.itemImages = itemImages;
     }
 }
