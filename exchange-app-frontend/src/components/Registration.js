@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import React from "react";
 
 const Registration = () => {
   const [firstName, setFirstName] = useState("");
@@ -50,7 +51,7 @@ const Registration = () => {
   };
 
   return (
-    <div className="container text-center mt-4">
+    <div className="container text-center mt-4 p-4">
       <h2 className="display-5">Create Account</h2>
       <form className="mt-4 mb-4" onSubmit={handleSubmit}>
         <fieldset>

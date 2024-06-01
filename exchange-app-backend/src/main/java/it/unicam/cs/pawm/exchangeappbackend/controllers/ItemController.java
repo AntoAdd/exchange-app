@@ -1,6 +1,6 @@
 package it.unicam.cs.pawm.exchangeappbackend.controllers;
 
-import it.unicam.cs.pawm.exchangeappbackend.dto.ImageDto;
+
 import it.unicam.cs.pawm.exchangeappbackend.dto.ItemDto;
 import it.unicam.cs.pawm.exchangeappbackend.entities.Item;
 import it.unicam.cs.pawm.exchangeappbackend.entities.ItemImage;
@@ -10,12 +10,10 @@ import it.unicam.cs.pawm.exchangeappbackend.services.ItemService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+
 
 @RestController
 @RequestMapping("/items")

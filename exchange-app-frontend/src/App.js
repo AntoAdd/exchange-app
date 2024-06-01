@@ -1,11 +1,20 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Registration from './Registration';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Registration from './components/Registration';
+import React from "react";
+import Login from './components/Login';
+
 
 function App() {
   return (
-    <div className="App">
-      <Registration />
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route exact path='/register' element={<Registration />} />
+          <Route exact path='/login' element={<Login />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
