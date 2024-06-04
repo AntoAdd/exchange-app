@@ -1,6 +1,5 @@
 package it.unicam.cs.pawm.exchangeappbackend.mappers;
 
-import it.unicam.cs.pawm.exchangeappbackend.dto.ImageDto;
 import it.unicam.cs.pawm.exchangeappbackend.entities.ItemImage;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;

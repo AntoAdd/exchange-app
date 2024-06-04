@@ -7,6 +7,7 @@ import it.unicam.cs.pawm.exchangeappbackend.entities.ItemImage;
 import it.unicam.cs.pawm.exchangeappbackend.mappers.ImageMapper;
 import it.unicam.cs.pawm.exchangeappbackend.mappers.ItemMapper;
 import it.unicam.cs.pawm.exchangeappbackend.services.ItemService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,7 +29,7 @@ public class ItemController {
         this.imageMapper = imageMapper;
     }
 
-    @PostMapping("/add")
+    @PostMapping(value = "/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> addItem(@RequestParam(name = "name") String name,
                                           @RequestParam(name = "description") String description,
                                           @RequestParam(name = "category") String category,
