@@ -1,10 +1,17 @@
 package it.unicam.cs.pawm.exchangeappbackend.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "item_images")
-public class ItemImage {
+@Setter
+@Getter
+@NoArgsConstructor
+public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -14,34 +21,12 @@ public class ItemImage {
     @JoinColumn(name = "item_id")
     private Item item;
 
-    public ItemImage() {
-    }
-
-    public ItemImage(byte[] image) {
+    public Image(byte[] image) {
         this.image = image;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
+    public Image(Long id, byte[] image) {
         this.id = id;
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
         this.image = image;
-    }
-
-    public Item getItem() {
-        return item;
-    }
-
-    public void setItem(Item item) {
-        this.item = item;
     }
 }

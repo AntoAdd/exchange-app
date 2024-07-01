@@ -1,11 +1,17 @@
 package it.unicam.cs.pawm.exchangeappbackend.entities;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
 @Entity
 @Table(name = "items")
+@Setter
+@Getter
+@NoArgsConstructor
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,61 +22,24 @@ public class Item {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User owner;
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "item", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private List<ItemImage> itemImages;
+    private List<Image> images;
 
-    public Item() {
-    }
 
-    public Item(String name, String description, String category) {
+    public Item(String name, String description, String category, List<Image> images) {
         this.name = name;
         this.description = description;
         this.category = category;
+        this.images = images;
+        images.forEach(i -> i.setItem(this));
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
+    public Item(Long id, String name, String description, String category, List<Image> images) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
         this.description = description;
-    }
-
-    public User getOwner() {
-        return owner;
-    }
-
-    public void setOwner(User owner) {
-        this.owner = owner;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-    public void setCategory(String category) {
         this.category = category;
-    }
-    public List<ItemImage> getItemImages() {
-        return itemImages;
-    }
-    public void setItemImages(List<ItemImage> itemImages) {
-        this.itemImages = itemImages;
+        this.images = images;
+        images.forEach(i -> i.setItem(this));
     }
 }

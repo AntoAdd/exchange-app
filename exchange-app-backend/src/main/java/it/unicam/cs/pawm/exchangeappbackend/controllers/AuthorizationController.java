@@ -1,6 +1,6 @@
 package it.unicam.cs.pawm.exchangeappbackend.controllers;
 
-import it.unicam.cs.pawm.exchangeappbackend.dto.UserCreationDto;
+import it.unicam.cs.pawm.exchangeappbackend.dto.UserCreationDTO;
 import it.unicam.cs.pawm.exchangeappbackend.entities.Role;
 import it.unicam.cs.pawm.exchangeappbackend.mappers.UserMapper;
 import it.unicam.cs.pawm.exchangeappbackend.repositories.RoleRepository;
@@ -45,7 +45,7 @@ public class AuthorizationController {
                              @RequestParam(name = "username") String username,
                              @RequestParam(name = "password") String password,
                              @RequestParam(name = "address") String address){
-        var userCreationDto = new UserCreationDto(firstName, lastName, username, password, address);
+        var userCreationDto = new UserCreationDTO(firstName, lastName, username, password, address);
         var user = userMapper.toUserCreationEntity(userCreationDto);
         if (!userRegistrationService.checkIfAlreadyRegistered(user)){
             String encodedPassword = "{bcrypt}" + passwordEncoder.encode(user.getPassword());

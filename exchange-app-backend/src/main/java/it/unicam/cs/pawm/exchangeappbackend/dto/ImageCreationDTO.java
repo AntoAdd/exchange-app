@@ -1,9 +1,9 @@
 package it.unicam.cs.pawm.exchangeappbackend.dto;
 
-public class ImageDto {
+public class ImageCreationDTO {
     private final byte[] imageFile;
 
-    public ImageDto(byte[] imageFile) {
+    public ImageCreationDTO(byte[] imageFile) {
         this.imageFile = imageFile;
     }
 

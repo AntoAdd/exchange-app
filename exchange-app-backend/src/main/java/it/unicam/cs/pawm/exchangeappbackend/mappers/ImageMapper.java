@@ -1,14 +1,23 @@
 package it.unicam.cs.pawm.exchangeappbackend.mappers;
 
-import it.unicam.cs.pawm.exchangeappbackend.entities.ItemImage;
+import it.unicam.cs.pawm.exchangeappbackend.dto.ImageCreationDTO;
+import it.unicam.cs.pawm.exchangeappbackend.dto.ImageDTO;
+import it.unicam.cs.pawm.exchangeappbackend.entities.Image;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
 @Component
 public class ImageMapper {
-    public ItemImage toImageEntity(MultipartFile imageFile) throws IOException {
-        return new ItemImage(imageFile.getBytes());
+    public Image toCreateEntity(ImageCreationDTO imageFile) throws IOException {
+        return new Image(imageFile.getImageFile());
+    }
+
+    public Image toEntity(ImageDTO imageDTO) {
+        return new Image(imageDTO.id(), imageDTO.imageFile());
+    }
+
+    public ImageDTO toDto(Image image) {
+        return new ImageDTO(image.getId(), image.getImage());
     }
 }

@@ -8,7 +8,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ItemService {
@@ -47,5 +49,16 @@ public class ItemService {
             item.setOwner(owner);
             itemRepository.save(item);
         }
+    }
+
+    public List<Item> getUserItems() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        Optional<User> user = userRepository.findByUsername(username);
+
+        if (user.isPresent())
+            return itemRepository.findByOwner(user.get());
+
+        return Collections.emptyList();
     }
 }
