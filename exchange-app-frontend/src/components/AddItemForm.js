@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import React from "react";
 
-const AddItem = () => {
+const AddItemForm = ({ statusChangeFun }) => {
   const [success, setSuccess] = useState(false);
   const [failiure, setFailure] = useState(false);
 
@@ -27,10 +27,8 @@ const AddItem = () => {
     formData.append("name", name);
     formData.append("description", description);
     formData.append("category", category);
-    for(let i = 0; i < images.length; i++)
-        formData.append("images", images.item(i));
-
-    console.log(images)
+    for (let i = 0; i < images.length; i++)
+      formData.append("images", images.item(i));
 
     axios({
       method: "post",
@@ -42,19 +40,21 @@ const AddItem = () => {
       },
     })
       .then((response) => {
-        if (response.status === 200) setSuccess(true);
+        if (response.status === 200) {
+          setSuccess(true);
+          statusChangeFun();
+        };
       })
       .catch((err) => setFailure(true));
   };
 
   return (
     <div className="container text-center mt-4 p-4">
-      <h2 className="display-5">Add Item</h2>
       <form className="mt-4 mb-4" onSubmit={handleSubmit}>
         <fieldset>
           <div className="mb-3 row justify-content-md-center">
-            <label className="col-sm-2 col-form-label">Name</label>
-            <div className="col-sm-5">
+            <label className="col-sm-2 col-form-label me-2">Name</label>
+            <div className="col-sm-6">
               <input
                 className="form-control"
                 value={name}
@@ -64,8 +64,8 @@ const AddItem = () => {
             </div>
           </div>
           <div className="mb-3 row justify-content-md-center">
-            <label className="col-sm-2 col-form-label">Description</label>
-            <div className="col-sm-5">
+            <label className="col-sm-2 col-form-label me-2">Description</label>
+            <div className="col-sm-6">
               <input
                 className="form-control"
                 type="textarea"
@@ -76,8 +76,8 @@ const AddItem = () => {
             </div>
           </div>
           <div className="mb-3 row justify-content-md-center">
-            <label className="col-sm-2 col-form-label">Category</label>
-            <div className="col-sm-5">
+            <label className="col-sm-2 col-form-label me-2">Category</label>
+            <div className="col-sm-6">
               <select
                 className="form-control"
                 value={category}
@@ -91,8 +91,8 @@ const AddItem = () => {
             </div>
           </div>
           <div className="mb-3 row justify-content-md-center">
-            <label className="col-sm-2 col-form-label">Images</label>
-            <div className="col-sm-5">
+            <label className="col-sm-2 col-form-label me-2">Images</label>
+            <div className="col-sm-6">
               <input
                 className="form-control"
                 type="file"
@@ -121,4 +121,4 @@ const AddItem = () => {
   );
 };
 
-export default AddItem;
+export default AddItemForm;

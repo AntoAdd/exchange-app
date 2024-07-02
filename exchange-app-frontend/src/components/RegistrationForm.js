@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import React from "react";
 
-const Registration = () => {
+const RegistrationForm = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
@@ -134,4 +134,4 @@ const Registration = () => {
   );
 };
 
-export default Registration;
+export default RegistrationForm;
