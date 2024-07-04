@@ -3,25 +3,31 @@ package it.unicam.cs.pawm.exchangeappbackend.services;
 import it.unicam.cs.pawm.exchangeappbackend.entities.Item;
 import it.unicam.cs.pawm.exchangeappbackend.entities.Offer;
 import it.unicam.cs.pawm.exchangeappbackend.entities.User;
+import it.unicam.cs.pawm.exchangeappbackend.repositories.ItemRepository;
 import it.unicam.cs.pawm.exchangeappbackend.repositories.OfferRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class OfferServiceImpl implements OfferService {
     private final OfferRepository offerRepository;
+    private final ItemRepository itemRepository;
     private final AuthService authService;
 
 
-    public OfferServiceImpl(OfferRepository offerRepository, AuthService authService) {
+    public OfferServiceImpl(OfferRepository offerRepository, ItemRepository itemRepository, AuthService authService) {
         this.offerRepository = offerRepository;
+        this.itemRepository = itemRepository;
         this.authService = authService;
     }
 
     @Override
-    public boolean publishOffer(Item item) {
-        if (isValidForOffer(item)) {
+    public boolean publishOffer(Long itemId) {
+        Item offerItem = itemRepository.findById(itemId).orElseThrow();
+        if (isValidForOffer(offerItem)) {
             User publisher = authService.getAuthenticatedUser();
-            Offer offer = new Offer(publisher, item);
+            Offer offer = new Offer(publisher, offerItem);
             offerRepository.save(offer);
             return true;
         }
@@ -35,5 +41,11 @@ public class OfferServiceImpl implements OfferService {
     @Override
     public boolean removeOffer(Offer offer) {
         return false;
+    }
+
+    @Override
+    public List<Offer> getUserOffers() {
+        User auth = authService.getAuthenticatedUser();
+        return offerRepository.findByPublisher(auth);
     }
 }
