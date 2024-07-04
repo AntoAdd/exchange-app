@@ -1,12 +1,14 @@
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.min.js'
+import 'bootstrap/dist/js/bootstrap.min.js';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Registration from './components/RegistrationForm';
 import React from "react";
 import Login from './components/LoginForm';
 import AddItem from './components/AddItemForm';
 import Navbar from "./components/Navbar";
-import Items from './components/Items';
+import ItemsPage from './components/ItemsPage';
+import OffersPage from './components/OffersPage';
 
 
 function App() {
@@ -18,7 +20,8 @@ function App() {
           <Route exact path='/register' element={<Registration />} />
           <Route exact path='/login' element={<Login />} />
           <Route exact path='/items/add' element={<AddItem />} />
-          <Route exact path='/items/get' element={<Items />} />
+          <Route exact path='/items/get' element={<ItemsPage />} />
+          <Route exact path='/my-offers' element={<OffersPage />} />
         </Routes>
       </div>
     </Router>
