@@ -27,6 +27,8 @@ public class Item {
     @ManyToOne
     @JoinColumn(name = "counteroffer_id")
     private Counteroffer counteroffer;
+    @OneToOne(mappedBy = "offerItem")
+    private Offer offer;
 
 
     public Item(String name, String description, String category, List<Image> images) {

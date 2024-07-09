@@ -67,7 +67,7 @@ public class ItemService {
     public List<Item> getUserExchangeableItems() {
         User authUser = authService.getAuthenticatedUser();
         return itemRepository.findByOwner(authUser).stream()
-            .filter(item -> item.getCounteroffer() == null)
+            .filter(item -> item.getCounteroffer() == null && item.getOffer() == null)
             .toList();
     }
 }
