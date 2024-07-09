@@ -24,6 +24,9 @@ public class Item {
     private User owner;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "item", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Image> images;
+    @ManyToOne
+    @JoinColumn(name = "counteroffer_id")
+    private Counteroffer counteroffer;
 
 
     public Item(String name, String description, String category, List<Image> images) {

@@ -16,10 +16,12 @@ import java.util.Optional;
 public class ItemService {
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
+    private final AuthService authService;
 
-    public ItemService(ItemRepository itemRepository, UserRepository userRepository) {
+    public ItemService(ItemRepository itemRepository, UserRepository userRepository, AuthService authService) {
         this.itemRepository = itemRepository;
         this.userRepository = userRepository;
+        this.authService = authService;
     }
 
     /**
@@ -60,5 +62,12 @@ public class ItemService {
             return itemRepository.findByOwner(user.get());
 
         return Collections.emptyList();
+    }
+
+    public List<Item> getUserExchangeableItems() {
+        User authUser = authService.getAuthenticatedUser();
+        return itemRepository.findByOwner(authUser).stream()
+            .filter(item -> item.getCounteroffer() == null)
+            .toList();
     }
 }

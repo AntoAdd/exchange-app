@@ -59,4 +59,11 @@ public class ItemController {
             .collect(Collectors.toList());
     }
 
+    @GetMapping("/user-exchangeable")
+    public List<ItemDTO> getUserExchangeableItems() {
+        return itemService.getUserExchangeableItems()
+            .stream()
+            .map(itemMapper::toItemDto)
+            .toList();
+    }
 }
