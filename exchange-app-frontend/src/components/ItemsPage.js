@@ -5,15 +5,15 @@ import AddItemForm from "./AddItemForm";
 import UserItems from "./UserItems";
 
 const ItemsPage = () => {
-  const [statusChange, setStatusChange] = useState(false);
+  const [updateToggle, setUpdateToggle] = useState(false);
 
-  const statusChangeFun = () => {
-    setStatusChange(!statusChange);
+  const updateToggleFun = () => {
+    setUpdateToggle(!updateToggle);
   };
 
   return (
     <div className="container-fluid">
-      <UserItems statusChange={statusChange} />
+      <UserItems updateToggle={updateToggle}/>
       <div className="row m-4 d-flex justify-content-center">
         <div
           className="d-flex justify-content-center"
@@ -33,7 +33,7 @@ const ItemsPage = () => {
         </div>
       </div>
       <Modal title="Add Item" hasAction={false}>
-        <AddItemForm statusChangeFun={statusChangeFun} />
+        <AddItemForm statusChangeFun={updateToggleFun} />
       </Modal>
     </div>
   );

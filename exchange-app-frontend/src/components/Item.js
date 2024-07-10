@@ -1,26 +1,9 @@
 import ItemImages from "./ItemImages";
 import React from "react";
 
-const Item = ({
-  id,
-  name,
-  description,
-  category,
-  images,
-  handleSelect,
-  selectedId,
-}) => {
-  const className =
-    id === selectedId
-      ? "card m-2 border border-dark-subtle border-5 rounded"
-      : "card m-2";
-
+const Item = ({ id, name, description, category, images }) => {
   return (
-    <div
-      className={className}
-      style={{ width: "18rem" }}
-      onClick={() => handleSelect(id)}
-    >
+    <div className="card m-2" style={{ width: "18rem" }}>
       <ItemImages itemId={id} images={images} name={name} />
       <div className="card-body">
         <h5 className="card-title">{name}</h5>
