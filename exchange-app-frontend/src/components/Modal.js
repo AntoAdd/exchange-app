@@ -1,6 +1,14 @@
 import React from "react";
 
-const Modal = ({ title, children, hasAction, actionName, action }) => {
+const Modal = ({
+  title,
+  children,
+  hasAction = false,
+  actionName = null,
+  action = () => {
+    return undefined;
+  },
+}) => {
   return (
     <div className="modal" id="simpleModal" tabIndex={-1}>
       <div className="modal-dialog modal-dialog-centered modal-lg">
@@ -24,7 +32,11 @@ const Modal = ({ title, children, hasAction, actionName, action }) => {
               >
                 Close
               </button>
-              <button type="button" className="btn btn-primary" onClick={action}>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={action}
+              >
                 {actionName}
               </button>
             </div>

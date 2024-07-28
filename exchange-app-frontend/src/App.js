@@ -8,6 +8,8 @@ import Login from './components/LoginForm';
 import AddItem from './components/AddItemForm';
 import Navbar from "./components/Navbar";
 import ItemsPage from './components/ItemsPage';
+import UserOffersPage from './components/pages/UserOffersPage';
+import OffersPage from './components/pages/OffersPage';
 
 
 function App() {
@@ -20,6 +22,8 @@ function App() {
           <Route exact path='/login' element={<Login />} />
           <Route exact path='/items/add' element={<AddItem />} />
           <Route exact path='/items/get' element={<ItemsPage />} />
+          <Route exact path='/my-offers' element={<UserOffersPage />} />
+          <Route exact path='/all-offers' element={<OffersPage />} />
         </Routes>
       </div>
     </Router>

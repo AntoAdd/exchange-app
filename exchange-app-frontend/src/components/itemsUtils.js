@@ -14,3 +14,18 @@ export async function getUserItems() {
     .catch((err) => console.log(err));
   return items;
 };
+
+export async function getUserExchangeableItems() {
+  let items = await axios({
+    method: "get",
+    url: "http://localhost:8080/items/user-exchangeable",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  })
+    .then((response) => {
+      return response.data;
+    })
+    .catch((err) => console.log(err));
+  return items;
+};

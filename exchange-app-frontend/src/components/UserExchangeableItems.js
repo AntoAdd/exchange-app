@@ -1,43 +1,57 @@
 import { useEffect, useState } from "react";
 import React from "react";
-import Item from "./Item";
+import Item from "./items/Item";
+import axios from "axios";
 
-const UserExchangeableItems = () => {
-    const [exchangeableItems, setExchangeableItems] = useState([]);
 
-    useEffect(() => {
-        axios({
-          method: "get",
-          url: "http://localhost:8080/items/user-exchangeable",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        })
-          .then((response) => {
-            setExchangeableItems(response.data);
-            console.log(response.data);
-          })
-          .catch((err) => console.log(err));
-      }, []);
+const UserExchangeableItems = ({ updateToggle, handlePublication }) => {
+  const [items, setItems] = useState([]);
+  const [selected, setSelected] = useState(null);
 
-      return (
-        <div className="row m-4 align-items-center">
-          {exchangeableItems.map((item) => {
-            return (
-              <div key={item.id} className="col">
-                <Item
-                  id={item.id}
-                  name={item.name}
-                  description={item.description}
-                  category={item.category}
-                  images={item.images}
-                />
-              </div>
-            );
-          })}
-        </div>
-      );
+  useEffect(() => {
+    axios({
+      method: "get",
+      url: "http://localhost:8080/items/user-exchangeable",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((response) => {
+        setItems(response.data);
+      })
+      .catch((err) => console.log(err));
+  }, [updateToggle]);
 
-}
+  const handleSelection = (e, id) => {
+    e.stopPropagation();
+    setSelected(id);
+    handlePublication(id);
+  };
+
+  const handleDeselection = () => {
+    setSelected(null);
+  }
+
+  return (
+    <div className="row justify-content-start m-4" onClick={() => handleDeselection()}>
+      {items.map((item) => {
+        return (
+          <div key={item.id} className="col-4 m-4">
+            <Item
+              id={item.id}
+              name={item.name}
+              description={item.description}
+              category={item.category}
+              images={item.images}
+              isSelectable={true}
+              selectedId={selected}
+              handleSelection={handleSelection}
+            />
+          </div>
+        );
+      })}
+    </div>
+  );
+};
 
 export default UserExchangeableItems;

@@ -1,9 +1,30 @@
 import ItemImages from "./ItemImages";
 import React from "react";
 
-const Item = ({ id, name, description, category, images }) => {
+const Item = ({
+  id,
+  name,
+  description,
+  category,
+  images,
+  isSelectable = false,
+  selectedId = null,
+  handleSelection = () => {
+    return undefined;
+  },
+}) => {
+  let className = "card";
+
+  if (isSelectable) {
+    className =
+      selectedId === id ? "card border border-4 rounded" : "card";
+  }
+
   return (
-    <div className="card m-2" style={{ width: "18rem" }}>
+    <div
+      className={className}
+      onClick={(e) => handleSelection(e, id)}
+    >
       <ItemImages itemId={id} images={images} name={name} />
       <div className="card-body">
         <h5 className="card-title">{name}</h5>

@@ -13,7 +13,7 @@ const ItemsPage = () => {
 
   return (
     <div className="container-fluid">
-      <UserItems updateToggle={updateToggle}/>
+      <UserItems updateToggle={updateToggle} />
       <div className="row m-4 d-flex justify-content-center">
         <div
           className="d-flex justify-content-center"
