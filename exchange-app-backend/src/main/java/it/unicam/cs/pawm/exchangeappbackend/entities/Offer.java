@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "offers")
@@ -24,6 +25,8 @@ public class Offer {
     private Item offerItem;
     @Column(name = "creation_date")
     private LocalDate creationDate;
+    @OneToMany(mappedBy = "offer")
+    private List<Counteroffer> counteroffers;
 
     public Offer(User publisher, Item offerItem) {
         this.publisher = publisher;

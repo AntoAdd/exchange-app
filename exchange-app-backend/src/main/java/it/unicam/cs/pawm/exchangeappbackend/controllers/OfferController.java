@@ -1,9 +1,6 @@
 package it.unicam.cs.pawm.exchangeappbackend.controllers;
 
-import it.unicam.cs.pawm.exchangeappbackend.dto.ItemDTO;
 import it.unicam.cs.pawm.exchangeappbackend.dto.OfferDTO;
-import it.unicam.cs.pawm.exchangeappbackend.entities.Item;
-import it.unicam.cs.pawm.exchangeappbackend.mappers.ItemMapper;
 import it.unicam.cs.pawm.exchangeappbackend.mappers.OfferMapper;
 import it.unicam.cs.pawm.exchangeappbackend.services.OfferService;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +29,14 @@ public class OfferController {
     @GetMapping("/user-offers")
     public List<OfferDTO> getUserOffers() {
         return offerService.getUserOffers().stream()
-            .map(offerMapper::toOfferDTO)
+            .map(offerMapper::toDTO)
+            .toList();
+    }
+
+    @GetMapping("/all-offers")
+    public List<OfferDTO> getOffers() {
+        return offerService.getOffers().stream()
+            .map(offerMapper::toDTO)
             .toList();
     }
 }

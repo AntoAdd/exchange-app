@@ -1,5 +1,6 @@
 package it.unicam.cs.pawm.exchangeappbackend.services;
 
+import it.unicam.cs.pawm.exchangeappbackend.dto.OfferDTO;
 import it.unicam.cs.pawm.exchangeappbackend.entities.Item;
 import it.unicam.cs.pawm.exchangeappbackend.entities.Offer;
 import it.unicam.cs.pawm.exchangeappbackend.entities.User;
@@ -7,6 +8,7 @@ import it.unicam.cs.pawm.exchangeappbackend.repositories.ItemRepository;
 import it.unicam.cs.pawm.exchangeappbackend.repositories.OfferRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -47,5 +49,15 @@ public class OfferServiceImpl implements OfferService {
     public List<Offer> getUserOffers() {
         User auth = authService.getAuthenticatedUser();
         return offerRepository.findByPublisher(auth);
+    }
+
+    @Override
+    public List<Offer> getOffers() {
+        List<Offer> allOffers = new ArrayList<>();
+        User auth = authService.getAuthenticatedUser();
+        offerRepository.findAll().forEach(allOffers::add);
+        return allOffers.stream()
+            .filter(offer -> !offer.getPublisher().equals(auth))
+            .toList();
     }
 }
