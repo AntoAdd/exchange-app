@@ -20,8 +20,8 @@ This repository contains a web application designed to facilitate product exchan
 
 
 ## Future Improvements
+**Project is under active development and not feature complete.**
 
-* **Project is under active development and not feature complete.**
 * **Enhanced UI/UX:** Improve the user interface and user experience.
 * **Image Uploads:** Allow users to upload images of their products.
 * **Notifications:** Implement notifications for new offers and counteroffers.
