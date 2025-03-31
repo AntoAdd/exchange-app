@@ -13,7 +13,7 @@ import java.util.List;
 public class CounterofferController {
     private final CounterofferService counterofferService;
 
-    @PostMapping("/publish")
+    @PostMapping(value = "/publish")
     public ResponseEntity<String> publishCounteroffer(@RequestParam(name = "id") Long offerId,
                                                       @RequestParam(name = "item_IDs") List<Long> itemIDs) {
         boolean isPublished = counterofferService.publishCounteroffer(offerId, itemIDs);

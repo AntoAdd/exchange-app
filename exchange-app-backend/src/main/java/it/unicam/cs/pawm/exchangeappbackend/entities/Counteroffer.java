@@ -27,12 +27,14 @@ public class Counteroffer {
     private User publisher;
     @Column(name = "creation_date")
     private LocalDate creationDate;
+    private String state;
 
     public Counteroffer(List<Item> items, Offer offer, User publisher, LocalDate creationDate) {
         this.items = items;
         this.offer = offer;
         this.publisher = publisher;
         this.creationDate = creationDate;
+        this.state = "Pending";
         setItemsCounteroffer(items);
     }
 

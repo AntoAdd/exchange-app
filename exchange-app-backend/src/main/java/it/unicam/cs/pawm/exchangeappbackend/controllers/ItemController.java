@@ -66,4 +66,12 @@ public class ItemController {
             .map(itemMapper::toItemDto)
             .toList();
     }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteItem(@RequestParam(name = "id") Long id) {
+        if (itemService.deleteItemById(id)) {
+            return ResponseEntity.ok("Item deleted successfully.");
+        }
+        return ResponseEntity.badRequest().body("Item cannot be deleted.");
+    }
 }

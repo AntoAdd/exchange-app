@@ -70,4 +70,18 @@ public class ItemService {
             .filter(item -> item.getCounteroffer() == null && item.getOffer() == null)
             .toList();
     }
+
+    public boolean deleteItemById(Long id) {
+        if (isItemDeletable(id)) {
+            itemRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isItemDeletable(Long id) {
+        return getUserExchangeableItems()
+            .stream()
+            .anyMatch(item -> item.getId().equals(id));
+    }
 }

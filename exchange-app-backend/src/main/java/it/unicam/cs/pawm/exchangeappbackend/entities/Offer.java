@@ -25,6 +25,7 @@ public class Offer {
     private Item offerItem;
     @Column(name = "creation_date")
     private LocalDate creationDate;
+    private String state;
     @OneToMany(mappedBy = "offer")
     private List<Counteroffer> counteroffers;
 
@@ -32,5 +33,6 @@ public class Offer {
         this.publisher = publisher;
         this.offerItem = offerItem;
         this.creationDate = LocalDate.now();
+        this.state = "Published";
     }
 }

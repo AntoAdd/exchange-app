@@ -26,6 +26,7 @@ public class OfferMapper {
             offer.getPublisher().getUsername(),
             itemDto,
             offer.getCreationDate(),
+            offer.getState(),
             counteroffers
             );
     }

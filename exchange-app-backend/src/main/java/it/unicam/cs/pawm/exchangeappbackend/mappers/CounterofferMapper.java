@@ -22,7 +22,8 @@ public class CounterofferMapper {
             counteroffer.getId(),
             itemsDTOs,
             counteroffer.getPublisher().getUsername(),
-            counteroffer.getCreationDate()
+            counteroffer.getCreationDate(),
+            counteroffer.getState()
         );
     }
 }
