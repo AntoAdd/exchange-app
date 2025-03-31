@@ -33,10 +33,10 @@ const UserExchangeableItems = ({ updateToggle, handlePublication }) => {
   }
 
   return (
-    <div className="row justify-content-start m-4" onClick={() => handleDeselection()}>
-      {items.map((item) => {
+    <div className="row justify-content-start m-2" onClick={() => handleDeselection()}>
+      {items.length > 0 ? (items.map((item) => {
         return (
-          <div key={item.id} className="col-4 m-4">
+          <div key={item.id} className="col-6 mb-3 d-flex align-items-stretch">
             <Item
               id={item.id}
               name={item.name}
@@ -49,7 +49,7 @@ const UserExchangeableItems = ({ updateToggle, handlePublication }) => {
             />
           </div>
         );
-      })}
+      })) : <p className="lead">You have no items to exchange.</p>}
     </div>
   );
 };

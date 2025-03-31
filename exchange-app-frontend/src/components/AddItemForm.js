@@ -107,11 +107,11 @@ const AddItemForm = ({ statusChangeFun }) => {
             Add
           </button>
           {success ? (
-            <div class="alert alert-success mt-4" role="alert">
+            <div className="alert alert-success mt-4" role="alert">
               Item added!
             </div>
           ) : failiure ? (
-            <div class="alert alert-danger mt-4" role="alert">
+            <div className="alert alert-danger mt-4" role="alert">
               Error in adding item!
             </div>
           ) : null}

@@ -1,5 +1,5 @@
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.min.js';
+import '../node_modules/bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/js/bootstrap.js';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Registration from './components/RegistrationForm';
@@ -14,7 +14,10 @@ import OffersPage from './components/pages/OffersPage';
 
 function App() {
   return (
-    <Router>
+    <Router future={{
+      v7_startTransition: true,
+      v7_relativeSplatPath: true,
+    }}>
       <div className="App">
         <Navbar />
         <Routes>

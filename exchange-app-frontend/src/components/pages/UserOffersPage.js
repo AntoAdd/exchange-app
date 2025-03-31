@@ -70,6 +70,7 @@ const UserOffersPage = () => {
                 publisher={offer.publisherUsername}
                 publicationDate={offer.publicationDate}
                 counteroffers={offer.counteroffers}
+                canMakeCounteroffers={false}
               />
             </div>
           );

@@ -3,7 +3,7 @@ import CounterofferItems from "./CounterofferItems";
 
 const Counteroffer = ({id, items, publisher, publicationDate}) => {
     return (
-        <div className="card text-center">
+        <div className="card col-4">
           <div className="card-header">
             <h3>
               Counteroffer #{id}
@@ -12,8 +12,7 @@ const Counteroffer = ({id, items, publisher, publicationDate}) => {
               </small>
             </h3>
           </div>
-          <div className="card-body">
-            <h5 className="card-title">Counteroffer items</h5>
+          <div className="card-body d-flex p-0">
             <CounterofferItems counterofferId={id} items={items} />
           </div>
           <div className="card-footer text-body-secondary">
