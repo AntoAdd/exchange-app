@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface OfferService {
     boolean publishOffer(Long itemId);
-    boolean removeOffer(Offer offer);
+    void removeOffer(Long id);
 
     /**
      * Returns all the offers published by the authenticated user.

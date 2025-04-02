@@ -39,4 +39,9 @@ public class OfferController {
             .map(offerMapper::toDTO)
             .toList();
     }
+
+    @DeleteMapping("/delete")
+    public void deleteOffer(@RequestParam(name = "id") Long id) {
+        offerService.removeOffer(id);
+    }
 }
