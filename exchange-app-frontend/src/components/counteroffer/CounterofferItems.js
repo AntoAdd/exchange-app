@@ -31,6 +31,7 @@ const CounterofferItems = ({ items }) => {
                   description={item.description}
                   category={item.category}
                   images={item.images}
+                  isExchangeable={false}
                 />
               </div>
             </div>

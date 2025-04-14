@@ -46,6 +46,31 @@ const UserOffersPage = () => {
     }).catch((err) => console.log(err));
   }
 
+  const handleOfferDelete = (id) => {
+    axios({
+      method: "delete",
+      url: "http://localhost:8080/offers/delete",
+      params: {
+        id: id,
+      },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          setOffers((prevOffers) =>
+            prevOffers.filter((offer) => offer.id !== id)
+          );
+          alert("Offer successfully removed");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("Error removing this offer.");
+      });
+  };
+
   return (
     <div className="container-fluid">
       <div className="row align-items-center justify-content-center m-4">
@@ -71,6 +96,8 @@ const UserOffersPage = () => {
                 publicationDate={offer.publicationDate}
                 counteroffers={offer.counteroffers}
                 canMakeCounteroffers={false}
+                deletable={true}
+                handleDelete={handleOfferDelete}
               />
             </div>
           );

@@ -144,7 +144,13 @@ const Offer = ({
   publicationDate,
   counteroffers = null,
   canMakeCounteroffers = true,
-  onUpdate
+  deletable = false,
+  onUpdate = () => {
+    return undefined;
+  },
+  handleDelete = () => {
+    return undefined;
+  },
 }) => {
   return (
     <div className="card text-center">
@@ -158,6 +164,7 @@ const Offer = ({
         description={item.description}
         category={item.category}
         images={item.images}
+        isExchangeable={false}
       />
       <div className="card-body">
         <h5>Counteroffers</h5>
@@ -181,10 +188,18 @@ const Offer = ({
           </button>
         </div>
         <CounteroffersListModal offerId={id} counteroffers={counteroffers} />
-        <CounterofferCreationModal offerId={id} onCreation={onUpdate}/>
+        <CounterofferCreationModal offerId={id} onCreation={onUpdate} />
       </div>
-      <div className="card-footer text-body-secondary">
-        Publication date: {publicationDate}
+      <div className="card-footer d-flex justify-content-between align-items-center text-body-secondary">
+        <span>Publication date: {publicationDate}</span>
+        {deletable && (
+          <button
+            onClick={() => handleDelete(id)}
+            className="btn btn-sm btn-danger"
+          >
+            <i className="bi bi-trash-fill"></i>
+          </button>
+        )}
       </div>
     </div>
   );

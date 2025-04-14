@@ -8,11 +8,14 @@ const Item = ({
   category,
   images,
   isSelectable = false,
+  isExchangeable = true,
   selectedId = null,
   handleSelection = () => {
     return undefined;
   },
-  handleDeletion
+  handleDeletion = () => {
+    return undefined;
+  }
 }) => {
   let className = "card";
 
@@ -33,9 +36,15 @@ const Item = ({
         </h6>
       </div>
       <div className="d-grid gap-2 d-md-flex justify-content-md-end p-3">
-        <button onClick={() => handleDeletion(id)} type="button" className="btn btn-danger btn-sm">
-          Delete
-        </button>
+        {isExchangeable && (
+          <button
+            onClick={() => handleDeletion(id)}
+            type="button"
+            className="btn btn-danger btn-sm"
+          >
+            <i className="bi bi-trash-fill"></i>
+          </button>
+        )}
       </div>
     </div>
   );
