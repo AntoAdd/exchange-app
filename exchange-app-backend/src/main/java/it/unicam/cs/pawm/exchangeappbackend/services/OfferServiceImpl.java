@@ -1,6 +1,5 @@
 package it.unicam.cs.pawm.exchangeappbackend.services;
 
-import it.unicam.cs.pawm.exchangeappbackend.dto.OfferDTO;
 import it.unicam.cs.pawm.exchangeappbackend.entities.Item;
 import it.unicam.cs.pawm.exchangeappbackend.entities.Offer;
 import it.unicam.cs.pawm.exchangeappbackend.entities.User;
@@ -48,10 +47,10 @@ public class OfferServiceImpl implements OfferService {
     @Override
     public void removeOffer(Long id) {
         Offer offerToDelete = offerRepository.findById(id).orElseThrow();
-        String notificationMessage = "The offer #" + id + " has been removed";
+        String notificationMessage = "The offer #" + id + " has been removed! All items in your counteroffer are exchangeable again.";
         offerToDelete.getCounteroffers().forEach(counteroffer -> {
             counteroffer.getItems().forEach(item -> item.setCounteroffer(null));
-            notificationService.addNotification(notificationMessage, counteroffer.getPublisher());
+            notificationService.sendNotification(notificationMessage, counteroffer.getPublisher());
             counterofferRepository.delete(counteroffer);
         });
         offerRepository.delete(offerToDelete);
