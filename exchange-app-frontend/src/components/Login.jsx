@@ -1,10 +1,14 @@
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../AuthContext";
+import { jwtDecode } from "jwt-decode";
 import React from "react";
 
-const LoginForm = () => {
+const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const {login} = useContext(AuthContext);
 
   const isValidForm = () => {
     return username !== "" && password !== "";
@@ -28,9 +32,11 @@ const LoginForm = () => {
       data: formData,
       headers: { "Content-Type": "multipart/form-data" },
     }).then(response => {
-      console.log(response.status)  
       if (response.status === 200) {
-        localStorage.setItem("token", response.data);
+        const token = response.data;
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", jwtDecode(token).sub);
+        login();
         clearForm();
       }
     }).catch(err => alert("Bad credentials!"));
@@ -81,4 +87,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default Login;

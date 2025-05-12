@@ -1,42 +1,38 @@
-import React from "react";
+import { useContext } from "react";
+import { AuthContext } from "../AuthContext";
 import { Link, useNavigate } from "react-router-dom";
+import Notifications from "./Notifications";
 
 const Navbar = () => {
+  const { isAuthenticated, logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    logout();
     navigate("/login");
   };
 
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
-        <a className="navbar-brand" href="/home">
+
+        <Link className="navbar-brand" to="/home">
           Exchange App
-        </a>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
+        </Link>
+
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="/home">
+              <Link className="nav-link active" to="/home">
                 Home
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/all-offers">
+              <Link className="nav-link active" to="/all-offers">
                 Offers
-              </a>
+              </Link>
             </li>
             <li className="nav-item dropdown">
               <a
@@ -50,22 +46,22 @@ const Navbar = () => {
               </a>
               <ul className="dropdown-menu">
                 <li>
-                  <a className="dropdown-item" href="/items/get">
+                  <Link className="dropdown-item" to="/items/get">
                     Items
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a className="dropdown-item" href="/my-offers">
+                  <Link className="dropdown-item" to="/my-offers">
                     Active offers
-                  </a>
+                  </Link>
                 </li>
                 <li>
                   <hr className="dropdown-divider" />
                 </li>
                 <li>
-                  <a className="dropdown-item" href="/my-trades">
+                  <Link className="dropdown-item" to="/my-trades">
                     Trades
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </li>
@@ -73,32 +69,7 @@ const Navbar = () => {
         </div>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link dropdown-toggle"
-                href="#"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <i className="bi bi-bell-fill"></i>
-              </a>
-              <ul className="dropdown-menu">
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Notification 1
-                  </a>
-                </li>
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Notification 2
-                  </a>
-                </li>
-              </ul>
-            </li>
+            {isAuthenticated && <Notifications />}
             <li className="nav-item">
               <Link
                 className="nav-link active"
