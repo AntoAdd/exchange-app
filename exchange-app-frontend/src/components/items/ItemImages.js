@@ -10,7 +10,7 @@ const ItemImages = ({ itemId, images, name }) => {
               <div key={image.id} className="carousel-item active">
                 <img
                   src={`data:image/jpeg;base64,${image.imageFile}`}
-                  className="d-block w-100"
+                  className="d-block w-100 rounded-top"
                   alt={`${name}`}
                 />
               </div>
@@ -20,7 +20,7 @@ const ItemImages = ({ itemId, images, name }) => {
               <div key={image.id} className="carousel-item">
                 <img
                   src={`data:image/jpeg;base64,${image.imageFile}`}
-                  className="d-block w-100"
+                  className="d-block w-100 rounded-top"
                   alt={`${name}`}
                 />
               </div>
@@ -29,7 +29,7 @@ const ItemImages = ({ itemId, images, name }) => {
         })}
       </div>
       <button
-        className="carousel-control-prev"
+        className="carousel-control-prev rounded"
         type="button"
         data-bs-target={"#carouselExample" + itemId}
         data-bs-slide="prev"
@@ -38,7 +38,7 @@ const ItemImages = ({ itemId, images, name }) => {
         <span className="visually-hidden">Previous</span>
       </button>
       <button
-        className="carousel-control-next"
+        className="carousel-control-next rounded"
         type="button"
         data-bs-target={"#carouselExample" + itemId}
         data-bs-slide="next"

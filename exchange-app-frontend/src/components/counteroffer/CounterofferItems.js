@@ -6,7 +6,7 @@ const CounterofferItems = ({ items }) => {
     <div className="accordion d-flex flex-column flex-fill" id="counteroffer-items">
       {items.map((item, index) => {
         return (
-          <div key={item.id} className="accordion-item">
+          <div key={item.id} className="accordion-item rounded-0">
             <h2 className="accordion-header">
               <button
                 className="accordion-button collapsed"

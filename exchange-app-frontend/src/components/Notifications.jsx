@@ -64,30 +64,36 @@ const Notifications = () => {
         <li>
           <h6 className="dropdown-header">All Notifications</h6>
         </li>
-        {notifications.map((notification, index) => {
-          if (index < notifications.length - 1) {
-            return (
-              <>
+        {notifications.length === 0 ? (
+          <li>
+            <span className="dropdown-item-text">You have no notification yet.</span>
+          </li>
+        ) : (
+          notifications.map((notification, index) => {
+            if (index < notifications.length - 1) {
+              return (
+                <>
+                  <li key={notification.id} className="dropdown-item">
+                    <span className="dropdown-item-text">
+                      {notification.message}
+                    </span>
+                  </li>
+                  <li>
+                    <hr className="dropdown-divider" />
+                  </li>
+                </>
+              );
+            } else {
+              return (
                 <li key={notification.id} className="dropdown-item">
                   <span className="dropdown-item-text">
                     {notification.message}
                   </span>
                 </li>
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
-              </>
-            );
-          } else {
-            return (
-              <li key={notification.id} className="dropdown-item">
-                <span className="dropdown-item-text">
-                  {notification.message}
-                </span>
-              </li>
-            );
-          }
-        })}
+              );
+            }
+          })
+        )}
       </ul>
     </div>
   );
