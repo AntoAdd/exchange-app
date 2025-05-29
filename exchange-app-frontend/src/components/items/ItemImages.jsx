@@ -1,5 +1,3 @@
-import React from "react";
-
 const ItemImages = ({ itemId, images, name }) => {
   return (
     <div id={"carouselExample" + itemId} className="carousel carousel-dark slide">

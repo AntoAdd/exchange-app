@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import Item from "./items/Item";
-import React from "react";
+import Item from "./Item";
 import axios from "axios";
 
 const UserItems = ({ updateToggle }) => {

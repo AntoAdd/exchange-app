@@ -2,13 +2,14 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import { AuthContext } from "../AuthContext";
 import { jwtDecode } from "jwt-decode";
-import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const {login} = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const isValidForm = () => {
     return username !== "" && password !== "";
@@ -38,6 +39,7 @@ const Login = () => {
         localStorage.setItem("user", jwtDecode(token).sub);
         login();
         clearForm();
+        navigate("/all-offers")
       }
     }).catch(err => alert("Bad credentials!"));
   };

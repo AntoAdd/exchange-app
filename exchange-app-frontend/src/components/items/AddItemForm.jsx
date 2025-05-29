@@ -1,6 +1,5 @@
 import { useState } from "react";
 import axios from "axios";
-import React from "react";
 
 const AddItemForm = ({ statusChangeFun }) => {
   const [success, setSuccess] = useState(false);

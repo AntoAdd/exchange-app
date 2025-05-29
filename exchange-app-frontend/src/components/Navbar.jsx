@@ -18,17 +18,12 @@ const Navbar = () => {
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
 
-        <Link className="navbar-brand" to="/home">
+        <Link className="navbar-brand" to="/all-offers">
           Exchange App
         </Link>
 
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav">
-            <li className="nav-item">
-              <Link className="nav-link active" to="/home">
-                Home
-              </Link>
-            </li>
             <li className="nav-item">
               <Link className="nav-link active" to="/all-offers">
                 Offers
@@ -48,11 +43,6 @@ const Navbar = () => {
                 <li>
                   <Link className="dropdown-item" to="/items/get">
                     Items
-                  </Link>
-                </li>
-                <li>
-                  <Link className="dropdown-item" to="/my-offers">
-                    Active offers
                   </Link>
                 </li>
                 <li>

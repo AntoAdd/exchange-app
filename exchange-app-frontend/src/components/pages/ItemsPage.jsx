@@ -1,8 +1,7 @@
 import { useState } from "react";
-import React from "react";
-import Modal from "./Modal";
-import AddItemForm from "./AddItemForm";
-import UserItems from "./UserItems";
+import Modal from "../Modal";
+import AddItemForm from "../items/AddItemForm";
+import UserItems from "../items/UserItems";
 
 const ItemsPage = () => {
   const [updateToggle, setUpdateToggle] = useState(false);
@@ -22,11 +21,7 @@ const ItemsPage = () => {
             type="button"
             data-bs-toggle="modal"
             data-bs-target="#simpleModal"
-            className="btn btn-primary"
-            style={{
-              width: "80px",
-              height: "80px",
-            }}
+            className="btn btn-primary btn-lg"
           >
             Add Item
           </button>

@@ -1,7 +1,8 @@
-import React from "react";
 import CounterofferItems from "./CounterofferItems";
 
-const Counteroffer = ({ id, items, publisher, publicationDate }) => {
+const Counteroffer = ({ id, items, publisher, publicationDate, handleDecline }) => {
+  const isUserCounteroffer = publisher === localStorage.getItem("user");
+
   return (
     <div className="card col-4 p-0 ms-4 mt-2">
       <div className="card-header text-center">
@@ -13,16 +14,21 @@ const Counteroffer = ({ id, items, publisher, publicationDate }) => {
       </div>
       <div className="card-footer d-flex justify-content-between align-items-center text-body-secondary">
         <span>
-          <i class="bi bi-calendar-date me-1"></i> {publicationDate}
+          <i className="bi bi-calendar-date me-1"></i> {publicationDate}
         </span>
         <div>
           <button
-            className="btn btn-success btn-sm me-2">
-            Accept<i class="bi bi-check2 ms-1"></i>
+            className="btn btn-success btn-sm me-2"
+            disabled={isUserCounteroffer}
+            >
+            Accept<i className="bi bi-check2 ms-1"></i>
           </button>
           <button
-            className="btn btn-danger btn-sm">
-            Decline<i class="bi bi-x-lg ms-1"></i>
+            className="btn btn-danger btn-sm"
+            disabled={isUserCounteroffer}
+            onClick={() => handleDecline(id)}
+            >
+            Decline<i className="bi bi-x-lg ms-1"></i>
           </button>
         </div>
       </div>
