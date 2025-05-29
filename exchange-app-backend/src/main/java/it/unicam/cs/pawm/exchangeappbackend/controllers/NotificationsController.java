@@ -24,7 +24,7 @@ public class NotificationsController {
 
     @GetMapping("/subscribe/{username}")
     public SseEmitter subscribe(@PathVariable String username) {
-            SseEmitter emitter = new SseEmitter();
+            SseEmitter emitter = new SseEmitter(-1L);
 
             emitter.onCompletion(() -> notificationService.unsubscribe(username, emitter));
             emitter.onTimeout(() -> {

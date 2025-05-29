@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -34,5 +35,6 @@ public class Offer {
         this.offerItem = offerItem;
         this.creationDate = LocalDate.now();
         this.state = "Published";
+        this.counteroffers = new ArrayList<>();
     }
 }

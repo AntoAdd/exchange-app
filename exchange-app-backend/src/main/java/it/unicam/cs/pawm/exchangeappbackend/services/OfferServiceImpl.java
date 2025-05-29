@@ -1,5 +1,6 @@
 package it.unicam.cs.pawm.exchangeappbackend.services;
 
+import it.unicam.cs.pawm.exchangeappbackend.entities.Counteroffer;
 import it.unicam.cs.pawm.exchangeappbackend.entities.Item;
 import it.unicam.cs.pawm.exchangeappbackend.entities.Offer;
 import it.unicam.cs.pawm.exchangeappbackend.entities.User;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OfferServiceImpl implements OfferService {
@@ -29,15 +31,18 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
-    public boolean publishOffer(Long itemId) {
-        Item offerItem = itemRepository.findById(itemId).orElseThrow();
-        if (isValidForOffer(offerItem)) {
-            User publisher = authService.getAuthenticatedUser();
-            Offer offer = new Offer(publisher, offerItem);
-            offerRepository.save(offer);
-            return true;
+    public Optional<Offer> publishOffer(Long itemId) {
+        Optional<Item> item = itemRepository.findById(itemId);
+        if (item.isPresent()) {
+            Item offerItem = item.get();
+            if (isValidForOffer(offerItem)) {
+                User publisher = authService.getAuthenticatedUser();
+                Offer offer = new Offer(publisher, offerItem);
+                offerRepository.save(offer);
+                return Optional.of(offer);
+            }
         }
-        return false;
+        return Optional.empty();
     }
 
     private boolean isValidForOffer(Item item) {
@@ -57,6 +62,22 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
+    public void declineCounteroffer(Long offerId, Long counterofferId) {
+        String notificationMessage = "Your counteroffer published for offer #" + offerId + " was declined";
+        Offer offer = offerRepository.findById(offerId).orElseThrow();
+
+        Counteroffer counterofferToDecline = offer.getCounteroffers().stream()
+                .filter(counteroffer -> counteroffer.getId().equals(counterofferId))
+                    .findFirst().orElseThrow();
+
+        notificationService.sendNotification(notificationMessage, counterofferToDecline.getPublisher());
+
+        counterofferToDecline.getItems().forEach(item -> item.setCounteroffer(null));
+
+        counterofferRepository.delete(counterofferToDecline);
+    }
+
+    @Override
     public List<Offer> getUserOffers() {
         User auth = authService.getAuthenticatedUser();
         return offerRepository.findByPublisher(auth);
@@ -65,10 +86,7 @@ public class OfferServiceImpl implements OfferService {
     @Override
     public List<Offer> getOffers() {
         List<Offer> allOffers = new ArrayList<>();
-        User auth = authService.getAuthenticatedUser();
         offerRepository.findAll().forEach(allOffers::add);
-        return allOffers.stream()
-            .filter(offer -> !offer.getPublisher().equals(auth))
-            .toList();
+        return allOffers;
     }
 }

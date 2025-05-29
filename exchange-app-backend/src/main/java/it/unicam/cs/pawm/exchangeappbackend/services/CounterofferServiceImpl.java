@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +24,7 @@ public class CounterofferServiceImpl implements CounterofferService{
     private final ItemRepository itemRepository;
 
     @Override
-    public boolean publishCounteroffer(Long offerId, List<Long> itemIDs) {
+    public Optional<Counteroffer> publishCounteroffer(Long offerId, List<Long> itemIDs) {
         User publisher = authService.getAuthenticatedUser();
         List<Counteroffer> publisherCounteroffers = counterofferRepository.findByPublisher(publisher);
 
@@ -32,9 +33,9 @@ public class CounterofferServiceImpl implements CounterofferService{
             List<Item> counterofferItems = getItemsFromId(itemIDs);
             Counteroffer counteroffer = new Counteroffer(counterofferItems, relatedOffer, publisher, LocalDate.now());
             counterofferRepository.save(counteroffer);
-            return true;
+            return Optional.of(counteroffer);
         }
-        return false;
+        return Optional.empty();
     }
 
     private boolean validateCounteroffer(Long offerId, List<Counteroffer> publisherCounteroffers) {
