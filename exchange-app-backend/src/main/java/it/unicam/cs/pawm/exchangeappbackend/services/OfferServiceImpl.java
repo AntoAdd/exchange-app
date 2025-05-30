@@ -7,6 +7,7 @@ import it.unicam.cs.pawm.exchangeappbackend.entities.User;
 import it.unicam.cs.pawm.exchangeappbackend.repositories.CounterofferRepository;
 import it.unicam.cs.pawm.exchangeappbackend.repositories.ItemRepository;
 import it.unicam.cs.pawm.exchangeappbackend.repositories.OfferRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,21 +15,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class OfferServiceImpl implements OfferService {
     private final OfferRepository offerRepository;
     private final CounterofferRepository counterofferRepository;
     private final ItemRepository itemRepository;
-    private final NotificationService notificationService;
     private final AuthService authService;
-
-
-    public OfferServiceImpl(OfferRepository offerRepository, CounterofferRepository counterofferRepository, ItemRepository itemRepository, NotificationService notificationService, AuthService authService) {
-        this.offerRepository = offerRepository;
-        this.counterofferRepository = counterofferRepository;
-        this.itemRepository = itemRepository;
-        this.notificationService = notificationService;
-        this.authService = authService;
-    }
 
     @Override
     public Optional<Offer> publishOffer(Long itemId) {
@@ -52,10 +44,8 @@ public class OfferServiceImpl implements OfferService {
     @Override
     public void removeOffer(Long id) {
         Offer offerToDelete = offerRepository.findById(id).orElseThrow();
-        String notificationMessage = "The offer #" + id + " has been removed! All items in your counteroffer are exchangeable again.";
         offerToDelete.getCounteroffers().forEach(counteroffer -> {
             counteroffer.getItems().forEach(item -> item.setCounteroffer(null));
-            notificationService.sendNotification(notificationMessage, counteroffer.getPublisher());
             counterofferRepository.delete(counteroffer);
         });
         offerRepository.delete(offerToDelete);
@@ -63,14 +53,11 @@ public class OfferServiceImpl implements OfferService {
 
     @Override
     public void declineCounteroffer(Long offerId, Long counterofferId) {
-        String notificationMessage = "Your counteroffer published for offer #" + offerId + " was declined";
         Offer offer = offerRepository.findById(offerId).orElseThrow();
 
         Counteroffer counterofferToDecline = offer.getCounteroffers().stream()
                 .filter(counteroffer -> counteroffer.getId().equals(counterofferId))
                     .findFirst().orElseThrow();
-
-        notificationService.sendNotification(notificationMessage, counterofferToDecline.getPublisher());
 
         counterofferToDecline.getItems().forEach(item -> item.setCounteroffer(null));
 

@@ -2,34 +2,18 @@ package it.unicam.cs.pawm.exchangeappbackend.services;
 
 import it.unicam.cs.pawm.exchangeappbackend.entities.Notification;
 import it.unicam.cs.pawm.exchangeappbackend.entities.User;
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.List;
 
 public interface NotificationService {
     /**
-     * Subscribes the user with the given username to the notification service.
+     * Stores the notification containing the given message and username in the database.
      *
-     * @param username the given username.
-     * @param emitter the emitter to be associated to the given username.
+     * @param username the username of the notification's receiver.
+     * @param message the content of the notification.
+     * @return the notification sent to the user.
      */
-    void subscribe(String username, SseEmitter emitter);
-
-    /**
-     * Unsubscribes the user with the given username from the notification service.
-     *
-     * @param username the given username.
-     * @param emitter the emitter associated to the given username.
-     */
-    void unsubscribe(String username, SseEmitter emitter);
-
-    /**
-     * Sends a new notification to the specified user and stores it in the database.
-     *
-     * @param message the message of the notification.
-     * @param user the user to be notified.
-     */
-    void sendNotification(String message, User user);
+    Notification store(String username, String message);
 
     /**
      * Deletes the notification with the given id.
