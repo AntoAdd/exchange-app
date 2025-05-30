@@ -1,14 +1,13 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { AuthProvider } from './AuthContext';
-import { BrowserRouter as Router } from 'react-router-dom';
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { AuthProvider } from "./components/contexts/AuthContext";
+import { BrowserRouter as Router } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-    <AuthProvider>
+  <AuthProvider>
       <Router
         future={{
           v7_startTransition: true,
@@ -17,7 +16,7 @@ root.render(
       >
         <App />
       </Router>
-    </AuthProvider>
+  </AuthProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

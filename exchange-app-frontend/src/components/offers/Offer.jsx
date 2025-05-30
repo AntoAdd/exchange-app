@@ -8,7 +8,7 @@ const Offer = ({
   item,
   publisher,
   publicationDate,
-  counteroffers = null,
+  counteroffers = [],
   handleDelete = () => {
     return undefined;
   },

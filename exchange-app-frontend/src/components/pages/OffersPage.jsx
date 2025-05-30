@@ -1,11 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Offers from "../offers/Offers";
 import UserOffers from "../offers/UserOffers";
+import { RealTimeContext } from "../contexts/RealTimeContext";
 
 const OffersPage = () => {
   const [offers, setOffers] = useState([]);
   const [showAll, setShowAll] = useState(true);
+
+  const { sendNotification } = useContext(RealTimeContext);
 
   useEffect(() => {
     axios({
@@ -54,7 +57,17 @@ const OffersPage = () => {
     })
       .then((response) => {
         if (response.status === 200) {
-          setOffers(prevOffers => prevOffers.filter(offer => offer.id !== offerID));
+          const message = "Offer #" + offerID + " has been removed";
+          offers
+            .find((offer) => offer.id === offerID)
+            .counteroffers.forEach((counteroffer) => {
+              sendNotification(counteroffer.publisher, message);
+            });
+
+          setOffers((prevOffers) =>
+            prevOffers.filter((offer) => offer.id !== offerID)
+          );
+
           alert("Offer successfully removed");
         }
       })

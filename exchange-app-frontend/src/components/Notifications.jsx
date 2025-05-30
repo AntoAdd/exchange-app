@@ -1,38 +1,9 @@
-import { useState, useEffect } from "react";
-import { EventSourcePolyfill } from "event-source-polyfill";
+import { useEffect, useContext } from "react";
 import axios from "axios";
+import { RealTimeContext } from "./contexts/RealTimeContext";
 
 const Notifications = () => {
-  const [notifications, setNotifications] = useState([]);
-
-  useEffect(() => {
-    const eventSource = new EventSourcePolyfill(
-      "http://localhost:8080/notifications/subscribe/" +
-        localStorage.getItem("user"),
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
-
-    eventSource.onmessage = (event) => {
-      const newNotification = event.data;
-      setNotifications((prevNotifications) => [
-        ...prevNotifications,
-        newNotification,
-      ]);
-    };
-
-    eventSource.onerror = (error) => {
-      console.error("SSE Error:", error);
-      eventSource.close();
-    };
-
-    return () => {
-      eventSource.close();
-    };
-  }, []);
+  const {notifications, initializeNotifications} = useContext(RealTimeContext);
 
   useEffect(() => {
     axios({
@@ -44,11 +15,12 @@ const Notifications = () => {
     })
       .then((response) => {
         if (response.status === 200) {
-          console.log(response.data); // TODO - remove this line after testing.
-          setNotifications(response.data);
+          console.log("initial notifications fetched: ", response.data);
+          initializeNotifications(response.data);
         }
       })
       .catch((err) => console.log(err));
+      // eslint-disable-next-line
   }, []);
 
   return (
@@ -66,10 +38,13 @@ const Notifications = () => {
         </li>
         {notifications.length === 0 ? (
           <li>
-            <span className="dropdown-item-text">You have no notification yet.</span>
+            <span className="dropdown-item-text">
+              You have no notification yet.
+            </span>
           </li>
         ) : (
           notifications.map((notification, index) => {
+            console.log(notifications);
             if (index < notifications.length - 1) {
               return (
                 <>

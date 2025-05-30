@@ -1,10 +1,10 @@
 import { useContext } from "react";
-import { AuthContext } from "../AuthContext";
+import { AuthContext } from "./contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import Notifications from "./Notifications";
 
 const Navbar = () => {
-  const { isAuthenticated, logout } = useContext(AuthContext);
+  const { logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -17,7 +17,6 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
-
         <Link className="navbar-brand" to="/all-offers">
           Exchange App
         </Link>
@@ -59,7 +58,7 @@ const Navbar = () => {
         </div>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
-            {isAuthenticated && <Notifications />}
+            <Notifications />
             <li className="nav-item">
               <Link
                 className="nav-link active"
