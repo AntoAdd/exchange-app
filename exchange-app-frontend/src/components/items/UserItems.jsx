@@ -82,8 +82,8 @@ const UserItems = ({ updateToggle }) => {
 
   return (
     <div className="row justify-content-start m-4">
-      {items.map((item) => {
-        return (
+      {items.length > 0 ? (
+        items.map((item) => (
           <div key={item.id} className="col-3 m-4">
             <Item
               id={item.id}
@@ -94,16 +94,18 @@ const UserItems = ({ updateToggle }) => {
               handleDeletion={() => handleItemDeletion(item.id)}
             />
           </div>
-        );
-      })}
+        ))
+      ) : (
+        <p className="lead text-center">Add items you want to trade</p>
+      )}
       {showSuccessAlert && (
         <div
           className="alert alert-success position-fixed bottom-0 end-0 p-3 m-3"
           role="alert"
           style={{
             zIndex: 1050,
-            width: '50%', 
-            textAlign: 'center',
+            width: "50%",
+            textAlign: "center",
           }}
         >
           Item deleted successfully!
@@ -115,8 +117,8 @@ const UserItems = ({ updateToggle }) => {
           role="alert"
           style={{
             zIndex: 1050,
-            width: '50%', 
-            textAlign: 'center',
+            width: "50%",
+            textAlign: "center",
           }}
         >
           Cannot delete items currently in a trade.
