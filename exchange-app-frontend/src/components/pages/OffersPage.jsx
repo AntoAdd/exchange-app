@@ -1,14 +1,13 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import Offers from "../offers/Offers";
 import UserOffers from "../offers/UserOffers";
-import { RealTimeContext } from "../contexts/RealTimeContext";
 
 const OffersPage = () => {
   const [offers, setOffers] = useState([]);
   const [showAll, setShowAll] = useState(true);
 
-  const { sendNotification } = useContext(RealTimeContext);
+  
 
   useEffect(() => {
     axios({
@@ -24,57 +23,14 @@ const OffersPage = () => {
       .catch((err) => console.log(err));
   }, []);
 
-  const handleOfferPublication = (itemID) => {
-    axios({
-      method: "post",
-      url: "http://localhost:8080/offers/publish",
-      params: {
-        id: itemID,
-      },
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-      .then((response) => {
-        if (response.status === 200) {
-          const newOffer = response.data;
-          setOffers((prevOffers) => [...prevOffers, newOffer]);
-        }
-      })
-      .catch((err) => console.log(err));
+  const handleAddNewOffer = (newOffer) => {
+    setOffers((prevOffers) => [...prevOffers, newOffer]);
   };
 
-  const handleOfferDeletetion = (offerID) => {
-    axios({
-      method: "delete",
-      url: "http://localhost:8080/offers/delete",
-      params: {
-        id: offerID,
-      },
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-      .then((response) => {
-        if (response.status === 200) {
-          const message = "Offer #" + offerID + " has been removed";
-          offers
-            .find((offer) => offer.id === offerID)
-            .counteroffers.forEach((counteroffer) => {
-              sendNotification(counteroffer.publisher, message);
-            });
-
-          setOffers((prevOffers) =>
-            prevOffers.filter((offer) => offer.id !== offerID)
-          );
-
-          alert("Offer successfully removed");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("Error removing this offer.");
-      });
+  const handleOfferRemove = (offerID) => {
+    setOffers((prevOffers) =>
+      prevOffers.filter((offer) => offer.id !== offerID)
+    );
   };
 
   return (
@@ -116,9 +72,11 @@ const OffersPage = () => {
           <Offers offers={offers} />
         ) : (
           <UserOffers
-            offers={offers}
-            handleOfferPublication={handleOfferPublication}
-            handleOfferDeletion={handleOfferDeletetion}
+            offers={offers.filter(
+              (offer) => offer.publisher === localStorage.getItem("user")
+            )}
+            onOfferPublication={handleAddNewOffer}
+            onOfferDeletion={handleOfferRemove}
           />
         )}
       </div>

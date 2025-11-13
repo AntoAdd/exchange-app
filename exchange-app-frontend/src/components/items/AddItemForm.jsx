@@ -1,9 +1,15 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import axios from "axios";
 
 const AddItemForm = ({ statusChangeFun }) => {
-  const [success, setSuccess] = useState(false);
-  const [failiure, setFailure] = useState(false);
+  const [status, setStatus] = useState("compilation");
+
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("");
+  const [images, setImages] = useState({});
+
+  const filesInputRef = useRef(null);
 
   const categories = [
     "Arts & Crafts",
@@ -15,13 +21,29 @@ const AddItemForm = ({ statusChangeFun }) => {
     "Personal Care Products",
   ];
 
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
-  const [images, setImages] = useState({});
+  const isFormValid = () => {
+    return (
+      name.length > 0 &&
+      description.length > 0 &&
+      category.length > 0 &&
+      images.length > 0
+    );
+  };
+
+  const clearForm = () => {
+    setName("");
+    setDescription("");
+    setCategory("");
+    setImages({});
+
+    if (filesInputRef.current) {
+      filesInputRef.current.value = "";
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     const formData = new FormData();
     formData.append("name", name);
     formData.append("description", description);
@@ -40,17 +62,21 @@ const AddItemForm = ({ statusChangeFun }) => {
     })
       .then((response) => {
         if (response.status === 200) {
-          setSuccess(true);
+          setStatus("success");
           statusChangeFun();
-        };
+          clearForm();
+        }
       })
-      .catch((err) => setFailure(true));
+      .catch((err) => {
+        setStatus("error");
+        clearForm();
+      });
   };
 
   return (
-    <div className="container text-center mt-4 p-4">
+    <div className="container text-center p-4">
       <form className="mt-4 mb-4" onSubmit={handleSubmit}>
-        <fieldset>
+        <fieldset className="mb-4">
           <div className="mb-3 row justify-content-md-center">
             <label className="col-sm-2 col-form-label me-2">Name</label>
             <div className="col-sm-6">
@@ -93,29 +119,35 @@ const AddItemForm = ({ statusChangeFun }) => {
             <label className="col-sm-2 col-form-label me-2">Images</label>
             <div className="col-sm-6">
               <input
+                ref={filesInputRef}
                 className="form-control"
                 type="file"
-                value={images.name}
-                onChange={(e) => setImages(e.target.files)}
+                onChange={(e) => {
+                  setImages(e.target.files);
+                }}
                 placeholder="Item images"
                 multiple
               ></input>
             </div>
           </div>
-          <button className="btn btn-primary btn-lg" type="submit">
-            Add
-          </button>
-          {success ? (
-            <div className="alert alert-success mt-4" role="alert">
-              Item added!
-            </div>
-          ) : failiure ? (
-            <div className="alert alert-danger mt-4" role="alert">
-              Error in adding item!
-            </div>
-          ) : null}
         </fieldset>
+        <button
+          className="btn btn-primary btn-lg"
+          type="submit"
+          disabled={!isFormValid()}
+        >
+          Add
+        </button>
       </form>
+      {status === "success" ? (
+        <div className="alert alert-success mt-4" role="alert">
+          Item added!
+        </div>
+      ) : status === "error" ? (
+        <div className="alert alert-danger mt-4" role="alert">
+          Error in adding item!
+        </div>
+      ) : null}
     </div>
   );
 };

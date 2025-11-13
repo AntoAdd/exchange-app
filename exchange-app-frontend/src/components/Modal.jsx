@@ -1,10 +1,9 @@
-import React from "react";
-
 const Modal = ({
   title,
   children,
   hasAction = false,
   actionName = null,
+  isDisabledAction = true,
   action = () => {
     return undefined;
   },
@@ -34,6 +33,7 @@ const Modal = ({
               </button>
               <button
                 type="button"
+                disabled={isDisabledAction}
                 className="btn btn-primary"
                 onClick={action}
               >

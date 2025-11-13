@@ -1,33 +1,14 @@
-import { useEffect, useState } from "react";
 import Item from "./Item";
-import axios from "axios";
 
-const UserExchangeableItems = ({ handleIdToPublish }) => {
-  const [items, setItems] = useState([]);
-  const [selectedItemID, setSelectedItemID] = useState(null);
-
-  useEffect(() => {
-    axios({
-      method: "get",
-      url: "http://localhost:8080/items/user-exchangeable",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-      .then((response) => {
-        setItems(response.data);
-      })
-      .catch((err) => console.log(err));
-  }, []);
-
+const UserExchangeableItems = ({ items, onItemSelection, selectedItemId }) => {
   const handleItemSelection = (e, id) => {
     e.stopPropagation();
-    setSelectedItemID(id);
-    handleIdToPublish(id);
+
+    onItemSelection(id);
   };
 
   const handleItemDeselection = () => {
-    setSelectedItemID(null);
+    onItemSelection(null);
   };
 
   return (
@@ -49,7 +30,7 @@ const UserExchangeableItems = ({ handleIdToPublish }) => {
                 category={item.category}
                 images={item.images}
                 isSelectable={true}
-                selectedId={selectedItemID}
+                selectedId={selectedItemId}
                 handleSelection={handleItemSelection}
               />
             </div>
