@@ -3,6 +3,10 @@ import Offer from "./Offer";
 const Offers = ({ offers }) => {
   return (
     <div className="container-fluid">
+      <div className="mt-4 me-4 ms-4 mb-2">
+        <h1>All Offers</h1>
+      </div>
+      <hr className="mx-4 mb-4" />
       <div className="row m-4">
         {offers.length === 0 ? (
           <div className="col d-flex justify-content-center">

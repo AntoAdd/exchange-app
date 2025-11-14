@@ -42,7 +42,6 @@ const OffersPage = () => {
   return (
     <>
       <div className="d-flex flex-column align-items-center m-4">
-        <h1 className="display-2">Active Offers</h1>
         <div
           className="btn-group m-4"
           role="group"

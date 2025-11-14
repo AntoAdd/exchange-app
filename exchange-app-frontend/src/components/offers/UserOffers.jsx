@@ -92,6 +92,20 @@ const UserOffers = ({ offers, onOfferPublication, onOfferDeletion }) => {
 
   return (
     <div className="container-fluid">
+      <div className="d-flex flex-row justify-content-between align-items-end mt-4 me-4 ms-4 mb-2">
+        <h1>My Offers</h1>
+        <div>
+          <button
+            type="button"
+            data-bs-toggle="modal"
+            data-bs-target="#simpleModal"
+            className="btn btn-primary btn-sm"
+          >
+            Publish offer
+          </button>
+        </div>
+      </div>
+      <hr className="mx-4 mb-4" />
       <div className="row m-4">
         {offers.length === 0 ? (
           <div className="col d-flex justify-content-center">
@@ -114,18 +128,7 @@ const UserOffers = ({ offers, onOfferPublication, onOfferDeletion }) => {
           })
         )}
       </div>
-      <div className="row m-4">
-        <div className="col d-flex justify-content-center">
-          <button
-            type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#simpleModal"
-            className="btn btn-primary btn-lg"
-          >
-            Publish offer
-          </button>
-        </div>
-      </div>
+
       <Modal
         title="Publish offer"
         hasAction={true}

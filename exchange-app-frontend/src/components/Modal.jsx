@@ -26,7 +26,7 @@ const Modal = ({
             <div className="modal-footer">
               <button
                 type="button"
-                className="btn btn-secondary"
+                className="btn btn-secondary btn-sm"
                 data-bs-dismiss="modal"
               >
                 Close
@@ -34,7 +34,7 @@ const Modal = ({
               <button
                 type="button"
                 disabled={isDisabledAction}
-                className="btn btn-primary"
+                className="btn btn-primary btn-sm"
                 onClick={action}
               >
                 {actionName}
