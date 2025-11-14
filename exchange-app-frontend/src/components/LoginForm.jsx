@@ -55,7 +55,7 @@ const LoginForm = () => {
           className="d-flex flex-column mt-4 mb-4 w-75"
           onSubmit={handleSubmit}
         >
-          <fieldset className="d-flex flex-column mb-2">
+          <fieldset className="d-flex flex-column mb-3">
             <div className="mb-3">
               <label htmlFor="username-input" className="form-label">
                 Username

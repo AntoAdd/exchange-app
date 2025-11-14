@@ -15,9 +15,10 @@ const Item = ({
   },
   handleDeletion = () => {
     return undefined;
-  }
+  },
 }) => {
-  let className = "card position-relative border border-dark border-opacity-25 border-2 rounded";
+  let className =
+    "card position-relative border border-light-subtle rounded shadow";
   const selectedBedge = (
     <span
       className="z-1 position-absolute top-0 start-100 translate-middle p-2 bg-primary border border-light rounded-circle d-flex justify-content-center align-items-center"
@@ -31,8 +32,8 @@ const Item = ({
   if (isSelectable) {
     className =
       selectedId === id
-        ? "card position-relative border border-primary border-opacity-75 border-2 rounded"
-        : "card position-relative border border-dark border-opacity-25 border-2 rounded";
+        ? "card position-relative border border-primary-subtle rounded shadow"
+        : "card position-relative border border-light-subtle rounded shadow";
     showBadge = selectedId === id ? true : false;
   }
 
@@ -40,24 +41,21 @@ const Item = ({
     <div className={className} onClick={(e) => handleSelection(e, id)}>
       {showBadge && selectedBedge}
       <ItemImages itemId={id} images={images} name={name} />
-      <div className="card-body d-flex flex-column">
+      <div className="card-body d-flex flex-column border-top">
         <h5 className="card-title">{name}</h5>
-        <div className="overflow-auto mb-4 mt-4">
+        <h6 className="card-subtitle mb-4 text-body-secondary">{category}</h6>
+        <div className="overflow-auto">
           <p className="card-text">{description}</p>
         </div>
-        <h6 className="card-subtitle mt-auto text-body-secondary">
-          {category}
-        </h6>
       </div>
-      <div className="d-grid gap-2 m-2">
+      <div className="d-flex flex-row p-3">
         {isExchangeable && (
           <button
             onClick={() => handleDeletion(id)}
             type="button"
-            className="btn btn-danger"
+            className="btn btn-danger rounded-pill"
           >
             Delete
-            <i className="bi bi-trash3 ms-2"></i>
           </button>
         )}
       </div>

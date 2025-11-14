@@ -28,6 +28,11 @@ const Navbar = () => {
                 Offers
               </Link>
             </li>
+          </ul>
+        </div>
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav ms-auto">
+            <Notifications />
             <li className="nav-item dropdown">
               <a
                 className="nav-link dropdown-toggle"
@@ -38,50 +43,33 @@ const Navbar = () => {
               >
                 My exchange
               </a>
-              <ul className="dropdown-menu">
+              <ul className="dropdown-menu dropdown-menu-end">
+                <li className="dropdown-header">{localStorage.getItem("user")}'s account</li>
                 <li>
                   <Link className="dropdown-item" to="/items/get">
                     Items
                   </Link>
                 </li>
                 <li>
-                  <hr className="dropdown-divider" />
-                </li>
-                <li>
                   <Link className="dropdown-item" to="/my-trades">
                     Trades
                   </Link>
+                </li>
+                <li>
+                  <hr className="dropdown-divider" />
+                </li>
+                <li>
+                  <button
+                    onClick={() => handleLogout()}
+                    className="dropdown-item"
+                  >
+                    Sign out
+                  </button>
                 </li>
               </ul>
             </li>
           </ul>
         </div>
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav ms-auto">
-            <Notifications />
-            <li className="nav-item">
-              <Link
-                className="nav-link active"
-                aria-current="page"
-                to="/register"
-              >
-                Register
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link active" aria-current="page" to="/login">
-                Login
-              </Link>
-            </li>
-          </ul>
-        </div>
-        <button
-          className="btn btn-outline-primary"
-          type="button"
-          onClick={handleLogout}
-        >
-          Logout
-        </button>
       </div>
     </nav>
   );
