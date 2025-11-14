@@ -7,7 +7,13 @@ const OffersPage = () => {
   const [offers, setOffers] = useState([]);
   const [showAll, setShowAll] = useState(true);
 
-  
+  const otherUsersOffers = offers.filter(
+    (offer) => offer.publisher !== localStorage.getItem("user")
+  );
+
+  const userOffers = offers.filter(
+    (offer) => offer.publisher === localStorage.getItem("user")
+  );
 
   useEffect(() => {
     axios({
@@ -69,12 +75,10 @@ const OffersPage = () => {
           </label>
         </div>
         {showAll ? (
-          <Offers offers={offers} />
+          <Offers offers={otherUsersOffers} />
         ) : (
           <UserOffers
-            offers={offers.filter(
-              (offer) => offer.publisher === localStorage.getItem("user")
-            )}
+            offers={userOffers}
             onOfferPublication={handleAddNewOffer}
             onOfferDeletion={handleOfferRemove}
           />

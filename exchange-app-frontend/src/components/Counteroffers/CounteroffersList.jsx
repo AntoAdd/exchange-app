@@ -33,7 +33,7 @@ const CounteroffersList = ({ counteroffers, offerId, onDecline }) => {
             key={counteroffer.id}
             id={counteroffer.id}
             items={counteroffer.items}
-            publisher={counteroffer.publisherUsername}
+            publisher={counteroffer.publisher}
             publicationDate={counteroffer.publicationDate}
             handleDecline={handleCounterofferDecline}
           />

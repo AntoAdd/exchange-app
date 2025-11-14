@@ -3,12 +3,36 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import qs from "qs";
 
-const CounterofferCreationModal = ({offerId, onPublish}) => {
+const CounterofferCreationModal = ({ offerId, onPublish }) => {
   const [selectedIDs, setSelectedIDs] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
-  const [alertType, setAlertType] = useState('');
-  const successAlert = <div className="alert alert-success" role="alert">Counteroffer successfully created!</div>
-  const errorAlert = <div className="alert alert-danger" role="alert">Error creating conteroffer</div>
+  const [alertType, setAlertType] = useState("");
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    axios({
+      method: "get",
+      url: "http://localhost:8080/items/user-exchangeable",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((response) => {
+        setItems(response.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  const successAlert = (
+    <div className="alert alert-success" role="alert">
+      Counteroffer successfully created!
+    </div>
+  );
+  const errorAlert = (
+    <div className="alert alert-danger" role="alert">
+      Error creating conteroffer
+    </div>
+  );
 
   useEffect(() => {
     if (showAlert) {
@@ -39,7 +63,7 @@ const CounterofferCreationModal = ({offerId, onPublish}) => {
         item_IDs: selectedIDs,
       },
       paramsSerializer: (item_IDs) => {
-        return qs.stringify(item_IDs, {arrayFormat: 'repeat'});
+        return qs.stringify(item_IDs, { arrayFormat: "repeat" });
       },
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -47,15 +71,21 @@ const CounterofferCreationModal = ({offerId, onPublish}) => {
     })
       .then((response) => {
         if (response.status === 200) {
-            const counterofferPublished = response.data;
-            if (counterofferPublished !== null) {
-                setShowAlert(true);
-                setAlertType("success");
-                onPublish(counterofferPublished);
-            } else {
-                setShowAlert(true);
-                setAlertType("error");
-            }
+          const counterofferPublished = response.data;
+
+          console.log("Counteroffer published:", counterofferPublished);
+          const counterofferItemsIDs = counterofferPublished.items.map(c => c.id);
+
+          setItems(prevItems => prevItems.filter(i => !counterofferItemsIDs.includes(i.id)))
+
+          if (counterofferPublished !== null) {
+            setShowAlert(true);
+            setAlertType("success");
+            onPublish(counterofferPublished);
+          } else {
+            setShowAlert(true);
+            setAlertType("error");
+          }
         } else {
           setShowAlert(true);
           setAlertType("error");
@@ -86,7 +116,7 @@ const CounterofferCreationModal = ({offerId, onPublish}) => {
             ></button>
           </div>
           <div className="modal-body">
-            <SelectableItems handleSelection={handleSelection} />
+            <SelectableItems items={items} handleSelection={handleSelection} />
             {showAlert && (alertType === "success" ? successAlert : errorAlert)}
           </div>
           <div className="modal-footer d-flex justify-content-center">

@@ -47,8 +47,8 @@ const Notifications = () => {
             console.log(notifications);
             if (index < notifications.length - 1) {
               return (
-                <>
-                  <li key={notification.id} className="dropdown-item">
+                <div key={notification.id}>
+                  <li className="dropdown-item">
                     <span className="dropdown-item-text">
                       {notification.message}
                     </span>
@@ -56,7 +56,7 @@ const Notifications = () => {
                   <li>
                     <hr className="dropdown-divider" />
                   </li>
-                </>
+                </div>
               );
             } else {
               return (

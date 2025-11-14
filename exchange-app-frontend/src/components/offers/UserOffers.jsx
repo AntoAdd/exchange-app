@@ -43,11 +43,13 @@ const UserOffers = ({ offers, onOfferPublication, onOfferDeletion }) => {
       .then((response) => {
         if (response.status === 200) {
           const newOffer = response.data;
-          console.log("new Offer:", newOffer);
+
           onOfferPublication(newOffer);
+
           setExchangeableItems((prevExchangeableItems) =>
             prevExchangeableItems.filter((item) => item.id !== selectedItemId)
           );
+
           setSelectedItemId(null);
         }
       })

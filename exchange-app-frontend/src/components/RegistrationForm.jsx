@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const RegistrationForm = () => {
   const [firstName, setFirstName] = useState("");
@@ -8,6 +8,8 @@ const RegistrationForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [address, setAddress] = useState("");
+
+  const navigate = useNavigate();
 
   const isValidForm = () => {
     return (
@@ -46,90 +48,86 @@ const RegistrationForm = () => {
       if (response.status === 200) {
         clearForm();
         alert("Account created!");
+        navigate("/login");
       }
     });
   };
 
   return (
-    <div className="container text-center mt-4 p-4">
-      <h2 className="display-5">Create Account</h2>
-      <form className="mt-4 mb-4" onSubmit={handleSubmit}>
-        <fieldset>
-          <div className="mb-3 row justify-content-md-center">
-            <label className="col-sm-2 col-form-label">First Name</label>
-            <div className="col-sm-5">
-              <input
-                className="form-control"
-                value={firstName}
-                onChange={(e) => {
-                  setFirstName(e.target.value);
-                }}
-                placeholder="First Name"
-              ></input>
+    <div className="container-fluid vh-100 position-relative">
+      <div className="d-flex flex-column align-items-center p-4 border border-2 border-light-subtle rounded-4 w-25 position-absolute top-50 start-50 translate-middle">
+        <h2 className="display-5">Create Account</h2>
+        <form
+          className="d-flex flex-column mt-4 mb-2 w-75"
+          onSubmit={handleSubmit}
+        >
+          <fieldset className="d-flex flex-column mb-4">
+            <div className="mb-3">
+              <label className="form-label">First Name</label>
+                <input
+                  className="form-control"
+                  value={firstName}
+                  onChange={(e) => {
+                    setFirstName(e.target.value);
+                  }}
+                  placeholder="First Name"
+                ></input>
             </div>
-          </div>
-          <div className="mb-3 row justify-content-md-center">
-            <label className="col-sm-2 col-form-label">Last Name</label>
-            <div className="col-sm-5">
-              <input
-                className="form-control"
-                value={lastName}
-                onChange={(e) => {
-                  setLastName(e.target.value);
-                }}
-                placeholder="Last Name"
-              ></input>
+            <div className="mb-3">
+              <label className="form-label">Last Name</label>
+                <input
+                  className="form-control"
+                  value={lastName}
+                  onChange={(e) => {
+                    setLastName(e.target.value);
+                  }}
+                  placeholder="Last Name"
+                ></input>
+              </div>
+            <div className="mb-3">
+              <label className="form-label">Username</label>
+                <input
+                  className="form-control"
+                  value={username}
+                  onChange={(e) => {
+                    setUsername(e.target.value);
+                  }}
+                  placeholder="Username"
+                ></input>
             </div>
-          </div>
-          <div className="mb-3 row justify-content-md-center">
-            <label className="col-sm-2 col-form-label">Username</label>
-            <div className="col-sm-5">
-              <input
-                className="form-control"
-                value={username}
-                onChange={(e) => {
-                  setUsername(e.target.value);
-                }}
-                placeholder="Username"
-              ></input>
+            <div className="mb-3">
+              <label className="form-label">Password</label>
+                <input
+                  className="form-control"
+                  value={password}
+                  type="password"
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                  placeholder="Password"
+                ></input>
             </div>
-          </div>
-          <div className="mb-3 row justify-content-md-center">
-            <label className="col-sm-2 col-form-label">Password</label>
-            <div className="col-sm-5">
-              <input
-                className="form-control"
-                value={password}
-                type="password"
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-                placeholder="Password"
-              ></input>
+            <div className="mb-3">
+              <label className="form-label">Address</label>
+                <input
+                  className="form-control"
+                  value={address}
+                  onChange={(e) => {
+                    setAddress(e.target.value);
+                  }}
+                  placeholder="Address"
+                ></input>
             </div>
-          </div>
-          <div className="mb-3 row justify-content-md-center">
-            <label className="col-sm-2 col-form-label">Address</label>
-            <div className="col-sm-5">
-              <input
-                className="form-control"
-                value={address}
-                onChange={(e) => {
-                  setAddress(e.target.value);
-                }}
-                placeholder="Address"
-              ></input>
-            </div>
-          </div>
+          </fieldset>
           <button
             className="btn btn-primary btn-lg"
             type="submit"
             disabled={!isValidForm()}
           >
-            Sign In
+            Sign Up
           </button>
-        </fieldset>
-      </form>
+        </form>
+      </div>
     </div>
   );
 };
