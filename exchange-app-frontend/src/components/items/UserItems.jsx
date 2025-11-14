@@ -96,11 +96,11 @@ const UserItems = ({ updateToggle }) => {
           </div>
         ))
       ) : (
-        <p className="lead text-center">Add items you want to trade</p>
+        <p className="lead text-center mt-4">Add items and start to exchange</p>
       )}
       {showSuccessAlert && (
         <div
-          className="alert alert-success position-fixed bottom-0 end-0 p-3 m-3"
+          className="alert alert-success position-fixed bottom-0 start-50 translate-middle-x p-3 m-3"
           role="alert"
           style={{
             zIndex: 1050,

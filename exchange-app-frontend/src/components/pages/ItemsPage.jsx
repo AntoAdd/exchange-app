@@ -12,22 +12,25 @@ const ItemsPage = () => {
 
   return (
     <div className="container-fluid">
-      <h1 className="display-2 text-center">My Items</h1>
-      <UserItems updateToggle={updateToggle} />
-      <div className="row m-4 d-flex justify-content-center">
-        <div
-          className="d-flex justify-content-center"
-        >
+      <div className="d-flex flex-row justify-content-between align-items-end mt-4 me-4 ms-4 mb-2">
+        <h1>My Items</h1>
+        <div>
           <button
             type="button"
             data-bs-toggle="modal"
             data-bs-target="#simpleModal"
-            className="btn btn-primary btn-lg"
+            className="btn btn-primary btn-sm"
           >
-            Add Item
+            <i className="bi bi-plus-lg me-1"></i>
+            Add new item
           </button>
         </div>
       </div>
+      
+      <hr className="mx-4 mb-4" />
+
+      <UserItems updateToggle={updateToggle} />
+
       <Modal title="Add Item" hasAction={false}>
         <AddItemForm statusChangeFun={updateToggleFun} />
       </Modal>
