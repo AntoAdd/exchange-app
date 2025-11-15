@@ -1,27 +1,8 @@
-import { useEffect, useContext } from "react";
-import axios from "axios";
-import { RealTimeContext } from "./contexts/RealTimeContext";
+import { useContext } from "react";
+import { NotificationsContext } from "./contexts/NotificationsContext";
 
 const Notifications = () => {
-  const {notifications, initializeNotifications} = useContext(RealTimeContext);
-
-  useEffect(() => {
-    axios({
-      method: "get",
-      url: "http://localhost:8080/notifications/all",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-      .then((response) => {
-        if (response.status === 200) {
-          console.log("initial notifications fetched: ", response.data);
-          initializeNotifications(response.data);
-        }
-      })
-      .catch((err) => console.log(err));
-      // eslint-disable-next-line
-  }, []);
+  const { notifications } = useContext(NotificationsContext);
 
   return (
     <div className="dropdown">

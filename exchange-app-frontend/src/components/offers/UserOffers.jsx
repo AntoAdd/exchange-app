@@ -5,7 +5,7 @@ import Offer from "../offers/Offer.jsx";
 import Modal from "../Modal.jsx";
 import UserExchangeableItems from "../items/UserExchangeableItems.jsx";
 
-const UserOffers = ({ offers, onOfferPublication, onOfferDeletion }) => {
+const UserOffers = ({ offers }) => {
   const [exchangeableItems, setExchangeableItems] = useState([]);
   const [selectedItemId, setSelectedItemId] = useState(null);
 
@@ -42,14 +42,9 @@ const UserOffers = ({ offers, onOfferPublication, onOfferDeletion }) => {
     })
       .then((response) => {
         if (response.status === 200) {
-          const newOffer = response.data;
-
-          onOfferPublication(newOffer);
-
           setExchangeableItems((prevExchangeableItems) =>
             prevExchangeableItems.filter((item) => item.id !== selectedItemId)
           );
-
           setSelectedItemId(null);
         }
       })
@@ -71,17 +66,18 @@ const UserOffers = ({ offers, onOfferPublication, onOfferDeletion }) => {
         if (response.status === 200) {
           const message = "Offer #" + offerID + " has been removed";
 
-          const offerDeleted = offers.find((offer) => offer.id === offerID);
+          const offerDeleted = response.data;
+
+          console.log("About to send notifications:", offerDeleted.counteroffers);
 
           offerDeleted.counteroffers.forEach((counteroffer) => {
+            console.log("Sending notification to:", counteroffer.publisher)
             sendNotification(counteroffer.publisher, message);
           });
 
           setExchangeableItems((prevExchangeableItems) =>
             prevExchangeableItems.concat(offerDeleted.offerItem)
           );
-
-          onOfferDeletion(offerID);
         }
       })
       .catch((err) => {

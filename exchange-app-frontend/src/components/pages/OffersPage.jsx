@@ -1,12 +1,13 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState, useContext } from "react";
 import Offers from "../offers/Offers";
 import UserOffers from "../offers/UserOffers";
+import { OffersContext } from "../contexts/OffersContext";
 
 const OffersPage = () => {
-  const [offers, setOffers] = useState([]);
+  const { offers } = useContext(OffersContext);
   const [showAll, setShowAll] = useState(true);
 
+  console.log("Offers:", offers);
   const otherUsersOffers = offers.filter(
     (offer) => offer.publisher !== localStorage.getItem("user")
   );
@@ -14,30 +15,6 @@ const OffersPage = () => {
   const userOffers = offers.filter(
     (offer) => offer.publisher === localStorage.getItem("user")
   );
-
-  useEffect(() => {
-    axios({
-      method: "get",
-      url: "http://localhost:8080/offers/all-offers",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-      .then((response) => {
-        setOffers(response.data);
-      })
-      .catch((err) => console.log(err));
-  }, []);
-
-  const handleAddNewOffer = (newOffer) => {
-    setOffers((prevOffers) => [...prevOffers, newOffer]);
-  };
-
-  const handleOfferRemove = (offerID) => {
-    setOffers((prevOffers) =>
-      prevOffers.filter((offer) => offer.id !== offerID)
-    );
-  };
 
   return (
     <>
@@ -76,11 +53,7 @@ const OffersPage = () => {
         {showAll ? (
           <Offers offers={otherUsersOffers} />
         ) : (
-          <UserOffers
-            offers={userOffers}
-            onOfferPublication={handleAddNewOffer}
-            onOfferDeletion={handleOfferRemove}
-          />
+          <UserOffers offers={userOffers} />
         )}
       </div>
     </>

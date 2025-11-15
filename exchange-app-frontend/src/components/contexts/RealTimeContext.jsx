@@ -1,12 +1,16 @@
-import { useState, createContext, useEffect } from "react";
+import { useState, createContext, useEffect, useContext } from "react";
 import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
+import { NotificationsContext } from "./NotificationsContext";
+import { OffersContext } from "./OffersContext";
 
 export const RealTimeContext = createContext();
 
 export const RealTimeProvider = ({ children }) => {
   const [stompClient, setStompClient] = useState(null);
-  const [notifications, setNotifications] = useState([]);
+  const { addNotification } = useContext(NotificationsContext);
+  const { handleAddNewOffer, handleOfferRemove } = useContext(OffersContext);
+
   console.log("real time provider renders");
 
   useEffect(() => {
@@ -30,18 +34,29 @@ export const RealTimeProvider = ({ children }) => {
         (message) => {
           console.log("Received message: ", message.body);
           const notification = JSON.parse(message.body);
-          setNotifications((prevNotifications) => [
-            ...prevNotifications,
-            notification,
-          ]);
+          addNotification(notification);
         }
       );
+
+      client.subscribe("/topic/offers", (message) => {
+        const messageType = message.headers["messageType"];
+
+        if(messageType === "OFFER_PUBLISHED") {
+          const offer = JSON.parse(message.body);
+          handleAddNewOffer(offer);
+        } else {
+          const offerId = JSON.parse(message.body);
+          handleOfferRemove(offerId);
+        }
+      }
+        
+      );
+
       setStompClient(client);
     };
 
     client.onStompError = (frame) => {
-      console.error("Broker reported error: " + frame.headers["message"]);
-      console.error("Additional details: " + frame.body);
+      console.error("STOMP error:", frame);
     };
 
     client.activate();
@@ -51,10 +66,13 @@ export const RealTimeProvider = ({ children }) => {
         client.deactivate();
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const sendNotification = (username, message) => {
+    console.log("enter send Notification");
     if (stompClient && stompClient.connected) {
+      console.log("stomp client connected!!")
       const payload = {
         username: username,
         message: message,
@@ -74,15 +92,8 @@ export const RealTimeProvider = ({ children }) => {
     }
   };
 
-  const initializeNotifications = (initialNotifications) => {
-    setNotifications(initialNotifications);
-    console.log("Initial notifications: ", notifications);
-  };
-
   return (
-    <RealTimeContext.Provider
-      value={{ notifications, initializeNotifications, sendNotification }}
-    >
+    <RealTimeContext.Provider value={{ sendNotification }}>
       {children}
     </RealTimeContext.Provider>
   );
