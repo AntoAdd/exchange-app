@@ -11,7 +11,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker (MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/topic","/user");
+        config.enableSimpleBroker("/topic", "/user");
         config.setApplicationDestinationPrefixes("/exchange-app");
         config.setUserDestinationPrefix("/user");
     }

@@ -42,13 +42,15 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
-    public void removeOffer(Long id) {
+    public Offer removeOffer(Long id) {
         Offer offerToDelete = offerRepository.findById(id).orElseThrow();
         offerToDelete.getCounteroffers().forEach(counteroffer -> {
             counteroffer.getItems().forEach(item -> item.setCounteroffer(null));
             counterofferRepository.delete(counteroffer);
         });
         offerRepository.delete(offerToDelete);
+
+        return offerToDelete;
     }
 
     @Override

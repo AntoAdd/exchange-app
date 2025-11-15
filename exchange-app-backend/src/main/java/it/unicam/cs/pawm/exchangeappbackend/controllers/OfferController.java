@@ -5,9 +5,12 @@ import it.unicam.cs.pawm.exchangeappbackend.entities.Offer;
 import it.unicam.cs.pawm.exchangeappbackend.mappers.OfferMapper;
 import it.unicam.cs.pawm.exchangeappbackend.services.OfferService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.messaging.MessageHeaders;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -16,10 +19,21 @@ import java.util.Optional;
 public class OfferController {
     private final OfferService offerService;
     private final OfferMapper offerMapper;
+    private final SimpMessagingTemplate messagingTemplate;
 
     @PostMapping("/publish")
     public Optional<OfferDTO> publishOffer(@RequestParam(name = "id") Long itemId) {
         Optional<Offer> offerToPublish = offerService.publishOffer(itemId);
+
+        MessageHeaders headers = new MessageHeaders(
+            Map.of("messageType", "OFFER_PUBLISHED")
+        );
+
+        offerToPublish.ifPresent(offer -> {
+            OfferDTO offerDTO = offerMapper.toDTO(offer);
+            messagingTemplate.convertAndSend("/topic/offers", offerDTO, headers);
+        });
+
         return offerToPublish.map(offerMapper::toDTO);
     }
 
@@ -38,8 +52,16 @@ public class OfferController {
     }
 
     @DeleteMapping("/delete")
-    public void deleteOffer(@RequestParam(name = "id") Long id) {
-        offerService.removeOffer(id);
+    public OfferDTO deleteOffer(@RequestParam(name = "id") Long id) {
+        Offer offerDeleted = offerService.removeOffer(id);
+
+        MessageHeaders headers = new MessageHeaders(
+            Map.of("messageType", "OFFER_DELETED")
+        );
+
+        messagingTemplate.convertAndSend("/topic/offers", id, headers);
+
+        return offerMapper.toDTO(offerDeleted);
     }
 
     @DeleteMapping("/decline-counteroffer")

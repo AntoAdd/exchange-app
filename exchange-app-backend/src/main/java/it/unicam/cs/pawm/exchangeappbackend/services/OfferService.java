@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface OfferService {
     Optional<Offer> publishOffer(Long itemId);
-    void removeOffer(Long id);
+    Offer removeOffer(Long id);
 
     /**
      * Declines the counteroffer with the given identifier, that was published for the offer
