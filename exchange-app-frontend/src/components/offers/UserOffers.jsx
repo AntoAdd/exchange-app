@@ -1,5 +1,4 @@
-import { useState, useEffect, useContext } from "react";
-import { RealTimeContext } from "../contexts/RealTimeContext";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import Offer from "../offers/Offer.jsx";
 import Modal from "../Modal.jsx";
@@ -8,8 +7,6 @@ import UserExchangeableItems from "../items/UserExchangeableItems.jsx";
 const UserOffers = ({ offers }) => {
   const [exchangeableItems, setExchangeableItems] = useState([]);
   const [selectedItemId, setSelectedItemId] = useState(null);
-
-  const { sendNotification } = useContext(RealTimeContext);
 
   useEffect(() => {
     axios({
@@ -64,16 +61,7 @@ const UserOffers = ({ offers }) => {
     })
       .then((response) => {
         if (response.status === 200) {
-          const message = "Offer #" + offerID + " has been removed";
-
           const offerDeleted = response.data;
-
-          console.log("About to send notifications:", offerDeleted.counteroffers);
-
-          offerDeleted.counteroffers.forEach((counteroffer) => {
-            console.log("Sending notification to:", counteroffer.publisher)
-            sendNotification(counteroffer.publisher, message);
-          });
 
           setExchangeableItems((prevExchangeableItems) =>
             prevExchangeableItems.concat(offerDeleted.offerItem)

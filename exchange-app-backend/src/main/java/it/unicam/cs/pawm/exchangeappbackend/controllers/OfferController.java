@@ -3,10 +3,13 @@ package it.unicam.cs.pawm.exchangeappbackend.controllers;
 import it.unicam.cs.pawm.exchangeappbackend.dto.CounterofferDTO;
 import it.unicam.cs.pawm.exchangeappbackend.dto.OfferDTO;
 import it.unicam.cs.pawm.exchangeappbackend.entities.Counteroffer;
+import it.unicam.cs.pawm.exchangeappbackend.entities.Notification;
 import it.unicam.cs.pawm.exchangeappbackend.entities.Offer;
 import it.unicam.cs.pawm.exchangeappbackend.mappers.CounterofferMapper;
+import it.unicam.cs.pawm.exchangeappbackend.mappers.NotificationMapper;
 import it.unicam.cs.pawm.exchangeappbackend.mappers.OfferMapper;
 import it.unicam.cs.pawm.exchangeappbackend.services.CounterofferService;
+import it.unicam.cs.pawm.exchangeappbackend.services.NotificationService;
 import it.unicam.cs.pawm.exchangeappbackend.services.OfferService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.MessageHeaders;
@@ -23,6 +26,8 @@ import java.util.Optional;
 public class OfferController {
     private final OfferService offerService;
     private final CounterofferService counterofferService;
+    private final NotificationService notificationService;
+    private final NotificationMapper notificationMapper;
     private final OfferMapper offerMapper;
     private final CounterofferMapper counterofferMapper;
     private final SimpMessagingTemplate messagingTemplate;
@@ -66,6 +71,15 @@ public class OfferController {
         );
 
         messagingTemplate.convertAndSend("/topic/offers", id, headers);
+
+        offerDeleted.getCounteroffers().forEach(counteroffer -> {
+            String username = counteroffer.getPublisher().getUsername();
+            String message = "Offer #" + id + " has been removed";
+
+            Notification notification = notificationService.store(username, message);
+
+            messagingTemplate.convertAndSendToUser(username, "/private", notificationMapper.toNotificationDTO(notification));
+        });
 
         return offerMapper.toDTO(offerDeleted);
     }
