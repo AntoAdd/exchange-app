@@ -105,6 +105,28 @@ public class OfferController {
     @DeleteMapping("/decline-counteroffer")
     public void declineCounteroffer(@RequestParam(name = "offerId") Long offerId,
                                     @RequestParam(name = "counterofferId") Long counterofferId) {
-        offerService.declineCounteroffer(offerId, counterofferId);
+        Counteroffer declinedCounteroffer = offerService.declineCounteroffer(offerId, counterofferId);
+        Optional<Offer> modifiedOffer = offerService.getOffer(offerId);
+
+        MessageHeaders headers = new MessageHeaders(
+            Map.of("messageType", "OFFER_MODIFIED")
+        );
+
+        modifiedOffer.ifPresent(offer -> {
+            System.out.println("Counteroffers:" + offer.getCounteroffers().isEmpty());
+            OfferDTO offerDTO = offerMapper.toDTO(offer);
+            messagingTemplate.convertAndSend("/topic/offers", offerDTO, headers);
+        });
+
+        String username = declinedCounteroffer.getPublisher().getUsername();
+        String message = "Your counteroffer to offer #" + offerId + " has been declined";
+
+        Notification notification = notificationService.store(username, message);
+
+        messagingTemplate.convertAndSendToUser(
+            username,
+            "/private",
+            notificationMapper.toNotificationDTO(notification)
+        );
     }
 }

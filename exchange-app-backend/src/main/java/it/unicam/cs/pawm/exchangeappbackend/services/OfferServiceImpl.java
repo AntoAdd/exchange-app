@@ -54,7 +54,7 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
-    public void declineCounteroffer(Long offerId, Long counterofferId) {
+    public Counteroffer declineCounteroffer(Long offerId, Long counterofferId) {
         Offer offer = offerRepository.findById(offerId).orElseThrow();
 
         Counteroffer counterofferToDecline = offer.getCounteroffers().stream()
@@ -63,7 +63,11 @@ public class OfferServiceImpl implements OfferService {
 
         counterofferToDecline.getItems().forEach(item -> item.setCounteroffer(null));
 
+        offer.getCounteroffers().remove(counterofferToDecline);
+
         counterofferRepository.delete(counterofferToDecline);
+
+        return counterofferToDecline;
     }
 
     @Override

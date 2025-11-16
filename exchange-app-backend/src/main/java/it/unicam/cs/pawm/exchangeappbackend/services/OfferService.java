@@ -1,5 +1,6 @@
 package it.unicam.cs.pawm.exchangeappbackend.services;
 
+import it.unicam.cs.pawm.exchangeappbackend.entities.Counteroffer;
 import it.unicam.cs.pawm.exchangeappbackend.entities.Offer;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public interface OfferService {
      * @param offerId the offer id for which the counteroffer was published.
      * @param counterofferId the id of the counteroffer to be declined.
      */
-    void declineCounteroffer(Long offerId, Long counterofferId);
+    Counteroffer declineCounteroffer(Long offerId, Long counterofferId);
 
     /**
      * Returns all the offers published by the authenticated user.
