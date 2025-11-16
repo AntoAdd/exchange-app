@@ -1,7 +1,7 @@
 import Counteroffer from "./Counteroffer";
 import axios from "axios";
 
-const CounteroffersList = ({ counteroffers, offerId }) => {
+const CounteroffersList = ({ counteroffers, offerId, offerPublisher }) => {
 
   const handleCounterofferDecline = (counterofferId) => {
     axios({
@@ -31,10 +31,11 @@ const CounteroffersList = ({ counteroffers, offerId }) => {
           <Counteroffer
             key={counteroffer.id}
             id={counteroffer.id}
+            offerPublisher={offerPublisher}
             items={counteroffer.items}
             publisher={counteroffer.publisher}
             publicationDate={counteroffer.publicationDate}
-            handleDecline={handleCounterofferDecline}
+            onDecline={handleCounterofferDecline}
           />
         );
       })}

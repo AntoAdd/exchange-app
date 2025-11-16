@@ -1,6 +1,6 @@
 import Offer from "./Offer";
 
-const Offers = ({ offers }) => {
+const Offers = ({ offers, exchangeableItems }) => {
   return (
     <div className="container-fluid">
       <div className="mt-4 me-4 ms-4 mb-2">
@@ -22,6 +22,7 @@ const Offers = ({ offers }) => {
                     item={offer.offerItem}
                     publisher={offer.publisher}
                     publicationDate={offer.publicationDate}
+                    exchangeableItems={exchangeableItems}
                     counteroffers={offer.counteroffers}
                   />
                 </div>

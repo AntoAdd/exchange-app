@@ -3,25 +3,25 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import qs from "qs";
 
-const CounterofferCreationModal = ({ offerId }) => {
+const CounterofferCreationModal = ({ offerId, exchangeableItems }) => {
   const [selectedIDs, setSelectedIDs] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
   const [alertType, setAlertType] = useState("");
-  const [items, setItems] = useState([]);
+  // const [items, setItems] = useState([]);
 
-  useEffect(() => {
-    axios({
-      method: "get",
-      url: "http://localhost:8080/items/user-exchangeable",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-      .then((response) => {
-        setItems(response.data);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+  // useEffect(() => {
+  //   axios({
+  //     method: "get",
+  //     url: "http://localhost:8080/items/user-exchangeable",
+  //     headers: {
+  //       Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //     },
+  //   })
+  //     .then((response) => {
+  //       setItems(response.data);
+  //     })
+  //     .catch((err) => console.log(err));
+  // }, []);
 
   const successAlert = (
     <div className="alert alert-success" role="alert">
@@ -73,13 +73,13 @@ const CounterofferCreationModal = ({ offerId }) => {
         if (response.status === 200) {
           const counterofferPublished = response.data;
 
-          const counterofferItemsIDs = counterofferPublished.items.map(
-            (c) => c.id
-          );
+          // const counterofferItemsIDs = counterofferPublished.items.map(
+          //   (c) => c.id
+          // );
 
-          setItems((prevItems) =>
-            prevItems.filter((i) => !counterofferItemsIDs.includes(i.id))
-          );
+          // setItems((prevItems) =>
+          //   prevItems.filter((i) => !counterofferItemsIDs.includes(i.id))
+          // );
 
           setSelectedIDs([]);
 
@@ -120,7 +120,7 @@ const CounterofferCreationModal = ({ offerId }) => {
             ></button>
           </div>
           <div className="modal-body">
-            <SelectableItems items={items} handleSelection={handleSelection} />
+            <SelectableItems items={exchangeableItems} handleSelection={handleSelection} />
             {showAlert && (alertType === "success" ? successAlert : errorAlert)}
           </div>
           <div className="modal-footer d-flex justify-content-center">

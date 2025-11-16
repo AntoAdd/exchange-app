@@ -1,26 +1,26 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import Offer from "../offers/Offer.jsx";
 import Modal from "../Modal.jsx";
 import UserExchangeableItems from "../items/UserExchangeableItems.jsx";
 
-const UserOffers = ({ offers }) => {
-  const [exchangeableItems, setExchangeableItems] = useState([]);
+const UserOffers = ({ offers, exchangeableItems }) => {
+  // const [exchangeableItems, setExchangeableItems] = useState([]);
   const [selectedItemId, setSelectedItemId] = useState(null);
 
-  useEffect(() => {
-    axios({
-      method: "get",
-      url: "http://localhost:8080/items/user-exchangeable",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-      .then((response) => {
-        setExchangeableItems(response.data);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+  // useEffect(() => {
+  //   axios({
+  //     method: "get",
+  //     url: "http://localhost:8080/items/user-exchangeable",
+  //     headers: {
+  //       Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //     },
+  //   })
+  //     .then((response) => {
+  //       setExchangeableItems(response.data);
+  //     })
+  //     .catch((err) => console.log(err));
+  // }, []);
 
   const handleItemSelection = (id) => {
     setSelectedItemId(id);
@@ -39,9 +39,9 @@ const UserOffers = ({ offers }) => {
     })
       .then((response) => {
         if (response.status === 200) {
-          setExchangeableItems((prevExchangeableItems) =>
-            prevExchangeableItems.filter((item) => item.id !== selectedItemId)
-          );
+          // setExchangeableItems((prevExchangeableItems) =>
+          //   prevExchangeableItems.filter((item) => item.id !== selectedItemId)
+          // );
           setSelectedItemId(null);
         }
       })
@@ -61,11 +61,11 @@ const UserOffers = ({ offers }) => {
     })
       .then((response) => {
         if (response.status === 200) {
-          const offerDeleted = response.data;
+          // const offerDeleted = response.data;
 
-          setExchangeableItems((prevExchangeableItems) =>
-            prevExchangeableItems.concat(offerDeleted.offerItem)
-          );
+          // setExchangeableItems((prevExchangeableItems) =>
+          //   prevExchangeableItems.concat(offerDeleted.offerItem)
+          // );
         }
       })
       .catch((err) => {
@@ -104,6 +104,7 @@ const UserOffers = ({ offers }) => {
                   item={offer.offerItem}
                   publisher={offer.publisher}
                   publicationDate={offer.publicationDate}
+                  exchangeableItems={exchangeableItems}
                   counteroffers={offer.counteroffers}
                   handleDelete={handleOfferDelete}
                 />

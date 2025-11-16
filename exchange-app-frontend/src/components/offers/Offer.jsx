@@ -9,6 +9,7 @@ const Offer = ({
   publisher,
   publicationDate,
   counteroffers = [],
+  exchangeableItems,
   handleDelete = () => {
     return undefined;
   },
@@ -51,10 +52,12 @@ const Offer = ({
         </div>
         <CounteroffersListModal
           offerId={id}
+          offerPublisher={publisher}
           counteroffers={counteroffers}
         />
         <CounterofferCreationModal
           offerId={id}
+          exchangeableItems={exchangeableItems}
         />
       </div>
       <div className="card-footer d-flex justify-content-between align-items-center text-body-secondary">

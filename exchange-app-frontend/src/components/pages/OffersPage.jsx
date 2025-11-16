@@ -1,13 +1,28 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
+import axios from "axios";
 import Offers from "../offers/Offers";
 import UserOffers from "../offers/UserOffers";
 import { OffersContext } from "../contexts/OffersContext";
 
 const OffersPage = () => {
   const { offers } = useContext(OffersContext);
+  const [exchangeableItems, setExchangeableItems] = useState([]);
   const [showAll, setShowAll] = useState(true);
 
-  console.log("Offers:", offers);
+  useEffect(() => {
+    axios({
+      method: "get",
+      url: "http://localhost:8080/items/user-exchangeable",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((response) => {
+        setExchangeableItems(response.data);
+      })
+      .catch((err) => console.log(err));
+  }, [offers]);
+
   const otherUsersOffers = offers.filter(
     (offer) => offer.publisher !== localStorage.getItem("user")
   );
@@ -51,9 +66,9 @@ const OffersPage = () => {
           </label>
         </div>
         {showAll ? (
-          <Offers offers={otherUsersOffers} />
+          <Offers offers={otherUsersOffers} exchangeableItems={exchangeableItems}/>
         ) : (
-          <UserOffers offers={userOffers} />
+          <UserOffers offers={userOffers} exchangeableItems={exchangeableItems} />
         )}
       </div>
     </>

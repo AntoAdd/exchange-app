@@ -1,7 +1,7 @@
 import CounterofferItems from "./CounterofferItems";
 
-const Counteroffer = ({ id, items, publisher, publicationDate, handleDecline }) => {
-  const isUserCounteroffer = publisher === localStorage.getItem("user");
+const Counteroffer = ({ id, offerPublisher, items, publisher, publicationDate, onDecline }) => {
+  const isOfferPublisher = offerPublisher === localStorage.getItem("user");
 
   return (
     <div className="card col-4 p-0 ms-4 mt-2">
@@ -19,14 +19,14 @@ const Counteroffer = ({ id, items, publisher, publicationDate, handleDecline }) 
         <div>
           <button
             className="btn btn-success btn-sm me-2"
-            disabled={isUserCounteroffer}
+            disabled={!isOfferPublisher}
             >
             Accept<i className="bi bi-check2 ms-1"></i>
           </button>
           <button
             className="btn btn-danger btn-sm"
-            disabled={isUserCounteroffer}
-            onClick={() => handleDecline(id)}
+            disabled={!isOfferPublisher}
+            onClick={() => onDecline(id)}
             >
             Decline<i className="bi bi-x-lg ms-1"></i>
           </button>
