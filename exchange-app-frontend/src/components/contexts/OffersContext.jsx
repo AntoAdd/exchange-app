@@ -3,10 +3,10 @@ import axios from "axios";
 
 export const OffersContext = createContext();
 
-export const OffersProvider = ({children}) => {
-    const [offers, setOffers] = useState([]);
+export const OffersProvider = ({ children }) => {
+  const [offers, setOffers] = useState([]);
 
-    useEffect(() => {
+  useEffect(() => {
     axios({
       method: "get",
       url: "http://localhost:8080/offers/all-offers",
@@ -30,9 +30,19 @@ export const OffersProvider = ({children}) => {
     );
   };
 
+  const handleModifyOffer = (modifiedOffer) => {
+    setOffers((prevOffers) =>
+      prevOffers.map((offer) =>
+        offer.id === modifiedOffer.id ? modifiedOffer : offer
+      )
+    );
+  };
+
   return (
-    <OffersContext.Provider value={{offers, handleAddNewOffer, handleOfferRemove}}>
-        {children}
+    <OffersContext.Provider
+      value={{ offers, handleAddNewOffer, handleOfferRemove, handleModifyOffer }}
+    >
+      {children}
     </OffersContext.Provider>
-  )
-}
+  );
+};

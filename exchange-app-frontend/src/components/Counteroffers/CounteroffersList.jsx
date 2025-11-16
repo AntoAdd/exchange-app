@@ -1,7 +1,7 @@
 import Counteroffer from "./Counteroffer";
 import axios from "axios";
 
-const CounteroffersList = ({ counteroffers, offerId, onDecline }) => {
+const CounteroffersList = ({ counteroffers, offerId }) => {
 
   const handleCounterofferDecline = (counterofferId) => {
     axios({
@@ -16,7 +16,6 @@ const CounteroffersList = ({ counteroffers, offerId, onDecline }) => {
       },
     }).then((response) => {
       if (response.status === 200) {
-        onDecline(counterofferId);
         alert("Counteroffer correctly declined.");
       }
     }).catch((err) => {

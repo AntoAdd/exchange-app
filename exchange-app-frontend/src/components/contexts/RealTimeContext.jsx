@@ -9,7 +9,8 @@ export const RealTimeContext = createContext();
 export const RealTimeProvider = ({ children }) => {
   const [stompClient, setStompClient] = useState(null);
   const { addNotification } = useContext(NotificationsContext);
-  const { handleAddNewOffer, handleOfferRemove } = useContext(OffersContext);
+  const { handleAddNewOffer, handleOfferRemove, handleModifyOffer } =
+    useContext(OffersContext);
 
   console.log("real time provider renders");
 
@@ -41,16 +42,23 @@ export const RealTimeProvider = ({ children }) => {
       client.subscribe("/topic/offers", (message) => {
         const messageType = message.headers["messageType"];
 
-        if(messageType === "OFFER_PUBLISHED") {
-          const offer = JSON.parse(message.body);
-          handleAddNewOffer(offer);
-        } else {
-          const offerId = JSON.parse(message.body);
-          handleOfferRemove(offerId);
+        switch (messageType) {
+          case "OFFER_PUBLISHED":
+            const offer = JSON.parse(message.body);
+            handleAddNewOffer(offer);
+            break;
+          case "OFFER_DELETED":
+            const offerId = JSON.parse(message.body);
+            handleOfferRemove(offerId);
+            break;
+          case "OFFER_MODIFIED":
+            const modifiedOffer = JSON.parse(message.body);
+            handleModifyOffer(modifiedOffer);
+            break;
+          default:
+            throw new Error(`"${messageType}" is not a valid message type`);
         }
-      }
-        
-      );
+      });
 
       setStompClient(client);
     };
@@ -72,7 +80,7 @@ export const RealTimeProvider = ({ children }) => {
   const sendNotification = (username, message) => {
     console.log("enter send Notification");
     if (stompClient && stompClient.connected) {
-      console.log("stomp client connected!!")
+      console.log("stomp client connected!!");
       const payload = {
         username: username,
         message: message,

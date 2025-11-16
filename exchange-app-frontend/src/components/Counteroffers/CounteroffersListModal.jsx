@@ -1,6 +1,6 @@
 import CounteroffersList from "./CounteroffersList";
 
-const CounteroffersListModal = ({ offerId, counteroffers, onDecline }) => {
+const CounteroffersListModal = ({ offerId, counteroffers }) => {
   return (
     <div
       className="modal fade"
@@ -29,7 +29,6 @@ const CounteroffersListModal = ({ offerId, counteroffers, onDecline }) => {
               <CounteroffersList
                 offerId={offerId}
                 counteroffers={counteroffers}
-                onDecline={onDecline}
               />
             )}
           </div>

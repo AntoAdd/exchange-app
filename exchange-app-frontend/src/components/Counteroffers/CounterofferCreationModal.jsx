@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import qs from "qs";
 
-const CounterofferCreationModal = ({ offerId, onPublish }) => {
+const CounterofferCreationModal = ({ offerId }) => {
   const [selectedIDs, setSelectedIDs] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
   const [alertType, setAlertType] = useState("");
@@ -57,7 +57,7 @@ const CounterofferCreationModal = ({ offerId, onPublish }) => {
   const handleCounterofferPublish = () => {
     axios({
       method: "post",
-      url: "http://localhost:8080/counteroffers/publish",
+      url: "http://localhost:8080/offers/publish-counteroffer",
       params: {
         id: offerId,
         item_IDs: selectedIDs,
@@ -73,15 +73,19 @@ const CounterofferCreationModal = ({ offerId, onPublish }) => {
         if (response.status === 200) {
           const counterofferPublished = response.data;
 
-          console.log("Counteroffer published:", counterofferPublished);
-          const counterofferItemsIDs = counterofferPublished.items.map(c => c.id);
+          const counterofferItemsIDs = counterofferPublished.items.map(
+            (c) => c.id
+          );
 
-          setItems(prevItems => prevItems.filter(i => !counterofferItemsIDs.includes(i.id)))
+          setItems((prevItems) =>
+            prevItems.filter((i) => !counterofferItemsIDs.includes(i.id))
+          );
+
+          setSelectedIDs([]);
 
           if (counterofferPublished !== null) {
             setShowAlert(true);
             setAlertType("success");
-            onPublish(counterofferPublished);
           } else {
             setShowAlert(true);
             setAlertType("error");
