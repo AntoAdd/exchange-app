@@ -42,17 +42,19 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
-    public void removeOffer(Long id) {
+    public Offer removeOffer(Long id) {
         Offer offerToDelete = offerRepository.findById(id).orElseThrow();
         offerToDelete.getCounteroffers().forEach(counteroffer -> {
             counteroffer.getItems().forEach(item -> item.setCounteroffer(null));
             counterofferRepository.delete(counteroffer);
         });
         offerRepository.delete(offerToDelete);
+
+        return offerToDelete;
     }
 
     @Override
-    public void declineCounteroffer(Long offerId, Long counterofferId) {
+    public Counteroffer declineCounteroffer(Long offerId, Long counterofferId) {
         Offer offer = offerRepository.findById(offerId).orElseThrow();
 
         Counteroffer counterofferToDecline = offer.getCounteroffers().stream()
@@ -61,7 +63,11 @@ public class OfferServiceImpl implements OfferService {
 
         counterofferToDecline.getItems().forEach(item -> item.setCounteroffer(null));
 
+        offer.getCounteroffers().remove(counterofferToDecline);
+
         counterofferRepository.delete(counterofferToDecline);
+
+        return counterofferToDecline;
     }
 
     @Override
@@ -75,5 +81,10 @@ public class OfferServiceImpl implements OfferService {
         List<Offer> allOffers = new ArrayList<>();
         offerRepository.findAll().forEach(allOffers::add);
         return allOffers;
+    }
+
+    @Override
+    public Optional<Offer> getOffer(Long id) {
+        return offerRepository.findById(id);
     }
 }

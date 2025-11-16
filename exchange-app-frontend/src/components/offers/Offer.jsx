@@ -1,7 +1,7 @@
 import Item from "../items/Item";
 import CounteroffersListModal from "../Counteroffers/CounteroffersListModal";
 import CounterofferCreationModal from "../Counteroffers/CounterofferCreationModal";
-import { useState } from "react";
+//import { useState } from "react";
 
 const Offer = ({
   id,
@@ -9,25 +9,11 @@ const Offer = ({
   publisher,
   publicationDate,
   counteroffers = [],
+  exchangeableItems,
   handleDelete = () => {
     return undefined;
   },
 }) => {
-  const [counteroffersList, setCounteroffersList] = useState(counteroffers);
-
-  const onCounterofferPublished = (c) => {
-    setCounteroffersList((prevCounteroffersList) => [
-      ...prevCounteroffersList,
-      c,
-    ]);
-  };
-
-  const onCounterofferDecline = (id) => {
-    setCounteroffersList((prevCounteroffersList) =>
-      prevCounteroffersList.filter((c) => c.id !== id)
-    );
-  };
-
   return (
     <div className="card text-center">
       <div className="card-header">
@@ -66,12 +52,12 @@ const Offer = ({
         </div>
         <CounteroffersListModal
           offerId={id}
-          counteroffers={counteroffersList}
-          onDecline={onCounterofferDecline}
+          offerPublisher={publisher}
+          counteroffers={counteroffers}
         />
         <CounterofferCreationModal
           offerId={id}
-          onPublish={onCounterofferPublished}
+          exchangeableItems={exchangeableItems}
         />
       </div>
       <div className="card-footer d-flex justify-content-between align-items-center text-body-secondary">

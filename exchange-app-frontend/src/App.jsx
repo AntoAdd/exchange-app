@@ -11,24 +11,29 @@ import { useContext } from "react";
 import { AuthContext } from "./components/contexts/AuthContext";
 import { RealTimeProvider } from "./components/contexts/RealTimeContext";
 import LoginForm from "./components/LoginForm";
+import { NotificationsProvider } from "./components/contexts/NotificationsContext";
+import { OffersProvider } from "./components/contexts/OffersContext";
 
 function App() {
   const { isAuthenticated } = useContext(AuthContext);
 
   return (
     <div className="app">
-      
       {isAuthenticated ? (
-        <RealTimeProvider>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Navigate to="/items/get" />} />
-            <Route exact path="/items/add" element={<AddItem />} />
-            <Route exact path="/items/get" element={<ItemsPage />} />
-            <Route exact path="/all-offers" element={<OffersPage />} />
-            <Route path="*" element={<Navigate to="/items/get" />} />
-          </Routes>
-        </RealTimeProvider>
+        <NotificationsProvider>
+          <OffersProvider>
+            <RealTimeProvider>
+              <Navbar />
+              <Routes>
+                <Route path="/" element={<Navigate to="/items/get" />} />
+                <Route exact path="/items/add" element={<AddItem />} />
+                <Route exact path="/items/get" element={<ItemsPage />} />
+                <Route exact path="/all-offers" element={<OffersPage />} />
+                <Route path="*" element={<Navigate to="/items/get" />} />
+              </Routes>
+            </RealTimeProvider>
+          </OffersProvider>
+        </NotificationsProvider>
       ) : (
         <Routes>
           <Route path="/" element={<Navigate to="/login" />} />

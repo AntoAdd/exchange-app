@@ -1,11 +1,27 @@
-import { useState, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import Offers from "../offers/Offers";
 import UserOffers from "../offers/UserOffers";
+import { OffersContext } from "../contexts/OffersContext";
 
 const OffersPage = () => {
-  const [offers, setOffers] = useState([]);
+  const { offers } = useContext(OffersContext);
+  const [exchangeableItems, setExchangeableItems] = useState([]);
   const [showAll, setShowAll] = useState(true);
+
+  useEffect(() => {
+    axios({
+      method: "get",
+      url: "http://localhost:8080/items/user-exchangeable",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((response) => {
+        setExchangeableItems(response.data);
+      })
+      .catch((err) => console.log(err));
+  }, [offers]);
 
   const otherUsersOffers = offers.filter(
     (offer) => offer.publisher !== localStorage.getItem("user")
@@ -14,30 +30,6 @@ const OffersPage = () => {
   const userOffers = offers.filter(
     (offer) => offer.publisher === localStorage.getItem("user")
   );
-
-  useEffect(() => {
-    axios({
-      method: "get",
-      url: "http://localhost:8080/offers/all-offers",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-      .then((response) => {
-        setOffers(response.data);
-      })
-      .catch((err) => console.log(err));
-  }, []);
-
-  const handleAddNewOffer = (newOffer) => {
-    setOffers((prevOffers) => [...prevOffers, newOffer]);
-  };
-
-  const handleOfferRemove = (offerID) => {
-    setOffers((prevOffers) =>
-      prevOffers.filter((offer) => offer.id !== offerID)
-    );
-  };
 
   return (
     <>
@@ -74,13 +66,9 @@ const OffersPage = () => {
           </label>
         </div>
         {showAll ? (
-          <Offers offers={otherUsersOffers} />
+          <Offers offers={otherUsersOffers} exchangeableItems={exchangeableItems}/>
         ) : (
-          <UserOffers
-            offers={userOffers}
-            onOfferPublication={handleAddNewOffer}
-            onOfferDeletion={handleOfferRemove}
-          />
+          <UserOffers offers={userOffers} exchangeableItems={exchangeableItems} />
         )}
       </div>
     </>

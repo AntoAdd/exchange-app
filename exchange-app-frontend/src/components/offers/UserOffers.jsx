@@ -1,29 +1,26 @@
-import { useState, useEffect, useContext } from "react";
-import { RealTimeContext } from "../contexts/RealTimeContext";
+import { useState } from "react";
 import axios from "axios";
 import Offer from "../offers/Offer.jsx";
 import Modal from "../Modal.jsx";
 import UserExchangeableItems from "../items/UserExchangeableItems.jsx";
 
-const UserOffers = ({ offers, onOfferPublication, onOfferDeletion }) => {
-  const [exchangeableItems, setExchangeableItems] = useState([]);
+const UserOffers = ({ offers, exchangeableItems }) => {
+  // const [exchangeableItems, setExchangeableItems] = useState([]);
   const [selectedItemId, setSelectedItemId] = useState(null);
 
-  const { sendNotification } = useContext(RealTimeContext);
-
-  useEffect(() => {
-    axios({
-      method: "get",
-      url: "http://localhost:8080/items/user-exchangeable",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-      .then((response) => {
-        setExchangeableItems(response.data);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+  // useEffect(() => {
+  //   axios({
+  //     method: "get",
+  //     url: "http://localhost:8080/items/user-exchangeable",
+  //     headers: {
+  //       Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //     },
+  //   })
+  //     .then((response) => {
+  //       setExchangeableItems(response.data);
+  //     })
+  //     .catch((err) => console.log(err));
+  // }, []);
 
   const handleItemSelection = (id) => {
     setSelectedItemId(id);
@@ -42,14 +39,9 @@ const UserOffers = ({ offers, onOfferPublication, onOfferDeletion }) => {
     })
       .then((response) => {
         if (response.status === 200) {
-          const newOffer = response.data;
-
-          onOfferPublication(newOffer);
-
-          setExchangeableItems((prevExchangeableItems) =>
-            prevExchangeableItems.filter((item) => item.id !== selectedItemId)
-          );
-
+          // setExchangeableItems((prevExchangeableItems) =>
+          //   prevExchangeableItems.filter((item) => item.id !== selectedItemId)
+          // );
           setSelectedItemId(null);
         }
       })
@@ -69,19 +61,11 @@ const UserOffers = ({ offers, onOfferPublication, onOfferDeletion }) => {
     })
       .then((response) => {
         if (response.status === 200) {
-          const message = "Offer #" + offerID + " has been removed";
+          // const offerDeleted = response.data;
 
-          const offerDeleted = offers.find((offer) => offer.id === offerID);
-
-          offerDeleted.counteroffers.forEach((counteroffer) => {
-            sendNotification(counteroffer.publisher, message);
-          });
-
-          setExchangeableItems((prevExchangeableItems) =>
-            prevExchangeableItems.concat(offerDeleted.offerItem)
-          );
-
-          onOfferDeletion(offerID);
+          // setExchangeableItems((prevExchangeableItems) =>
+          //   prevExchangeableItems.concat(offerDeleted.offerItem)
+          // );
         }
       })
       .catch((err) => {
@@ -120,6 +104,7 @@ const UserOffers = ({ offers, onOfferPublication, onOfferDeletion }) => {
                   item={offer.offerItem}
                   publisher={offer.publisher}
                   publicationDate={offer.publicationDate}
+                  exchangeableItems={exchangeableItems}
                   counteroffers={offer.counteroffers}
                   handleDelete={handleOfferDelete}
                 />
