@@ -78,4 +78,9 @@ public class OfferServiceImpl implements OfferService {
         offerRepository.findAll().forEach(allOffers::add);
         return allOffers;
     }
+
+    @Override
+    public Optional<Offer> getOffer(Long id) {
+        return offerRepository.findById(id);
+    }
 }

@@ -31,4 +31,13 @@ public interface OfferService {
      * @return all the published offers that are not published by the authenticated user.
      */
     List<Offer> getOffers();
+
+    /**
+     * Returns the offer with the given id. If no offer exists for the given id, an
+     * <code>Optional.empty</code> object is returned.
+     *
+     * @param id the given id.
+     * @return the offer corresponding to the given id, or <code>Optional.empty</code>.
+     */
+    Optional<Offer> getOffer(Long id);
 }
