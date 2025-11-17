@@ -105,7 +105,7 @@ public class OfferController {
     @DeleteMapping("/decline-counteroffer")
     public void declineCounteroffer(@RequestParam(name = "offerId") Long offerId,
                                     @RequestParam(name = "counterofferId") Long counterofferId) {
-        Counteroffer declinedCounteroffer = offerService.declineCounteroffer(offerId, counterofferId);
+        Counteroffer declinedCounteroffer = offerService.deleteCounteroffer(offerId, counterofferId);
         Optional<Offer> modifiedOffer = offerService.getOffer(offerId);
 
         MessageHeaders headers = new MessageHeaders(
@@ -113,7 +113,6 @@ public class OfferController {
         );
 
         modifiedOffer.ifPresent(offer -> {
-            System.out.println("Counteroffers:" + offer.getCounteroffers().isEmpty());
             OfferDTO offerDTO = offerMapper.toDTO(offer);
             messagingTemplate.convertAndSend("/topic/offers", offerDTO, headers);
         });
@@ -128,5 +127,32 @@ public class OfferController {
             "/private",
             notificationMapper.toNotificationDTO(notification)
         );
+    }
+
+    @DeleteMapping("/delete-counteroffer")
+    public void deleteCounteroffer(@RequestParam(name = "offerId") Long offerId,
+                                   @RequestParam(name = "counterofferId") Long counterofferId) {
+        Counteroffer deletedCounteroffer = offerService.deleteCounteroffer(offerId, counterofferId);
+        Optional<Offer> modifiedOffer = offerService.getOffer(offerId);
+
+        MessageHeaders headers = new MessageHeaders(
+            Map.of("messageType", "OFFER_MODIFIED")
+        );
+
+        modifiedOffer.ifPresent(offer -> {
+            OfferDTO offerDTO = offerMapper.toDTO(offer);
+            messagingTemplate.convertAndSend("/topic/offers", offerDTO, headers);
+
+            String username = offer.getPublisher().getUsername();
+            String message = deletedCounteroffer.getPublisher().getUsername() + " removed counteroffer for your offer (#" + offerId + ")";
+
+            Notification notification = notificationService.store(username, message);
+
+            messagingTemplate.convertAndSendToUser(
+                username,
+                "/private",
+                notificationMapper.toNotificationDTO(notification)
+            );
+        });
     }
 }

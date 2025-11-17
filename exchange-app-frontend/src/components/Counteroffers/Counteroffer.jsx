@@ -1,7 +1,16 @@
 import CounterofferItems from "./CounterofferItems";
 
-const Counteroffer = ({ id, offerPublisher, items, publisher, publicationDate, onDecline }) => {
+const Counteroffer = ({
+  id,
+  offerPublisher,
+  items,
+  publisher,
+  publicationDate,
+  onDecline,
+  onDelete
+}) => {
   const isOfferPublisher = offerPublisher === localStorage.getItem("user");
+  const isCounterofferPublisher = publisher === localStorage.getItem("user");
 
   return (
     <div className="card col-4 p-0 ms-4 mt-2">
@@ -16,21 +25,23 @@ const Counteroffer = ({ id, offerPublisher, items, publisher, publicationDate, o
         <span>
           <i className="bi bi-calendar-date me-1"></i> {publicationDate}
         </span>
-        <div>
-          <button
-            className="btn btn-success btn-sm me-2"
-            disabled={!isOfferPublisher}
+        {isOfferPublisher ? (
+          <div>
+            <button
+              className="btn btn-success btn-sm me-2"
             >
-            Accept<i className="bi bi-check2 ms-1"></i>
-          </button>
-          <button
-            className="btn btn-danger btn-sm"
-            disabled={!isOfferPublisher}
-            onClick={() => onDecline(id)}
+              Accept<i className="bi bi-check2 ms-1"></i>
+            </button>
+            <button
+              className="btn btn-danger btn-sm"
+              onClick={() => onDecline(id)}
             >
-            Decline<i className="bi bi-x-lg ms-1"></i>
-          </button>
-        </div>
+              Decline<i className="bi bi-x-lg ms-1"></i>
+            </button>
+          </div>
+        ) : isCounterofferPublisher ? (
+          <button className="btn btn-danger btn-sm" onClick={() => onDelete(id)}>Delete</button>
+        ) : null}
       </div>
     </div>
   );

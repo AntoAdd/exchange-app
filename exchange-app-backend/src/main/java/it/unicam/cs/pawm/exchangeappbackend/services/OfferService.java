@@ -8,16 +8,17 @@ import java.util.Optional;
 
 public interface OfferService {
     Optional<Offer> publishOffer(Long itemId);
+
     Offer removeOffer(Long id);
 
     /**
-     * Declines the counteroffer with the given identifier, that was published for the offer
-     * specified by the offer id.
+     * Deletes the counteroffer with the given identifier.
      *
      * @param offerId the offer id for which the counteroffer was published.
-     * @param counterofferId the id of the counteroffer to be declined.
+     * @param counterofferId the id of the counteroffer to be deleted.
+     * @return the deleted counteroffer.
      */
-    Counteroffer declineCounteroffer(Long offerId, Long counterofferId);
+    Counteroffer deleteCounteroffer(Long offerId, Long counterofferId);
 
     /**
      * Returns all the offers published by the authenticated user.

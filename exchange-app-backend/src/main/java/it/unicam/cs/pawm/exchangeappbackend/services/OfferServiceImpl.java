@@ -54,20 +54,20 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
-    public Counteroffer declineCounteroffer(Long offerId, Long counterofferId) {
+    public Counteroffer deleteCounteroffer(Long offerId, Long counterofferId) {
         Offer offer = offerRepository.findById(offerId).orElseThrow();
 
-        Counteroffer counterofferToDecline = offer.getCounteroffers().stream()
-                .filter(counteroffer -> counteroffer.getId().equals(counterofferId))
-                    .findFirst().orElseThrow();
+        Counteroffer counterofferToDelete = offer.getCounteroffers().stream()
+            .filter(counteroffer -> counteroffer.getId().equals(counterofferId))
+            .findFirst().orElseThrow();
 
-        counterofferToDecline.getItems().forEach(item -> item.setCounteroffer(null));
+        counterofferToDelete.getItems().forEach(item -> item.setCounteroffer(null));
 
-        offer.getCounteroffers().remove(counterofferToDecline);
+        offer.getCounteroffers().remove(counterofferToDelete);
 
-        counterofferRepository.delete(counterofferToDecline);
+        counterofferRepository.delete(counterofferToDelete);
 
-        return counterofferToDecline;
+        return counterofferToDelete;
     }
 
     @Override
