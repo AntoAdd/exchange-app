@@ -38,6 +38,11 @@ public class CounterofferServiceImpl implements CounterofferService{
         return Optional.empty();
     }
 
+    @Override
+    public Optional<Counteroffer> getCounteroffer(Long counterofferId) {
+        return counterofferRepository.findById(counterofferId);
+    }
+
     private boolean validateCounteroffer(Long offerId, List<Counteroffer> publisherCounteroffers) {
         if (!publisherCounteroffers.isEmpty())
             return validateForOffer(offerId, publisherCounteroffers);

@@ -21,6 +21,13 @@ public interface OfferService {
     Counteroffer deleteCounteroffer(Long offerId, Long counterofferId);
 
     /**
+     * Accepts the counteroffer identified by the given id.
+     *
+     * @param counterofferId the id of the counteroffer to accept.
+     * @return the accepted counteroffer.
+     */
+    Counteroffer acceptCounteroffer(Long counterofferId);
+    /**
      * Returns all the offers published by the authenticated user.
      *
      * @return all the offers published by the authenticated user.

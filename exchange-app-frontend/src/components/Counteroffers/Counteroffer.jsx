@@ -7,7 +7,8 @@ const Counteroffer = ({
   publisher,
   publicationDate,
   onDecline,
-  onDelete
+  onDelete,
+  onAccept,
 }) => {
   const isOfferPublisher = offerPublisher === localStorage.getItem("user");
   const isCounterofferPublisher = publisher === localStorage.getItem("user");
@@ -29,6 +30,8 @@ const Counteroffer = ({
           <div>
             <button
               className="btn btn-success btn-sm me-2"
+              data-bs-dismiss="modal"
+              onClick={() => onAccept(id)}
             >
               Accept<i className="bi bi-check2 ms-1"></i>
             </button>
@@ -40,7 +43,12 @@ const Counteroffer = ({
             </button>
           </div>
         ) : isCounterofferPublisher ? (
-          <button className="btn btn-danger btn-sm" onClick={() => onDelete(id)}>Delete</button>
+          <button
+            className="btn btn-danger btn-sm"
+            onClick={() => onDelete(id)}
+          >
+            Delete
+          </button>
         ) : null}
       </div>
     </div>
