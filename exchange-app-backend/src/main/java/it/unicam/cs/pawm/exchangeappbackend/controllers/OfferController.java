@@ -1,6 +1,7 @@
 package it.unicam.cs.pawm.exchangeappbackend.controllers;
 
 import it.unicam.cs.pawm.exchangeappbackend.dto.CounterofferDTO;
+import it.unicam.cs.pawm.exchangeappbackend.dto.NotificationDTO;
 import it.unicam.cs.pawm.exchangeappbackend.dto.OfferDTO;
 import it.unicam.cs.pawm.exchangeappbackend.entities.Counteroffer;
 import it.unicam.cs.pawm.exchangeappbackend.entities.Notification;
@@ -154,5 +155,53 @@ public class OfferController {
                 notificationMapper.toNotificationDTO(notification)
             );
         });
+    }
+
+    @PostMapping("/accept-counteroffer")
+    public void acceptCounteroffer(@RequestParam(name = "offerId") Long offerId,
+                                   @RequestParam(name = "counterofferId") Long counterofferId) {
+        Optional<Offer> offer = offerService.getOffer(offerId);
+
+        Offer offerToBeClosed = offer.orElseThrow();
+
+        List<String> usernamesToNotify = offerToBeClosed.getCounteroffers().stream()
+            .filter(c -> !c.getId().equals(counterofferId))
+            .map(c -> c.getPublisher().getUsername())
+            .toList();
+
+        Counteroffer counteroffer = offerService.acceptCounteroffer(counterofferId);
+        Offer closedOffer = counteroffer.getOffer();
+
+        System.out.println("Counteroffer state: " + counteroffer.getState());
+        System.out.println("Offer state: " + closedOffer.getState());
+        System.out.println("Username to notify: " + counteroffer.getPublisher().getUsername());
+
+        MessageHeaders headers = new MessageHeaders(
+            Map.of("messageType", "OFFER_MODIFIED")
+        );
+
+        OfferDTO closedOfferDTO = offerMapper.toDTO(closedOffer);
+        messagingTemplate.convertAndSend("/topic/offers", closedOfferDTO, headers);
+
+        String message = "Offer #" + offerId + " was closed: your counteroffer was not accepted";
+
+        usernamesToNotify.forEach(
+            username -> {
+                Notification declineNotification = notificationService.store(username, message);
+                NotificationDTO notificationDTO = notificationMapper.toNotificationDTO(declineNotification);
+                messagingTemplate.convertAndSendToUser(username, "/private", notificationDTO);
+            }
+        );
+
+        Notification acceptNotification = notificationService.store(
+            counteroffer.getPublisher().getUsername(),
+            "Your counteroffer for offer #" + offerId + " was accepted"
+        );
+
+        messagingTemplate.convertAndSendToUser(
+            counteroffer.getPublisher().getUsername(),
+            "/private",
+            notificationMapper.toNotificationDTO(acceptNotification)
+        );
     }
 }

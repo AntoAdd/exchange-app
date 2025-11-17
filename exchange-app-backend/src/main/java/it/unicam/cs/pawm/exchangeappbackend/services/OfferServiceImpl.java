@@ -71,16 +71,46 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
+    public Counteroffer acceptCounteroffer(Long counterofferId) {
+        Counteroffer counteroffer = counterofferRepository.findById(counterofferId).orElseThrow(() -> new IllegalArgumentException("No offer found for the given id: " + counterofferId));
+        Offer offer = counteroffer.getOffer();
+
+        List<Counteroffer> refusedCounteroffers = offer.getCounteroffers().stream()
+            .filter(c -> !c.getId().equals(counterofferId))
+            .toList();
+
+        refusedCounteroffers
+            .forEach(c -> c.getItems().forEach(i -> i.setCounteroffer(null)));
+
+
+        refusedCounteroffers.forEach(counterofferRepository::delete);
+        offer.getCounteroffers().removeAll(refusedCounteroffers);
+
+        counteroffer.setState("Accepted");
+        offer.setState("Closed");
+
+        counterofferRepository.save(counteroffer);
+        offerRepository.save(offer);
+
+        return counteroffer;
+    }
+
+    @Override
     public List<Offer> getUserOffers() {
         User auth = authService.getAuthenticatedUser();
-        return offerRepository.findByPublisher(auth);
+        return offerRepository.findByPublisher(auth).stream()
+            .filter(offer -> offer.getState().equals("Published"))
+            .toList();
     }
 
     @Override
     public List<Offer> getOffers() {
         List<Offer> allOffers = new ArrayList<>();
         offerRepository.findAll().forEach(allOffers::add);
-        return allOffers;
+
+        return allOffers.stream()
+            .filter(offer -> offer.getState().equals("Published"))
+            .toList();
     }
 
     @Override

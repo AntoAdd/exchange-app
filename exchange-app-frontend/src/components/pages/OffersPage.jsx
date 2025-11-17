@@ -10,6 +10,7 @@ const OffersPage = () => {
   const [showAll, setShowAll] = useState(true);
 
   useEffect(() => {
+    console.log("offers update:", offers.length);
     axios({
       method: "get",
       url: "http://localhost:8080/items/user-exchangeable",
@@ -24,11 +25,11 @@ const OffersPage = () => {
   }, [offers]);
 
   const otherUsersOffers = offers.filter(
-    (offer) => offer.publisher !== localStorage.getItem("user")
+    (offer) => offer.publisher !== localStorage.getItem("user") && offer.state === "Published"
   );
 
   const userOffers = offers.filter(
-    (offer) => offer.publisher === localStorage.getItem("user")
+    (offer) => offer.publisher === localStorage.getItem("user") && offer.state === "Published"
   );
 
   return (

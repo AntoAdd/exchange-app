@@ -16,4 +16,13 @@ public interface CounterofferService {
      *         is returned.
      */
     Optional<Counteroffer> publishCounteroffer(Long offerId, List<Long> itemIDs);
+
+    /**
+     * Gets, if exists, the counteroffer with the given id.
+     *
+     * @param counterofferId the counteroffer id.
+     * @return the counteroffer with the given id, or <code>Optional.empty</code>
+     * if it not exists.
+     */
+    Optional<Counteroffer> getCounteroffer(Long counterofferId);
 }
