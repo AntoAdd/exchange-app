@@ -3,15 +3,19 @@ package it.unicam.cs.pawm.exchangeappbackend.controllers;
 import it.unicam.cs.pawm.exchangeappbackend.dto.CounterofferDTO;
 import it.unicam.cs.pawm.exchangeappbackend.dto.NotificationDTO;
 import it.unicam.cs.pawm.exchangeappbackend.dto.OfferDTO;
+import it.unicam.cs.pawm.exchangeappbackend.dto.TradeDTO;
 import it.unicam.cs.pawm.exchangeappbackend.entities.Counteroffer;
 import it.unicam.cs.pawm.exchangeappbackend.entities.Notification;
 import it.unicam.cs.pawm.exchangeappbackend.entities.Offer;
+import it.unicam.cs.pawm.exchangeappbackend.entities.Trade;
 import it.unicam.cs.pawm.exchangeappbackend.mappers.CounterofferMapper;
 import it.unicam.cs.pawm.exchangeappbackend.mappers.NotificationMapper;
 import it.unicam.cs.pawm.exchangeappbackend.mappers.OfferMapper;
+import it.unicam.cs.pawm.exchangeappbackend.mappers.TradeMapper;
 import it.unicam.cs.pawm.exchangeappbackend.services.CounterofferService;
 import it.unicam.cs.pawm.exchangeappbackend.services.NotificationService;
 import it.unicam.cs.pawm.exchangeappbackend.services.OfferService;
+import it.unicam.cs.pawm.exchangeappbackend.services.TradeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -28,6 +32,8 @@ public class OfferController {
     private final OfferService offerService;
     private final CounterofferService counterofferService;
     private final NotificationService notificationService;
+    private final TradeService tradeService;
+    private final TradeMapper tradeMapper;
     private final NotificationMapper notificationMapper;
     private final OfferMapper offerMapper;
     private final CounterofferMapper counterofferMapper;
@@ -172,10 +178,6 @@ public class OfferController {
         Counteroffer counteroffer = offerService.acceptCounteroffer(counterofferId);
         Offer closedOffer = counteroffer.getOffer();
 
-        System.out.println("Counteroffer state: " + counteroffer.getState());
-        System.out.println("Offer state: " + closedOffer.getState());
-        System.out.println("Username to notify: " + counteroffer.getPublisher().getUsername());
-
         MessageHeaders headers = new MessageHeaders(
             Map.of("messageType", "OFFER_MODIFIED")
         );
@@ -202,6 +204,21 @@ public class OfferController {
             counteroffer.getPublisher().getUsername(),
             "/private",
             notificationMapper.toNotificationDTO(acceptNotification)
+        );
+
+        Trade closedTrade = tradeService.storeTrade(closedOffer, counteroffer);
+        TradeDTO tradeDTO = tradeMapper.toDTO(closedTrade);
+
+        messagingTemplate.convertAndSendToUser(
+            counteroffer.getPublisher().getUsername(),
+            "/trades",
+            tradeDTO
+        );
+
+        messagingTemplate.convertAndSendToUser(
+            closedOffer.getPublisher().getUsername(),
+            "/trades",
+            tradeDTO
         );
     }
 }

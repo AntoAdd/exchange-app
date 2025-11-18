@@ -13,6 +13,8 @@ import { RealTimeProvider } from "./components/contexts/RealTimeContext";
 import LoginForm from "./components/LoginForm";
 import { NotificationsProvider } from "./components/contexts/NotificationsContext";
 import { OffersProvider } from "./components/contexts/OffersContext";
+import { TradesProvider } from "./components/contexts/TradesContext";
+import TradesPage from "./components/pages/TradesPage";
 
 function App() {
   const { isAuthenticated } = useContext(AuthContext);
@@ -22,16 +24,19 @@ function App() {
       {isAuthenticated ? (
         <NotificationsProvider>
           <OffersProvider>
-            <RealTimeProvider>
-              <Navbar />
-              <Routes>
-                <Route path="/" element={<Navigate to="/items/get" />} />
-                <Route exact path="/items/add" element={<AddItem />} />
-                <Route exact path="/items/get" element={<ItemsPage />} />
-                <Route exact path="/all-offers" element={<OffersPage />} />
-                <Route path="*" element={<Navigate to="/items/get" />} />
-              </Routes>
-            </RealTimeProvider>
+            <TradesProvider>
+              <RealTimeProvider>
+                <Navbar />
+                <Routes>
+                  <Route path="/" element={<Navigate to="/items/get" />} />
+                  <Route exact path="/items/add" element={<AddItem />} />
+                  <Route exact path="/items/get" element={<ItemsPage />} />
+                  <Route exact path="/all-offers" element={<OffersPage />} />
+                  <Route exact path="/trades" element={<TradesPage />} />
+                  <Route path="*" element={<Navigate to="/items/get" />} />
+                </Routes>
+              </RealTimeProvider>
+            </TradesProvider>
           </OffersProvider>
         </NotificationsProvider>
       ) : (

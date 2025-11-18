@@ -3,6 +3,7 @@ import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 import { NotificationsContext } from "./NotificationsContext";
 import { OffersContext } from "./OffersContext";
+import { TradesContext } from "./TradesContext";
 
 export const RealTimeContext = createContext();
 
@@ -11,6 +12,7 @@ export const RealTimeProvider = ({ children }) => {
   const { addNotification } = useContext(NotificationsContext);
   const { handleAddNewOffer, handleOfferRemove, handleModifyOffer } =
     useContext(OffersContext);
+  const { handleNewTrade } = useContext(TradesContext);
 
   console.log("real time provider renders");
 
@@ -32,11 +34,12 @@ export const RealTimeProvider = ({ children }) => {
 
       client.subscribe(
         "/user/" + localStorage.getItem("user") + "/private",
-        (message) => {
-          console.log("Received message: ", message.body);
-          const notification = JSON.parse(message.body);
-          addNotification(notification);
-        }
+        (message) => addNotification(JSON.parse(message.body))
+      );
+
+      client.subscribe(
+        "/user/" + localStorage.getItem("user") + "/trades",
+        (message) => handleNewTrade(JSON.parse(message.body))
       );
 
       client.subscribe("/topic/offers", (message) => {

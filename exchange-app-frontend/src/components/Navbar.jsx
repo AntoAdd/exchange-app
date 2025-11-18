@@ -51,7 +51,7 @@ const Navbar = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link className="dropdown-item" to="/my-trades">
+                  <Link className="dropdown-item" to="/trades">
                     Trades
                   </Link>
                 </li>
