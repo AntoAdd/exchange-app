@@ -2,17 +2,30 @@ import { useContext } from "react";
 import { NotificationsContext } from "./contexts/NotificationsContext";
 
 const Notifications = () => {
-  const { notifications, clearNotifications } =
+  const { notifications, showNotReadBadge, clearNotifications, handleRead } =
     useContext(NotificationsContext);
 
   return (
     <div className="dropdown">
       <button
         className="btn btn-light dropdown-toggle"
+        onClick={() => handleRead()}
         data-bs-toggle="dropdown"
         aria-expanded="false"
       >
-        <i className="bi bi-bell-fill"></i>
+        <i className="bi bi-bell-fill fs-5 position-relative">
+          {showNotReadBadge && (<span
+            className="position-absolute bg-danger border border-light rounded-circle"
+            style={{
+              width: "12px", // your custom badge size
+              height: "12px",
+              top: "-2px", // adjust vertical position
+              left: "12px", // adjust horizontal position
+            }}
+          >
+            <span className="visually-hidden">New alerts</span>
+          </span>)}
+        </i>
       </button>
       <ul
         className="dropdown-menu dropdown-menu-end overflow-auto"
@@ -40,7 +53,10 @@ const Notifications = () => {
               key={notification.id}
               className="px-3 py-2 d-flex align-items-start gap-3"
             >
-              <i className="bi bi-circle-fill text-primary" style={{ fontSize: "12px" }}></i>
+              <i
+                className="bi bi-circle-fill text-primary"
+                style={{ fontSize: "12px" }}
+              ></i>
               <span className="flex-grow-1">{notification.message}</span>
             </li>
           ))

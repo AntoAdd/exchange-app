@@ -5,6 +5,7 @@ export const NotificationsContext = createContext();
 
 export const NotificationsProvider = ({ children }) => {
   const [notifications, setNotifications] = useState([]);
+  const [showNotReadBadge, setShowNotReadBadge] = useState(false);
 
   useEffect(() => {
     axios({
@@ -28,6 +29,7 @@ export const NotificationsProvider = ({ children }) => {
       ...prevNotifications,
       notification,
     ]);
+    setShowNotReadBadge(true);
   };
 
   const clearNotifications = () => {
@@ -44,9 +46,17 @@ export const NotificationsProvider = ({ children }) => {
       .catch((err) => console.log(err));
   };
 
+  const handleRead = () => setShowNotReadBadge(false);
+
   return (
     <NotificationsContext.Provider
-      value={{ notifications, addNotification, clearNotifications }}
+      value={{
+        notifications,
+        showNotReadBadge,
+        addNotification,
+        clearNotifications,
+        handleRead,
+      }}
     >
       {children}
     </NotificationsContext.Provider>

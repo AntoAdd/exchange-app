@@ -44,7 +44,9 @@ const Navbar = () => {
                 My exchange
               </a>
               <ul className="dropdown-menu dropdown-menu-end">
-                <li className="dropdown-header">{localStorage.getItem("user")}'s account</li>
+                <li className="dropdown-header">
+                  {localStorage.getItem("user")}'s account
+                </li>
                 <li>
                   <Link className="dropdown-item" to="/items/get">
                     Items
@@ -63,6 +65,7 @@ const Navbar = () => {
                     onClick={() => handleLogout()}
                     className="dropdown-item"
                   >
+                    <i class="bi bi-box-arrow-right fw-semibold me-2"></i>
                     Sign out
                   </button>
                 </li>
