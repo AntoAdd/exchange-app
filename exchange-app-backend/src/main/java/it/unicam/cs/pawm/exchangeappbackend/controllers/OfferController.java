@@ -85,7 +85,7 @@ public class OfferController {
 
             Notification notification = notificationService.store(username, message);
 
-            messagingTemplate.convertAndSendToUser(username, "/private", notificationMapper.toNotificationDTO(notification));
+            messagingTemplate.convertAndSendToUser(username, "/private", notificationMapper.toDTO(notification));
         });
 
         return offerMapper.toDTO(offerDeleted);
@@ -94,7 +94,8 @@ public class OfferController {
     @PostMapping(value = "/publish-counteroffer")
     public CounterofferDTO publishCounteroffer(@RequestParam(name = "id") Long offerId,
                                                @RequestParam(name = "item_IDs") List<Long> itemIDs) {
-        Optional<Counteroffer> publishedCounteroffer = counterofferService.publishCounteroffer(offerId, itemIDs);
+        Optional<Counteroffer> counteroffer = counterofferService.publishCounteroffer(offerId, itemIDs);
+        Counteroffer publishedCounteroffer = counteroffer.orElseThrow();
 
         MessageHeaders headers = new MessageHeaders(
             Map.of("messageType", "OFFER_MODIFIED")
@@ -103,10 +104,21 @@ public class OfferController {
         offerService.getOffer(offerId).ifPresent(offer -> {
             OfferDTO offerDTO = offerMapper.toDTO(offer);
 
+            String offerPublisher = offer.getPublisher().getUsername();
+            String counterofferPublisher = publishedCounteroffer.getPublisher().getUsername();
+            String message = counterofferPublisher + " published counteroffer for your offer (#" + offerId + ")";
+
+            Notification notification = notificationService.store(offerPublisher, message);
+
             messagingTemplate.convertAndSend("/topic/offers", offerDTO, headers);
+            messagingTemplate.convertAndSendToUser(
+                offerPublisher,
+                "/private",
+                notificationMapper.toDTO(notification)
+            );
         });
 
-        return publishedCounteroffer.map(counterofferMapper::toDTO).orElse(null);
+        return counterofferMapper.toDTO(publishedCounteroffer);
     }
 
     @DeleteMapping("/decline-counteroffer")
@@ -132,7 +144,7 @@ public class OfferController {
         messagingTemplate.convertAndSendToUser(
             username,
             "/private",
-            notificationMapper.toNotificationDTO(notification)
+            notificationMapper.toDTO(notification)
         );
     }
 
@@ -158,7 +170,7 @@ public class OfferController {
             messagingTemplate.convertAndSendToUser(
                 username,
                 "/private",
-                notificationMapper.toNotificationDTO(notification)
+                notificationMapper.toDTO(notification)
             );
         });
     }
@@ -190,7 +202,7 @@ public class OfferController {
         usernamesToNotify.forEach(
             username -> {
                 Notification declineNotification = notificationService.store(username, message);
-                NotificationDTO notificationDTO = notificationMapper.toNotificationDTO(declineNotification);
+                NotificationDTO notificationDTO = notificationMapper.toDTO(declineNotification);
                 messagingTemplate.convertAndSendToUser(username, "/private", notificationDTO);
             }
         );
@@ -203,7 +215,7 @@ public class OfferController {
         messagingTemplate.convertAndSendToUser(
             counteroffer.getPublisher().getUsername(),
             "/private",
-            notificationMapper.toNotificationDTO(acceptNotification)
+            notificationMapper.toDTO(acceptNotification)
         );
 
         Trade closedTrade = tradeService.storeTrade(closedOffer, counteroffer);

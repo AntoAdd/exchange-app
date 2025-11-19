@@ -36,7 +36,7 @@ public class NotificationServiceImpl implements NotificationService{
 
     @Override
     public void deleteAllNotifications(User user) {
-
+        notificationRepository.deleteAll(notificationRepository.findByUser(user));
     }
 
     @Override

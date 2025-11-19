@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class NotificationMapper {
-    public NotificationDTO toNotificationDTO(Notification notification) {
+    public NotificationDTO toDTO(Notification notification) {
         return new NotificationDTO(notification.getId(), notification.getMessage());
     }
 }
