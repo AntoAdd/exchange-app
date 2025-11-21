@@ -81,10 +81,10 @@ const UserItems = ({ updateToggle }) => {
   };
 
   return (
-    <div className="row justify-content-start m-4">
+    <div className="row justify-content-start px-4 gy-4">
       {items.length > 0 ? (
         items.map((item) => (
-          <div key={item.id} className="col-3 m-4">
+          <div key={item.id} className="col-md-6 col-xl-3">
             <Item
               id={item.id}
               name={item.name}

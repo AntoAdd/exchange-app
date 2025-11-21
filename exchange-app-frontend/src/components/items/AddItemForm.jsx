@@ -74,61 +74,68 @@ const AddItemForm = ({ statusChangeFun }) => {
   };
 
   return (
-    <div className="container text-center p-4">
-      <form className="mt-4 mb-4" onSubmit={handleSubmit}>
-        <fieldset className="mb-4">
-          <div className="mb-3 row justify-content-md-center">
-            <label className="col-sm-2 col-form-label me-2">Name</label>
-            <div className="col-sm-6">
-              <input
-                className="form-control"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Item name"
-              ></input>
-            </div>
+    <div className="d-flex flex-column align-items-center">
+      <form
+        className="d-flex flex-column w-75 mt-4 mb-4"
+        onSubmit={handleSubmit}
+      >
+        <fieldset className="d-flex flex-column mb-3">
+          <div className="mb-3">
+            <label htmlFor="name-input" className="form-label">
+              Name
+            </label>
+            <input
+              id="name-input"
+              className="form-control"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Item name"
+            />
           </div>
-          <div className="mb-3 row justify-content-md-center">
-            <label className="col-sm-2 col-form-label me-2">Description</label>
-            <div className="col-sm-6">
-              <input
-                className="form-control"
-                type="textarea"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="Item description"
-              ></input>
-            </div>
+          <div className="mb-3">
+            <label htmlFor="description-input" className="form-label">
+              Description
+            </label>
+            <input
+              id="description-input"
+              className="form-control"
+              type="textarea"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Item description"
+            />
           </div>
-          <div className="mb-3 row justify-content-md-center">
-            <label className="col-sm-2 col-form-label me-2">Category</label>
-            <div className="col-sm-6">
-              <select
-                className="form-control"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                placeholder="Select a category..."
-              >
-                {categories.map((category) => (
-                  <option key={category}>{category}</option>
-                ))}
-              </select>
-            </div>
+          <div className="mb-3">
+            <label htmlFor="category-select" className="form-label">
+              Category
+            </label>
+            <select
+              id="category-select"
+              className="form-control"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              placeholder="Select a category..."
+            >
+              {categories.map((category) => (
+                <option key={category}>{category}</option>
+              ))}
+            </select>
           </div>
-          <div className="mb-3 row justify-content-md-center">
-            <label className="col-sm-2 col-form-label me-2">Images</label>
-            <div className="col-sm-6">
-              <input
-                ref={filesInputRef}
-                className="form-control"
-                type="file"
-                onChange={(e) => {
-                  setImages(e.target.files);
-                }}
-                placeholder="Item images"
-                multiple
-              ></input>
-            </div>
+          <div className="mb-3">
+            <label htmlFor="images-input" className="form-label">
+              Images
+            </label>
+            <input
+              id="images-input"
+              ref={filesInputRef}
+              className="form-control"
+              type="file"
+              onChange={(e) => {
+                setImages(e.target.files);
+              }}
+              placeholder="Item images"
+              multiple
+            />
           </div>
         </fieldset>
         <button

@@ -54,79 +54,83 @@ const RegistrationForm = () => {
   };
 
   return (
-    <div className="container-fluid vh-100 position-relative">
-      <div className="d-flex flex-column align-items-center p-4 border border-2 border-light-subtle rounded-4 w-25 position-absolute top-50 start-50 translate-middle">
-        <h2 className="display-5">Create Account</h2>
-        <form
-          className="d-flex flex-column mt-4 mb-2 w-75"
-          onSubmit={handleSubmit}
-        >
-          <fieldset className="d-flex flex-column mb-3">
-            <div className="mb-3">
-              <label className="form-label">First Name</label>
-                <input
-                  className="form-control"
-                  value={firstName}
-                  onChange={(e) => {
-                    setFirstName(e.target.value);
-                  }}
-                  placeholder="First Name"
-                ></input>
-            </div>
-            <div className="mb-3">
-              <label className="form-label">Last Name</label>
-                <input
-                  className="form-control"
-                  value={lastName}
-                  onChange={(e) => {
-                    setLastName(e.target.value);
-                  }}
-                  placeholder="Last Name"
-                ></input>
-              </div>
-            <div className="mb-3">
-              <label className="form-label">Username</label>
-                <input
-                  className="form-control"
-                  value={username}
-                  onChange={(e) => {
-                    setUsername(e.target.value);
-                  }}
-                  placeholder="Username"
-                ></input>
-            </div>
-            <div className="mb-3">
-              <label className="form-label">Password</label>
-                <input
-                  className="form-control"
-                  value={password}
-                  type="password"
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                  }}
-                  placeholder="Password"
-                ></input>
-            </div>
-            <div className="mb-3">
-              <label className="form-label">Address</label>
-                <input
-                  className="form-control"
-                  value={address}
-                  onChange={(e) => {
-                    setAddress(e.target.value);
-                  }}
-                  placeholder="Address"
-                ></input>
-            </div>
-          </fieldset>
-          <button
-            className="btn btn-primary btn-lg"
-            type="submit"
-            disabled={!isValidForm()}
-          >
-            Sign Up
-          </button>
-        </form>
+    <div className="container-fluid vh-100">
+      <div className="row h-100 justify-content-center align-items-center">
+        <div className="col-10 col-md-6 col-xxl-4">
+          <div className="d-flex flex-column align-items-center p-4 border border-2 border-light-subtle rounded-4">
+            <h2 className="display-5 text-center mb-4">Create Account</h2>
+            <form
+              className="d-flex flex-column mt-4 mb-2 w-75"
+              onSubmit={handleSubmit}
+            >
+              <fieldset className="d-flex flex-column mb-3">
+                <div className="mb-3">
+                  <label className="form-label">First Name</label>
+                  <input
+                    className="form-control"
+                    value={firstName}
+                    onChange={(e) => {
+                      setFirstName(e.target.value);
+                    }}
+                    placeholder="First Name"
+                  ></input>
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Last Name</label>
+                  <input
+                    className="form-control"
+                    value={lastName}
+                    onChange={(e) => {
+                      setLastName(e.target.value);
+                    }}
+                    placeholder="Last Name"
+                  ></input>
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Username</label>
+                  <input
+                    className="form-control"
+                    value={username}
+                    onChange={(e) => {
+                      setUsername(e.target.value);
+                    }}
+                    placeholder="Username"
+                  ></input>
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Password</label>
+                  <input
+                    className="form-control"
+                    value={password}
+                    type="password"
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                    }}
+                    placeholder="Password"
+                  ></input>
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Address</label>
+                  <input
+                    className="form-control"
+                    value={address}
+                    onChange={(e) => {
+                      setAddress(e.target.value);
+                    }}
+                    placeholder="Address"
+                  ></input>
+                </div>
+              </fieldset>
+              <button
+                className="btn btn-primary btn-lg"
+                type="submit"
+                disabled={!isValidForm()}
+              >
+                Sign Up
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   );

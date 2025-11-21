@@ -1,5 +1,4 @@
 import ItemImages from "./ItemImages";
-import React from "react";
 
 const Item = ({
   id,
@@ -18,7 +17,7 @@ const Item = ({
   },
 }) => {
   let className =
-    "card position-relative border border-light-subtle rounded shadow";
+    "card w-100 h-100 position-relative border border-light-subtle rounded shadow";
   const selectedBedge = (
     <span
       className="z-1 position-absolute top-0 start-100 translate-middle p-2 bg-primary border border-light rounded-circle d-flex justify-content-center align-items-center"

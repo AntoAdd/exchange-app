@@ -14,22 +14,28 @@ const Notifications = () => {
         aria-expanded="false"
       >
         <i className="bi bi-bell-fill fs-5 position-relative">
-          {showNotReadBadge && (<span
-            className="position-absolute bg-danger border border-light rounded-circle"
-            style={{
-              width: "12px", // your custom badge size
-              height: "12px",
-              top: "-2px", // adjust vertical position
-              left: "12px", // adjust horizontal position
-            }}
-          >
-            <span className="visually-hidden">New alerts</span>
-          </span>)}
+          {showNotReadBadge && (
+            <span
+              className="position-absolute bg-danger border border-light rounded-circle"
+              style={{
+                width: "12px", // your custom badge size
+                height: "12px",
+                top: "-2px", // adjust vertical position
+                left: "12px", // adjust horizontal position
+              }}
+            >
+              <span className="visually-hidden">New alerts</span>
+            </span>
+          )}
         </i>
       </button>
       <ul
-        className="dropdown-menu dropdown-menu-end overflow-auto"
-        style={{ minWidth: "300px", maxHeight: "400px" }}
+        className="dropdown-menu dropdown-menu-end position-absolute overflow-auto"
+        style={{
+          width: "min(300px, 60vw)",
+          maxHeight: "400px",
+          right: "0",
+        }}
       >
         <div className="d-flex justify-content-between align-items-center">
           <span className="ps-3 fs-6 fw-medium">Notifications</span>
