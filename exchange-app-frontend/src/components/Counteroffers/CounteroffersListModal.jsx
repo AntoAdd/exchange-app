@@ -1,10 +1,15 @@
 import CounteroffersList from "./CounteroffersList";
 
-const CounteroffersListModal = ({ offerId, offerPublisher, counteroffers }) => {
+const CounteroffersListModal = ({
+  modalId,
+  offerId,
+  offerPublisher,
+  counteroffers,
+}) => {
   return (
     <div
       className="modal fade"
-      id="counteroffersModal"
+      id={modalId}
       tabIndex="-1"
       aria-labelledby="exampleModalLabel"
       aria-modal="true"
@@ -24,7 +29,13 @@ const CounteroffersListModal = ({ offerId, offerPublisher, counteroffers }) => {
           </div>
           <div className="modal-body">
             {counteroffers.length === 0 ? (
-              <p className="lead">No counteroffers made yet.</p>
+              <div className="text-center py-5">
+                <i
+                  className="bi bi-inbox text-muted"
+                  style={{ fontSize: "3rem" }}
+                ></i>
+                <p className="text-muted mt-3 mb-0">No counteroffers yet</p>
+              </div>
             ) : (
               <CounteroffersList
                 offerId={offerId}

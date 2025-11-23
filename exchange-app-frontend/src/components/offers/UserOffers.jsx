@@ -5,22 +5,7 @@ import Modal from "../Modal.jsx";
 import UserExchangeableItems from "../items/UserExchangeableItems.jsx";
 
 const UserOffers = ({ offers, exchangeableItems }) => {
-  // const [exchangeableItems, setExchangeableItems] = useState([]);
   const [selectedItemId, setSelectedItemId] = useState(null);
-
-  // useEffect(() => {
-  //   axios({
-  //     method: "get",
-  //     url: "http://localhost:8080/items/user-exchangeable",
-  //     headers: {
-  //       Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //     },
-  //   })
-  //     .then((response) => {
-  //       setExchangeableItems(response.data);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }, []);
 
   const handleItemSelection = (id) => {
     setSelectedItemId(id);
@@ -39,9 +24,6 @@ const UserOffers = ({ offers, exchangeableItems }) => {
     })
       .then((response) => {
         if (response.status === 200) {
-          // setExchangeableItems((prevExchangeableItems) =>
-          //   prevExchangeableItems.filter((item) => item.id !== selectedItemId)
-          // );
           setSelectedItemId(null);
         }
       })
@@ -61,11 +43,6 @@ const UserOffers = ({ offers, exchangeableItems }) => {
     })
       .then((response) => {
         if (response.status === 200) {
-          // const offerDeleted = response.data;
-
-          // setExchangeableItems((prevExchangeableItems) =>
-          //   prevExchangeableItems.concat(offerDeleted.offerItem)
-          // );
         }
       })
       .catch((err) => {
@@ -76,21 +53,26 @@ const UserOffers = ({ offers, exchangeableItems }) => {
 
   return (
     <div className="container-fluid">
-      <div className="d-flex flex-row justify-content-between align-items-end mt-4 me-4 ms-4 mb-2">
-        <h1>My Offers</h1>
-        <div>
-          <button
-            type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#simpleModal"
-            className="btn btn-primary btn-sm"
-          >
-            Publish offer
-          </button>
+      <div
+        className="position-sticky bg-white"
+        style={{ zIndex: 999 }}
+      >
+        <div className="d-flex flex-row justify-content-between align-items-end mt-4 me-4 ms-4 mb-2 ">
+          <h1 className="mb-0">My Offers</h1>
+          <div>
+            <button
+              type="button"
+              data-bs-toggle="modal"
+              data-bs-target="#simpleModal"
+              className="btn btn-primary btn-sm"
+            >
+              Publish offer
+            </button>
+          </div>
         </div>
+        <hr className="mx-4 mb-4" />
       </div>
-      <hr className="mx-4 mb-4" />
-      <div className="row m-4">
+      <div className="row m-4 gy-4">
         {offers.length === 0 ? (
           <div className="col d-flex justify-content-center">
             <p className="lead">You have no offers published yet!</p>
@@ -98,7 +80,10 @@ const UserOffers = ({ offers, exchangeableItems }) => {
         ) : (
           offers.map((offer) => {
             return (
-              <div key={offer.id} className="col-3 m-4">
+              <div
+                key={offer.id}
+                className="col-md-8 offset-md-2 offset-lg-0 col-lg-6 col-xl-4 col-xxl-3"
+              >
                 <Offer
                   id={offer.id}
                   item={offer.offerItem}

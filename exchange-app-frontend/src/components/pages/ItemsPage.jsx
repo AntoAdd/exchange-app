@@ -12,7 +12,7 @@ const ItemsPage = () => {
 
   return (
     <div className="container-fluid">
-      <div className="d-flex flex-row justify-content-between align-items-end mt-4 me-4 ms-4 mb-2">
+      <div className="d-flex flex-row justify-content-between align-items-end mt-4 me-4 ms-4 mb-2" style={{paddingTop: "80px"}}>
         <h1>My Items</h1>
         <div>
           <button
@@ -26,7 +26,6 @@ const ItemsPage = () => {
           </button>
         </div>
       </div>
-      
       <hr className="mx-4 mb-4" />
 
       <UserItems updateToggle={updateToggle} />

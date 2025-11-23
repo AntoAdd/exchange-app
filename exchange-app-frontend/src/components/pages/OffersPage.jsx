@@ -25,16 +25,20 @@ const OffersPage = () => {
   }, [offers]);
 
   const otherUsersOffers = offers.filter(
-    (offer) => offer.publisher !== localStorage.getItem("user") && offer.state === "Published"
+    (offer) =>
+      offer.publisher !== localStorage.getItem("user") &&
+      offer.state === "Published"
   );
 
   const userOffers = offers.filter(
-    (offer) => offer.publisher === localStorage.getItem("user") && offer.state === "Published"
+    (offer) =>
+      offer.publisher === localStorage.getItem("user") &&
+      offer.state === "Published"
   );
 
   return (
     <>
-      <div className="d-flex flex-column align-items-center m-4">
+      <div className="d-flex flex-column align-items-center m-4" style={{paddingTop: "80px"}}>
         <div
           className="btn-group m-4"
           role="group"
@@ -67,9 +71,15 @@ const OffersPage = () => {
           </label>
         </div>
         {showAll ? (
-          <Offers offers={otherUsersOffers} exchangeableItems={exchangeableItems}/>
+          <Offers
+            offers={otherUsersOffers}
+            exchangeableItems={exchangeableItems}
+          />
         ) : (
-          <UserOffers offers={userOffers} exchangeableItems={exchangeableItems} />
+          <UserOffers
+            offers={userOffers}
+            exchangeableItems={exchangeableItems}
+          />
         )}
       </div>
     </>

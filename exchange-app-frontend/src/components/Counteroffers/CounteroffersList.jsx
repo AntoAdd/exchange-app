@@ -36,10 +36,11 @@ const CounteroffersList = ({ counteroffers, offerId, offerPublisher }) => {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
-    }).then(response => {
-      console.log("Then executing.");
     })
-    .catch((err) => {
+      .then((response) => {
+        console.log("Then executing.");
+      })
+      .catch((err) => {
         console.log(err);
         alert("Error acceptiong counteroffer.");
       });
@@ -72,17 +73,18 @@ const CounteroffersList = ({ counteroffers, offerId, offerPublisher }) => {
     <div className="row justify-content-start">
       {counteroffers.map((counteroffer) => {
         return (
-          <Counteroffer
-            key={counteroffer.id}
-            id={counteroffer.id}
-            offerPublisher={offerPublisher}
-            items={counteroffer.items}
-            publisher={counteroffer.publisher}
-            publicationDate={counteroffer.publicationDate}
-            onDecline={handleCounterofferDecline}
-            onDelete={handleCounterofferDelete}
-            onAccept={handleCounterofferAccept}
-          />
+          <div key={counteroffer.id} className="col-lg-6 col-xl-4">
+            <Counteroffer
+              id={counteroffer.id}
+              offerPublisher={offerPublisher}
+              items={counteroffer.items}
+              publisher={counteroffer.publisher}
+              publicationDate={counteroffer.publicationDate}
+              onDecline={handleCounterofferDecline}
+              onDelete={handleCounterofferDelete}
+              onAccept={handleCounterofferAccept}
+            />
+          </div>
         );
       })}
     </div>

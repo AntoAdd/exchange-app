@@ -1,7 +1,6 @@
 import Item from "../items/Item";
 import CounteroffersListModal from "../Counteroffers/CounteroffersListModal";
 import CounterofferCreationModal from "../Counteroffers/CounterofferCreationModal";
-//import { useState } from "react";
 
 const Offer = ({
   id,
@@ -14,63 +13,94 @@ const Offer = ({
     return undefined;
   },
 }) => {
-  return (
-    <div className="card text-center">
-      <div className="card-header">
-        <h1 className="display-6">Offer #{id}</h1>
-        <small className="text-body-secondary">Published by {publisher}</small>
-      </div>
+  const isOwner = publisher === localStorage.getItem("user");
 
-      <div className="card-body">
+  return (
+    <div className="card h-100 shadow border-0">
+      <div className="card-body p-0">
         <Item
           id={item.id}
           name={item.name}
           description={item.description}
           category={item.category}
           images={item.images}
-          isExchangeable={false}
-        />
-        <h5 className="m-3">Counteroffers</h5>
-        <div className="btn-group" role="group">
-          <button
-            type="button"
-            className="btn btn-info"
-            data-bs-toggle="modal"
-            data-bs-target="#counteroffersModal"
-          >
-            View
-          </button>
-          <button
-            type="button"
-            className="btn btn-primary"
-            data-bs-toggle="modal"
-            data-bs-target="#createModal"
-            disabled={publisher === localStorage.getItem("user")}
-          >
-            Make
-          </button>
-        </div>
-        <CounteroffersListModal
-          offerId={id}
-          offerPublisher={publisher}
-          counteroffers={counteroffers}
-        />
-        <CounterofferCreationModal
-          offerId={id}
-          exchangeableItems={exchangeableItems}
+          isDeletable={false}
+          isCardTop={true}
         />
       </div>
-      <div className="card-footer d-flex justify-content-between align-items-center text-body-secondary">
-        <span>
-          <i className="bi bi-calendar-date me-1"></i> {publicationDate}
-        </span>
-        {publisher === localStorage.getItem("user") && (
-          <button onClick={() => handleDelete(id)} className="btn btn-danger">
-            Delete
-            <i className="bi bi-trash3 ms-2"></i>
-          </button>
+
+      <div className="card-footer bg-light p-3 border-top d-flex flex-column gap-2 rounded-bottom">
+        <div className="d-flex justify-content-between align-items-start text-secondary">
+          <small className="fw-bold mb-1">Offer #{id}</small>
+          <div className="d-flex flex-column gap-2">
+            <small>
+              <i className="bi bi-person-fill me-1"></i>
+              {publisher}
+            </small>
+            <small>
+              <i className="bi bi-calendar-date me-1"></i>
+              {publicationDate}
+            </small>
+          </div>
+        </div>
+
+        <hr className="my-1" />
+
+        <div className="d-flex flex-column flex-sm-row justify-content-between align-items-sm-start align-items-center gap-2 pt-2">
+          <div className="d-flex align-items-center flex-shrink-0">
+            <i className="bi bi-arrow-left-right me-2 fs-5 text-primary"></i>
+            <span className="me-2 text-primary fw-bold">
+              {counteroffers.length}
+            </span>
+            <span className="text-muted text-nowrap">
+              Counteroffer{counteroffers.length !== 1 ? "s" : ""}
+            </span>
+          </div>
+
+          <div className="btn-group" role="group">
+            <button
+              type="button"
+              className="btn btn-sm btn-outline-info"
+              data-bs-toggle="modal"
+              data-bs-target={`#counteroffersModal-${id}`}
+            >
+              <i className="bi bi-eye me-1"></i> View
+            </button>
+            <button
+              type="button"
+              className="btn btn-sm btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target={`#createModal-${id}`}
+              disabled={isOwner}
+            >
+              <i className="bi bi-plus-circle me-1"></i> Make
+            </button>
+          </div>
+        </div>
+
+        {isOwner && (
+          <div className="d-grid mt-2">
+            <button
+              onClick={() => handleDelete(id)}
+              className="btn btn-sm btn-outline-danger"
+            >
+              <i className="bi bi-trash3 me-2"></i> Delete Offer
+            </button>
+          </div>
         )}
       </div>
+
+      <CounteroffersListModal
+        offerId={id}
+        offerPublisher={publisher}
+        counteroffers={counteroffers}
+        modalId={`counteroffersModal-${id}`}
+      />
+      <CounterofferCreationModal
+        offerId={id}
+        exchangeableItems={exchangeableItems}
+        modalId={`createModal-${id}`}
+      />
     </div>
   );
 };

@@ -15,7 +15,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary">
+    <nav className="navbar navbar-expand-lg bg-body-tertiary position-fixed top-0 start-0 end-0" style={{zIndex: 1000}}>
       <div className="container-fluid">
         <Link className="navbar-brand" to="/all-offers">
           Exchange App
@@ -34,7 +34,7 @@ const Navbar = () => {
         </button>
 
         <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav flex-row align-items-start w-100 justify-content-between gap-3">
+          <ul className="navbar-nav flex-row align-items-center justify-content-between w-100 gap-3">
             <li className="nav-item">
               <Link className="nav-link active" to="/all-offers">
                 Offers

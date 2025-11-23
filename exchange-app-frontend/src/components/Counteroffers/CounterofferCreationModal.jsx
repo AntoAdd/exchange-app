@@ -3,25 +3,10 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import qs from "qs";
 
-const CounterofferCreationModal = ({ offerId, exchangeableItems }) => {
+const CounterofferCreationModal = ({ modalId, offerId, exchangeableItems }) => {
   const [selectedIDs, setSelectedIDs] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
   const [alertType, setAlertType] = useState("");
-  // const [items, setItems] = useState([]);
-
-  // useEffect(() => {
-  //   axios({
-  //     method: "get",
-  //     url: "http://localhost:8080/items/user-exchangeable",
-  //     headers: {
-  //       Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //     },
-  //   })
-  //     .then((response) => {
-  //       setItems(response.data);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }, []);
 
   const successAlert = (
     <div className="alert alert-success" role="alert">
@@ -47,11 +32,11 @@ const CounterofferCreationModal = ({ offerId, exchangeableItems }) => {
   const handleSelection = (e, id) => {
     e.stopPropagation();
 
-    const newSelectedIDs = e.target.checked
-      ? [...selectedIDs, id]
-      : selectedIDs.filter((selectedId) => selectedId !== id);
-
-    setSelectedIDs(newSelectedIDs);
+    setSelectedIDs(prev => 
+      prev.includes(id) 
+        ? prev.filter(itemId => itemId !== id)
+        : [...prev, id]
+    );
   };
 
   const handleCounterofferPublish = () => {
@@ -73,14 +58,6 @@ const CounterofferCreationModal = ({ offerId, exchangeableItems }) => {
         if (response.status === 200) {
           const counterofferPublished = response.data;
 
-          // const counterofferItemsIDs = counterofferPublished.items.map(
-          //   (c) => c.id
-          // );
-
-          // setItems((prevItems) =>
-          //   prevItems.filter((i) => !counterofferItemsIDs.includes(i.id))
-          // );
-
           setSelectedIDs([]);
 
           if (counterofferPublished !== null) {
@@ -101,7 +78,7 @@ const CounterofferCreationModal = ({ offerId, exchangeableItems }) => {
   return (
     <div
       className="modal fade"
-      id="createModal"
+      id={modalId}
       tabIndex="-1"
       aria-labelledby="exampleModalLabel"
       aria-modal="true"
@@ -120,7 +97,7 @@ const CounterofferCreationModal = ({ offerId, exchangeableItems }) => {
             ></button>
           </div>
           <div className="modal-body">
-            <SelectableItems items={exchangeableItems} handleSelection={handleSelection} />
+            <SelectableItems items={exchangeableItems} selectedItemIds={selectedIDs} handleSelection={handleSelection} />
             {showAlert && (alertType === "success" ? successAlert : errorAlert)}
           </div>
           <div className="modal-footer d-flex justify-content-center">

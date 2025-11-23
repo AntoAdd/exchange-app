@@ -13,7 +13,7 @@ const UserExchangeableItems = ({ items, onItemSelection, selectedItemId }) => {
 
   return (
     <div
-      className="row justify-content-start m-2"
+      className="row gy-4"
       onClick={() => handleItemDeselection()}
     >
       {items.length > 0 ? (
@@ -21,7 +21,7 @@ const UserExchangeableItems = ({ items, onItemSelection, selectedItemId }) => {
           return (
             <div
               key={item.id}
-              className="col-6 mb-3 d-flex align-items-stretch"
+              className="col-lg-6"
             >
               <Item
                 id={item.id}
@@ -30,6 +30,7 @@ const UserExchangeableItems = ({ items, onItemSelection, selectedItemId }) => {
                 category={item.category}
                 images={item.images}
                 isSelectable={true}
+                isDeletable={false}
                 selectedId={selectedItemId}
                 handleSelection={handleItemSelection}
               />
