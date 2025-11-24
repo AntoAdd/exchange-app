@@ -7,7 +7,7 @@ const SelectableItem = ({
   category,
   images,
   handleSelection,
-  isSelected = false
+  isSelected = false,
 }) => {
   const className = isSelected
     ? "card w-100 h-100 position-relative border border-primary-subtle rounded shadow"

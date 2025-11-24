@@ -5,6 +5,8 @@ import { NotificationsContext } from "./NotificationsContext";
 import { OffersContext } from "./OffersContext";
 import { TradesContext } from "./TradesContext";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 export const RealTimeContext = createContext();
 
 export const RealTimeProvider = ({ children }) => {
@@ -20,7 +22,7 @@ export const RealTimeProvider = ({ children }) => {
     console.log("user effect called inside RealTimeProvider");
 
     const client = new Client({
-      webSocketFactory: () => new SockJS("http://localhost:8080/ws"),
+      webSocketFactory: () => new SockJS(`${API_URL}/ws`),
       debug: (str) => {
         console.log(str);
       },

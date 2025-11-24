@@ -1,6 +1,8 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 export const TradesContext = createContext();
 
 export const TradesProvider = ({ children }) => {
@@ -9,7 +11,7 @@ export const TradesProvider = ({ children }) => {
   useEffect(() => {
     axios({
       method: "get",
-      url: "http://localhost:8080/trades/user-trades",
+      url: `${API_URL}/trades/user-trades`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -27,7 +29,7 @@ export const TradesProvider = ({ children }) => {
   const handleTradesClear = () => {
     axios({
       method: "get",
-      url: "http://localhost:8080/trades/clear-history",
+      url: `${API_URL}/trades/clear-history`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },

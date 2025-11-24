@@ -1,6 +1,8 @@
 import { useRef, useState } from "react";
 import axios from "axios";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const AddItemForm = ({ statusChangeFun }) => {
   const [status, setStatus] = useState("compilation");
 
@@ -53,7 +55,7 @@ const AddItemForm = ({ statusChangeFun }) => {
 
     axios({
       method: "post",
-      url: "http://localhost:8080/items/add",
+      url: `${API_URL}/items/add`,
       data: formData,
       headers: {
         "Content-Type": "multipart/form-data",

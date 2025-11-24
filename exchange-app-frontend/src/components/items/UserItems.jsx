@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import Item from "./Item";
 import axios from "axios";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const UserItems = ({ updateToggle }) => {
   const [items, setItems] = useState([]);
 
@@ -14,7 +16,7 @@ const UserItems = ({ updateToggle }) => {
   useEffect(() => {
     axios({
       method: "get",
-      url: "http://localhost:8080/items/user-items",
+      url: `${API_URL}/items/user-items`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -25,7 +27,6 @@ const UserItems = ({ updateToggle }) => {
       .catch((err) => console.log(err));
   }, [updateToggle]);
 
-  // Cleanup function for the timers
   useEffect(() => {
     return () => {
       if (successAlertTimeoutId) {
@@ -43,7 +44,7 @@ const UserItems = ({ updateToggle }) => {
 
     axios({
       method: "delete",
-      url: "http://localhost:8080/items/delete",
+      url: `${API_URL}/items/delete`,
       params: {
         id: id,
       },
@@ -58,11 +59,11 @@ const UserItems = ({ updateToggle }) => {
           setShowSuccessAlert(true);
           if (successAlertTimeoutId) {
             clearTimeout(successAlertTimeoutId);
-          } // Clear previous success timeout
+          }
           const newSuccessTimeout = setTimeout(() => {
             setShowSuccessAlert(false);
             setSuccessAlertTimeoutId(null);
-          }, 3000); // 3 seconds for success
+          }, 3000);
           setSuccessAlertTimeoutId(newSuccessTimeout);
         }
       })
@@ -70,12 +71,11 @@ const UserItems = ({ updateToggle }) => {
         console.log(err);
         setShowErrorAlert(true);
 
-        // 3. Clear previous error timeout and set a new one
         if (errorAlertTimeoutId) clearTimeout(errorAlertTimeoutId);
         const newErrorTimeout = setTimeout(() => {
           setShowErrorAlert(false);
           setErrorAlertTimeoutId(null);
-        }, 5000); // 5 seconds for error (maybe longer than success)
+        }, 5000);
         setErrorAlertTimeoutId(newErrorTimeout);
       });
   };
@@ -113,7 +113,7 @@ const UserItems = ({ updateToggle }) => {
       )}
       {showErrorAlert && (
         <div
-          className="alert alert-danger position-fixed bottom-0 end-0 p-3 m-3" // Use alert-danger for errors
+          className="alert alert-danger position-fixed bottom-0 end-0 p-3 m-3"
           role="alert"
           style={{
             zIndex: 1050,

@@ -4,6 +4,8 @@ import Offer from "../offers/Offer.jsx";
 import Modal from "../Modal.jsx";
 import UserExchangeableItems from "../items/UserExchangeableItems.jsx";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const UserOffers = ({ offers, exchangeableItems }) => {
   const [selectedItemId, setSelectedItemId] = useState(null);
 
@@ -14,7 +16,7 @@ const UserOffers = ({ offers, exchangeableItems }) => {
   const handleOfferPublication = (itemId) => {
     axios({
       method: "post",
-      url: "http://localhost:8080/offers/publish",
+      url: `${API_URL}/offers/publish`,
       params: {
         id: itemId,
       },
@@ -33,7 +35,7 @@ const UserOffers = ({ offers, exchangeableItems }) => {
   const handleOfferDelete = (offerID) => {
     axios({
       method: "delete",
-      url: "http://localhost:8080/offers/delete",
+      url: `${API_URL}/offers/delete`,
       params: {
         id: offerID,
       },
@@ -53,10 +55,7 @@ const UserOffers = ({ offers, exchangeableItems }) => {
 
   return (
     <div className="container-fluid">
-      <div
-        className="position-sticky bg-white"
-        style={{ zIndex: 999 }}
-      >
+      <div className="position-sticky bg-white" style={{ zIndex: 999 }}>
         <div className="d-flex flex-row justify-content-between align-items-end mt-4 me-4 ms-4 mb-2 ">
           <h1 className="mb-0">My Offers</h1>
           <div>

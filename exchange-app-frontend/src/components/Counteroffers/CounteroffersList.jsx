@@ -1,11 +1,13 @@
 import Counteroffer from "./Counteroffer";
 import axios from "axios";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const CounteroffersList = ({ counteroffers, offerId, offerPublisher }) => {
   const handleCounterofferDecline = (counterofferId) => {
     axios({
       method: "delete",
-      url: "http://localhost:8080/offers/decline-counteroffer",
+      url: `${API_URL}/offers/decline-counteroffer`,
       params: {
         offerId: offerId,
         counterofferId: counterofferId,
@@ -28,7 +30,7 @@ const CounteroffersList = ({ counteroffers, offerId, offerPublisher }) => {
   const handleCounterofferAccept = (counterofferId) => {
     axios({
       method: "post",
-      url: "http://localhost:8080/offers/accept-counteroffer",
+      url: `${API_URL}/offers/accept-counteroffer`,
       params: {
         offerId: offerId,
         counterofferId: counterofferId,
@@ -49,7 +51,7 @@ const CounteroffersList = ({ counteroffers, offerId, offerPublisher }) => {
   const handleCounterofferDelete = (counterofferId) => {
     axios({
       method: "delete",
-      url: "http://localhost:8080/offers/delete-counteroffer",
+      url: `${API_URL}/offers/delete-counteroffer`,
       params: {
         offerId: offerId,
         counterofferId: counterofferId,

@@ -3,18 +3,18 @@ const ItemImages = ({ itemId, images, name }) => {
     <div
       id={"carouselExample" + itemId}
       className="carousel carousel-dark slide"
-      style={{ height: "250px", backgroundColor: '#f8f9fa' }}
+      style={{ height: "250px", backgroundColor: "#f8f9fa" }}
     >
       <div className="carousel-inner h-100">
         {images.map((image, index) => (
-          <div 
-            key={image.id} 
-            className={`carousel-item h-100 ${index === 0 ? 'active' : ''}`}
+          <div
+            key={image.id}
+            className={`carousel-item h-100 ${index === 0 ? "active" : ""}`}
           >
             <img
               src={`data:image/jpeg;base64,${image.imageFile}`}
               className="d-block w-100 h-100 rounded-top"
-              style={{ objectFit: 'contain' }}
+              style={{ objectFit: "contain" }}
               alt={`${name}`}
             />
           </div>

@@ -1,6 +1,8 @@
 import { useEffect, createContext, useState } from "react";
 import axios from "axios";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 export const NotificationsContext = createContext();
 
 export const NotificationsProvider = ({ children }) => {
@@ -10,7 +12,7 @@ export const NotificationsProvider = ({ children }) => {
   useEffect(() => {
     axios({
       method: "get",
-      url: "http://localhost:8080/notifications/all",
+      url: `${API_URL}/notifications/all`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -35,7 +37,7 @@ export const NotificationsProvider = ({ children }) => {
   const clearNotifications = () => {
     axios({
       method: "get",
-      url: "http://localhost:8080/notifications/clear-history",
+      url: `${API_URL}/notifications/clear-history`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },

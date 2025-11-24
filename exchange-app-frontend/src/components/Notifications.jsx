@@ -18,10 +18,10 @@ const Notifications = () => {
             <span
               className="position-absolute bg-danger border border-light rounded-circle"
               style={{
-                width: "12px", // your custom badge size
+                width: "12px", 
                 height: "12px",
-                top: "-2px", // adjust vertical position
-                left: "12px", // adjust horizontal position
+                top: "-2px", 
+                left: "12px", 
               }}
             >
               <span className="visually-hidden">New alerts</span>

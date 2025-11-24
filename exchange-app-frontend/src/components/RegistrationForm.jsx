@@ -2,6 +2,8 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const RegistrationForm = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -41,7 +43,7 @@ const RegistrationForm = () => {
 
     axios({
       method: "post",
-      url: "http://localhost:8080/register",
+      url: `${API_URL}/register`,
       data: formData,
       headers: { "Content-Type": "multipart/form-data" },
     }).then((response) => {

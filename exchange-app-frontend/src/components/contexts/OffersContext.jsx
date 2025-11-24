@@ -1,6 +1,8 @@
 import { createContext, useState, useEffect } from "react";
 import axios from "axios";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 export const OffersContext = createContext();
 
 export const OffersProvider = ({ children }) => {
@@ -9,7 +11,7 @@ export const OffersProvider = ({ children }) => {
   useEffect(() => {
     axios({
       method: "get",
-      url: "http://localhost:8080/offers/all-offers",
+      url: `${API_URL}/offers/all-offers`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -40,7 +42,12 @@ export const OffersProvider = ({ children }) => {
 
   return (
     <OffersContext.Provider
-      value={{ offers, handleAddNewOffer, handleOfferRemove, handleModifyOffer }}
+      value={{
+        offers,
+        handleAddNewOffer,
+        handleOfferRemove,
+        handleModifyOffer,
+      }}
     >
       {children}
     </OffersContext.Provider>

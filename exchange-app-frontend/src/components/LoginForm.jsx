@@ -4,6 +4,8 @@ import { AuthContext } from "./contexts/AuthContext";
 import { jwtDecode } from "jwt-decode";
 import { Link, useNavigate } from "react-router-dom";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -29,7 +31,7 @@ const LoginForm = () => {
 
     axios({
       method: "post",
-      url: "http://localhost:8080/authenticate",
+      url: `${API_URL}/authenticate`,
       data: formData,
       headers: { "Content-Type": "multipart/form-data" },
     })

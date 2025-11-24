@@ -4,6 +4,8 @@ import Offers from "../offers/Offers";
 import UserOffers from "../offers/UserOffers";
 import { OffersContext } from "../contexts/OffersContext";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const OffersPage = () => {
   const { offers } = useContext(OffersContext);
   const [exchangeableItems, setExchangeableItems] = useState([]);
@@ -13,7 +15,7 @@ const OffersPage = () => {
     console.log("offers update:", offers.length);
     axios({
       method: "get",
-      url: "http://localhost:8080/items/user-exchangeable",
+      url: `${API_URL}/items/user-exchangeable`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -38,7 +40,10 @@ const OffersPage = () => {
 
   return (
     <>
-      <div className="d-flex flex-column align-items-center m-4" style={{paddingTop: "80px"}}>
+      <div
+        className="d-flex flex-column align-items-center m-4"
+        style={{ paddingTop: "80px" }}
+      >
         <div
           className="btn-group m-4"
           role="group"

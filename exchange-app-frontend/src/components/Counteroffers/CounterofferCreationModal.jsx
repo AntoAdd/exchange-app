@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import qs from "qs";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const CounterofferCreationModal = ({ modalId, offerId, exchangeableItems }) => {
   const [selectedIDs, setSelectedIDs] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
@@ -32,17 +34,15 @@ const CounterofferCreationModal = ({ modalId, offerId, exchangeableItems }) => {
   const handleSelection = (e, id) => {
     e.stopPropagation();
 
-    setSelectedIDs(prev => 
-      prev.includes(id) 
-        ? prev.filter(itemId => itemId !== id)
-        : [...prev, id]
+    setSelectedIDs((prev) =>
+      prev.includes(id) ? prev.filter((itemId) => itemId !== id) : [...prev, id]
     );
   };
 
   const handleCounterofferPublish = () => {
     axios({
       method: "post",
-      url: "http://localhost:8080/offers/publish-counteroffer",
+      url: `${API_URL}/offers/publish-counteroffer`,
       params: {
         id: offerId,
         item_IDs: selectedIDs,
@@ -97,7 +97,11 @@ const CounterofferCreationModal = ({ modalId, offerId, exchangeableItems }) => {
             ></button>
           </div>
           <div className="modal-body">
-            <SelectableItems items={exchangeableItems} selectedItemIds={selectedIDs} handleSelection={handleSelection} />
+            <SelectableItems
+              items={exchangeableItems}
+              selectedItemIds={selectedIDs}
+              handleSelection={handleSelection}
+            />
             {showAlert && (alertType === "success" ? successAlert : errorAlert)}
           </div>
           <div className="modal-footer d-flex justify-content-center">
