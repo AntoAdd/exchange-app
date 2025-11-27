@@ -1,8 +1,5 @@
 package it.unicam.cs.pawm.exchangeappbackend.model.users;
 
-import lombok.Getter;
-
-@Getter
 public record AppUser(String firstName, String lastName, String username, String address) {
 
     @Override
