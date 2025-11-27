@@ -28,12 +28,11 @@ function App() {
               <RealTimeProvider>
                 <Navbar />
                 <Routes>
-                  <Route path="/" element={<Navigate to="/items/get" />} />
+                  <Route exact path="/" element={<Navigate to="/items/get" />} />
                   <Route exact path="/items/add" element={<AddItem />} />
                   <Route exact path="/items/get" element={<ItemsPage />} />
                   <Route exact path="/all-offers" element={<OffersPage />} />
                   <Route exact path="/trades" element={<TradesPage />} />
-                  <Route path="*" element={<Navigate to="/items/get" />} />
                 </Routes>
               </RealTimeProvider>
             </TradesProvider>
