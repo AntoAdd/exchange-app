@@ -29,10 +29,6 @@ public class NotificationServiceImpl implements NotificationService{
         return notification;
     }
 
-    @Override
-    public void deleteNotification(Long id) {
-
-    }
 
     @Override
     public void deleteAllNotifications(User user) {

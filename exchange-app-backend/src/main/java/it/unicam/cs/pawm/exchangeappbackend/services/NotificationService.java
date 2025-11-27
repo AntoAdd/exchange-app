@@ -15,12 +15,6 @@ public interface NotificationService {
      */
     Notification store(String username, String message);
 
-    /**
-     * Deletes the notification with the given id.
-     *
-     * @param id the notification's id.
-     */
-    void deleteNotification(Long id);
 
     /**
      * Deletes all the notifications of the given user.

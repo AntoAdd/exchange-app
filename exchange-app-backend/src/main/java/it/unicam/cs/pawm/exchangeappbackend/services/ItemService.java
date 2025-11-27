@@ -4,6 +4,7 @@ import it.unicam.cs.pawm.exchangeappbackend.entities.Item;
 import it.unicam.cs.pawm.exchangeappbackend.entities.User;
 import it.unicam.cs.pawm.exchangeappbackend.repositories.ItemRepository;
 import it.unicam.cs.pawm.exchangeappbackend.repositories.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -13,16 +14,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ItemService {
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
     private final AuthService authService;
-
-    public ItemService(ItemRepository itemRepository, UserRepository userRepository, AuthService authService) {
-        this.itemRepository = itemRepository;
-        this.userRepository = userRepository;
-        this.authService = authService;
-    }
 
     /**
      * Adds a new item for the authenticated user only if he has not yet added it.

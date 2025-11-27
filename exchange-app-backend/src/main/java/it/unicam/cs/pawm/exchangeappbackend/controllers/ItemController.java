@@ -5,9 +5,9 @@ import it.unicam.cs.pawm.exchangeappbackend.dto.ImageCreationDTO;
 import it.unicam.cs.pawm.exchangeappbackend.dto.ItemCreationDTO;
 import it.unicam.cs.pawm.exchangeappbackend.dto.ItemDTO;
 import it.unicam.cs.pawm.exchangeappbackend.entities.Item;
-import it.unicam.cs.pawm.exchangeappbackend.mappers.ImageMapper;
 import it.unicam.cs.pawm.exchangeappbackend.mappers.ItemMapper;
 import it.unicam.cs.pawm.exchangeappbackend.services.ItemService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,15 +19,12 @@ import java.util.stream.Collectors;
 
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/items")
 public class ItemController {
     private final ItemService itemService;
     private final ItemMapper itemMapper;
 
-    public ItemController(ItemService itemService, ItemMapper itemMapper, ImageMapper imageMapper) {
-        this.itemService = itemService;
-        this.itemMapper = itemMapper;
-    }
 
     @PostMapping(value = "/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> addItem(@RequestParam(name = "name") String name,
