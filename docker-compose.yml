@@ -23,10 +23,10 @@ services:
       - "8080:8080"
 
   frontend:
-    build:
+    build: 
       context: ./exchange-app-frontend
       args:
-        REACT_APP_API_URL: http://backend:8080
+        REACT_APP_API_URL: http://localhost:8080
     ports:
       - "3000:3000"
     depends_on:
